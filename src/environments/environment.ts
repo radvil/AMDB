@@ -1,6 +1,6 @@
-import { CoreConfig } from '../app/core/core.config';
+import { AmdbEnv } from '../app/env.token';
 
-export const environment: CoreConfig = {
+export const environment: AmdbEnv = {
   id: 'amdb',
   name: 'AMDB',
   production: true,
