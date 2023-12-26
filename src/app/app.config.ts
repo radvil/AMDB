@@ -1,8 +1,8 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
+import { environment } from '../environments/environment';
+import { provideCoreConfig } from './core/core.config';
+import { provideClientTheme } from './theme/theme.config';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes)]
+  providers: [provideCoreConfig(environment), provideClientTheme()],
 };

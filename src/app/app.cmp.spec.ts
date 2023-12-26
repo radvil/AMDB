@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AppCmp } from './app.cmp';
 
-describe('AppComponent', () => {
+describe('AppCmp', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppCmp],

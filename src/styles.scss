@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+// ========== tailwindcss ==========
+@use "tailwindcss/base";
+@use "tailwindcss/components";
+@use "tailwindcss/utilities";
+
+@layer base {
+  :root {
+    --color-base: 248 250 252;
+    --color-content: 30 31 41;
+  }
+
+  [data-theme="dark"] {
+    --color-base: 30 31 41;
+    --color-content: 248 250 252;
+  }
+}
+
+// === Fonts ==========
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200;300;400;500;600;700;800&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: "Noto Sans", sans-serif;
+  height: 100svh;
+  width: 100svw;
+  @apply bg-base text-content;
+}

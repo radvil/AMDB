@@ -5,9 +5,9 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.cmp.html',
+  styleUrl: './app.cmp.scss',
 })
-export class AppComponent {
+export class AppCmp {
   title = 'amdb';
 }
