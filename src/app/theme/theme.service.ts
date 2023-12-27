@@ -3,6 +3,7 @@ import {
   Injectable,
   PLATFORM_ID,
   RendererFactory2,
+  computed,
   effect,
   inject,
   signal,
@@ -16,6 +17,12 @@ export class ThemeService {
   #document = inject(DOCUMENT);
 
   readonly theme = signal<'light' | 'dark'>('light');
+  readonly isDarkMode = computed(() => this.theme() === 'dark');
+
+  toggleTheme(): void {
+    const next = this.theme() === 'dark' ? 'light' : 'dark';
+    this.theme.set(next);
+  }
 
   syncTheme(): void {
     if (isPlatformBrowser(this.#platformId)) {

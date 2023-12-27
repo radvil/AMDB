@@ -1,17 +1,25 @@
 <div class="app-content-wrapper">
   <nav
-    class="sticky top-0 left-0 z-50 border-b border-gray-700 h-16 w-full backdrop-blur-sm bg-base/50 flex items-center"
+    class="sticky top-0 left-0 z-50 border-b border-gray-500/30 h-16 w-full backdrop-blur-sm bg-base/50 flex items-center"
   >
     <ul class="flex gap-4">
       <li>
-        <a class="hover:text-red-500" href="/docs/installation"> Feature </a>
-      </li>
-      <li>
-        <a class="hover:text-red-500" href="/docs/installation"> Treassures </a>
+        <button
+          type="button"
+          name="dark-mode-toggle"
+          aria-label="Toggle dark mode"
+          (click)="themeService.toggleTheme()"
+        >
+          @if(themeService.isDarkMode()) {
+          <fast-svg name="sun" />
+          } @else {
+          <fast-svg name="moon" />
+          }
+        </button>
       </li>
       <li>
         <button type="button" name="profile" aria-label="Toggle profile menu">
-          <fast-svg name="account"></fast-svg>
+          <fast-svg name="account" />
         </button>
       </li>
     </ul>

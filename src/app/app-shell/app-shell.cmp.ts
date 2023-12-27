@@ -10,6 +10,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs';
 import { fallbackRouteToDefault } from '../+utils/router';
+import { ThemeService } from '../theme/theme.service';
 
 @Component({
   standalone: true,
@@ -20,9 +21,10 @@ import { fallbackRouteToDefault } from '../+utils/router';
   imports: [FastSvgComponent],
 })
 export class AppShellCmp {
-  readonly sideDrawerOpen = signal(false);
   readonly #router = inject(Router);
   readonly #document = inject(DOCUMENT);
+  readonly themeService = inject(ThemeService);
+  readonly sideDrawerOpen = signal(false);
 
   readonly closeSidenav = (): void => {
     this.sideDrawerOpen.set(false);
