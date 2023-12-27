@@ -11,14 +11,34 @@
       content="A movies manager build with Angular - no idea which movie to watch ? find it here"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://image.tmdb.org/" crossorigin="" />
+    <link rel="preconnect" href="https://api.themoviedb.org/" crossorigin="" />
     <!-- <link rel="apple-touch-icon" href=/assets/icons/light-apple-touch-icon.png"> -->
-    <!-- <link rel="preconnect" href="https://image.tmdb.org/" crossorigin="" /> -->
-    <!-- <link rel="preconnect" href="https://api.themoviedb.org/" crossorigin="" /> -->
     <!-- <link rel="manifest" href="manifest.webmanifest" /> -->
     <!-- <meta name="theme-color" content="#1976d2" /> -->
   </head>
 
   <body>
-    <app-root></app-root>
+    <app-root>
+      <div
+        id="loading-csr"
+        styles="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      "
+      >
+        <!-- <img -->
+        <!--   width="192" -->
+        <!--   height="192" -->
+        <!--   priority="high" -->
+        <!--   src="assets/icons/android-chrome-192x192.png" -->
+        <!--   alt="logo" -->
+        <!-- /> -->
+        <p>AMDB</p>
+      </div>
+    </app-root>
   </body>
 </html>

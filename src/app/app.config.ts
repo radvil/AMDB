@@ -1,5 +1,6 @@
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { ApplicationConfig } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
+import { provideFastSVG } from '@push-based/ngx-fast-svg';
 import { environment } from '../environments/environment';
 import { provideTmdbImageLoader } from './+data-access/images/image-loader.provider';
 import { mergeBaseConfig } from './app.base.config';
@@ -11,11 +12,21 @@ const browserConfig: ApplicationConfig = {
     provideClientEnv(environment),
     provideHttpClient(withFetch()),
     provideTmdbImageLoader(),
-    // TODO:
-    // import { provideFastSVG } from '@push-based/ngx-fast-svg';
-    // provideFastSVG({
-    //   url: (name: string) => `assets/svg-icons/${name}.svg`,
-    // }),
+    provideFastSVG({ url: (name: string) => `assets/icons/svg/${name}.svg` }),
+    /**
+     * **🚀 Perf Tip for TBT:**
+     *
+     * Chunk app bootstrap over APP_INITIALIZER.
+     */
+    {
+      multi: true,
+      provide: APP_INITIALIZER,
+      useFactory: () => (): Promise<void> =>
+        new Promise<void>((resolve) => {
+          setTimeout(() => resolve());
+        }),
+      deps: [],
+    },
     provideClientTheme(),
   ],
 };

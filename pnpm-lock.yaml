@@ -29,6 +29,9 @@ dependencies:
   '@angular/router':
     specifier: ^17.1.0-next.0
     version: 17.1.0-next.5(@angular/common@17.1.0-next.5)(@angular/core@17.1.0-next.5)(@angular/platform-browser@17.1.0-next.5)(rxjs@7.8.1)
+  '@push-based/ngx-fast-svg':
+    specifier: ^18.0.0
+    version: 18.0.0(@angular/common@17.1.0-next.5)(@angular/core@17.1.0-next.5)(rxjs@7.8.1)
   rxjs:
     specifier: ~7.8.0
     version: 7.8.1
@@ -2074,6 +2077,19 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@push-based/ngx-fast-svg@18.0.0(@angular/common@17.1.0-next.5)(@angular/core@17.1.0-next.5)(rxjs@7.8.1):
+    resolution: {integrity: sha512-SSxwrM7MralF1GxBUxN1Y1i5qsAxec8cKiWhWAI4m7qIq+8C8PDoMKE+lGLTrDc2A8wtk0VAu1eu5KNn1G47ig==}
+    peerDependencies:
+      '@angular/common': ^17.0.0
+      '@angular/core': ^17.0.0
+      rxjs: '>7.8.0'
+    dependencies:
+      '@angular/common': 17.1.0-next.5(@angular/core@17.1.0-next.5)(rxjs@7.8.1)
+      '@angular/core': 17.1.0-next.5(rxjs@7.8.1)(zone.js@0.14.2)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
 
   /@rollup/rollup-android-arm-eabi@4.9.1:
     resolution: {integrity: sha512-6vMdBZqtq1dVQ4CWdhFwhKZL6E4L1dV6jUjuBvsavvNJSppzi6dLBbuV+3+IyUREaj9ZFvQefnQm28v4OCXlig==}

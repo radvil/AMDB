@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { AppShellCmp } from './app-shell/app-shell.cmp';
 
 @Component({
-  selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.cmp.html',
+  selector: 'app-root',
   styleUrl: './app.cmp.scss',
+  templateUrl: './app.cmp.html',
+  imports: [AppShellCmp],
 })
-export class AppCmp {
-  title = 'amdb';
-}
+export class AppCmp {}

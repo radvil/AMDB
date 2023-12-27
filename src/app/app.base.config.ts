@@ -1,11 +1,22 @@
 import { ApplicationConfig, mergeApplicationConfig } from '@angular/core';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import {
+  provideRouter,
+  withDisabledInitialNavigation,
+  withInMemoryScrolling,
+} from '@angular/router';
 import { APP_ROUTES } from './app.routes';
 
 const baseConfig: ApplicationConfig = {
   providers: [
     provideRouter(
       APP_ROUTES,
+      // withDebugTracing(),
+      /**
+       * **🚀 Perf Tip for TBT:**
+       *
+       * Disable initial sync navigation in router config and schedule it in router-outlet container component
+       */
+      withDisabledInitialNavigation(),
       withInMemoryScrolling({
         /**
          * **💡 UX Tip for InfiniteScroll:**
