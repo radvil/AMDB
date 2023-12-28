@@ -1,0 +1,42 @@
+[uiRipple] {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-item {
+  display: block;
+  transform: scale(0);
+  border-radius: 100%;
+  position: absolute;
+  opacity: 0.75;
+  background-color: #fff;
+  animation: ripple 700ms;
+}
+
+@-moz-keyframes ripple {
+  to {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+@-webkit-keyframes ripple {
+  to {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+@-o-keyframes ripple {
+  to {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+@keyframes ripple {
+  to {
+    opacity: 0;
+    transform: scale(2);
+  }
+}

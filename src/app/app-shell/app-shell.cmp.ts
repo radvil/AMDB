@@ -9,6 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs';
+import { UiRippleDirective } from '../+ui/ripple/ripple.directive';
 import { fallbackRouteToDefault } from '../+utils/router';
 import { ThemeService } from '../theme/theme.service';
 
@@ -18,7 +19,8 @@ import { ThemeService } from '../theme/theme.service';
   styleUrl: 'app-shell.cmp.scss',
   templateUrl: 'app-shell.cmp.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FastSvgComponent],
+  imports: [FastSvgComponent, UiRippleDirective],
+  host: { class: 'block' },
 })
 export class AppShellCmp {
   readonly #router = inject(Router);

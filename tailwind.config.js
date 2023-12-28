@@ -5,8 +5,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        base: "rgb(var(--color-base) / <alpha-value>)",
-        content: "rgb(var(--color-content) / <alpha-value>)",
+        // base: "rgb(var(--color-base) / <alpha-value>)",
+        // content: "rgb(var(--color-content) / <alpha-value>)",
       },
     },
   },

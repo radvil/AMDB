@@ -12,9 +12,18 @@ import {
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   readonly LS_KEY = 'amdb-theme';
+
+  // default tailwind implementation,
+  // should set darkMode to "class" in tailwind.config.js
+  readonly DARK_CLASSNAME = 'dark';
+
+  #document = inject(DOCUMENT);
   #platformId = inject(PLATFORM_ID);
   #renderer = inject(RendererFactory2).createRenderer(null, null);
-  #document = inject(DOCUMENT);
+
+  get rootElement(): HTMLElement {
+    return this.#document.body.parentElement!;
+  }
 
   readonly theme = signal<'light' | 'dark'>('light');
   readonly isDarkMode = computed(() => this.theme() === 'dark');
@@ -42,19 +51,11 @@ export class ThemeService {
 
   constructor() {
     effect(() => {
-      const variant = this.theme();
-      if (variant === 'dark') {
-        this.#renderer.setAttribute(
-          this.#document.body.parentElement,
-          'data-theme',
-          'dark',
-        );
-      } else {
-        this.#renderer.removeAttribute(
-          this.#document.body.parentElement,
-          'data-theme',
-        );
-      }
+      const theme = this.theme();
+      const isDarkMode = theme === 'dark';
+      const next = isDarkMode ? 'addClass' : 'removeClass';
+      this.#renderer[next](this.rootElement, this.DARK_CLASSNAME);
+      localStorage.setItem(this.LS_KEY, theme);
     });
   }
 }

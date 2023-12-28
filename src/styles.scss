@@ -3,24 +3,32 @@
 @use "tailwindcss/components";
 @use "tailwindcss/utilities";
 
-@layer base {
-  :root {
-    --color-base: 248 250 252;
-    --color-content: 30 31 41;
-  }
+@import "./app/+ui/ripple/ripple.styles";
 
-  [data-theme="dark"] {
-    --color-base: 30 31 41;
-    --color-content: 248 250 252;
-  }
-}
-
-* {
+*,
+:after,
+:before {
   box-sizing: border-box;
 }
 
-html,
-body {
+html {
+  height: 100%;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+:host html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  // font-family:
+  //   Inter var,
+  //   ui-sans-serif,
+  //   system-ui,
+  //   sans-serif,
+  //   Apple Color Emoji,
+  //   Segoe UI Emoji,
+  //   Segoe UI Symbol,
+  //   Noto Color Emoji;
   font-family:
     system-ui,
     -apple-system,
@@ -33,7 +41,16 @@ body {
     "Open Sans",
     "Helvetica Neue",
     sans-serif;
-  height: 100svh;
-  width: 100svw;
-  @apply bg-base text-content;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fx-spacer {
+  flex: 1 0 auto;
+}
+
+.icon-button {
+  padding: 0.25rem;
+  border-radius: 50%;
 }
