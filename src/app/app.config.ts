@@ -6,6 +6,7 @@ import { provideTmdbImageLoader } from './+data-access/images/image-loader.provi
 import { mergeBaseConfig } from './app.base.config';
 import { provideClientEnv } from './env.token';
 import { provideClientTheme } from './theme/theme.config';
+import { provideSwiperElement } from './+ui/swiper/swiper.provider';
 
 const browserConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +14,7 @@ const browserConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideTmdbImageLoader(),
     provideFastSVG({ url: (name: string) => `assets/icons/svg/${name}.svg` }),
+    provideSwiperElement(),
     /**
      * **🚀 Perf Tip for TBT:**
      *
