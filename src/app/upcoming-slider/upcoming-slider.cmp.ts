@@ -8,19 +8,74 @@ import {
 import { type Swiper } from 'swiper';
 
 type SwiperElement = HTMLElement & { swiper: Swiper };
-type SwiperItem = { url: string };
+type SwiperItem = {
+  title: string;
+  url: string;
+  desc: string;
+  duration: number;
+};
 
 const SWIPER_DATA: SwiperItem[] = [
-  { url: 'https://swiperjs.com/demos/images/nature-1.jpg' },
-  { url: 'https://swiperjs.com/demos/images/nature-2.jpg' },
-  { url: 'https://swiperjs.com/demos/images/nature-3.jpg' },
-  { url: 'https://swiperjs.com/demos/images/nature-4.jpg' },
-  { url: 'https://swiperjs.com/demos/images/nature-5.jpg' },
-  { url: 'https://swiperjs.com/demos/images/nature-6.jpg' },
-  { url: 'https://swiperjs.com/demos/images/nature-7.jpg' },
-  { url: 'https://swiperjs.com/demos/images/nature-8.jpg' },
-  { url: 'https://swiperjs.com/demos/images/nature-9.jpg' },
-  { url: 'https://swiperjs.com/demos/images/nature-10.jpg' },
+  {
+    url: 'https://swiperjs.com/demos/images/nature-1.jpg',
+    desc: 'The quick brown fox jumps over the lazy dog.',
+    title: 'Movie title here',
+    duration: 120,
+  },
+  {
+    url: 'https://swiperjs.com/demos/images/nature-2.jpg',
+    desc: 'The quick brown fox jumps over the lazy dog.',
+    title: 'Movie title here',
+    duration: 120,
+  },
+  {
+    url: 'https://swiperjs.com/demos/images/nature-3.jpg',
+    desc: 'The quick brown fox jumps over the lazy dog.',
+    title: 'Movie title here',
+    duration: 120,
+  },
+  {
+    url: 'https://swiperjs.com/demos/images/nature-4.jpg',
+    desc: 'The quick brown fox jumps over the lazy dog.',
+    title: 'Movie title here',
+    duration: 120,
+  },
+  {
+    url: 'https://swiperjs.com/demos/images/nature-5.jpg',
+    desc: 'The quick brown fox jumps over the lazy dog.',
+    title: 'Movie title here',
+    duration: 120,
+  },
+  {
+    url: 'https://swiperjs.com/demos/images/nature-6.jpg',
+    desc: 'The quick brown fox jumps over the lazy dog.',
+    title: 'Movie title here',
+    duration: 120,
+  },
+  {
+    url: 'https://swiperjs.com/demos/images/nature-7.jpg',
+    desc: 'The quick brown fox jumps over the lazy dog.',
+    title: 'Movie title here',
+    duration: 120,
+  },
+  {
+    url: 'https://swiperjs.com/demos/images/nature-8.jpg',
+    desc: 'The quick brown fox jumps over the lazy dog.',
+    title: 'Movie title here',
+    duration: 120,
+  },
+  {
+    url: 'https://swiperjs.com/demos/images/nature-9.jpg',
+    desc: 'The quick brown fox jumps over the lazy dog.',
+    title: 'Movie title here',
+    duration: 120,
+  },
+  {
+    url: 'https://swiperjs.com/demos/images/nature-10.jpg',
+    desc: 'The quick brown fox jumps over the lazy dog.',
+    title: 'Movie title here',
+    duration: 120,
+  },
 ];
 
 @Component({

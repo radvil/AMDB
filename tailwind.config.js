@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         // base: "rgb(var(--color-base) / <alpha-value>)",
         // content: "rgb(var(--color-content) / <alpha-value>)",
+        primary: "rgb(var(--color-primary) / <alpha-value>)",
       },
     },
   },

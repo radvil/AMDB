@@ -5,6 +5,12 @@
 
 @import "./app/+ui/ripple/ripple.styles";
 
+@layer base {
+  :root {
+    --color-primary: 255 0 0;
+  }
+}
+
 *,
 :after,
 :before {
@@ -20,15 +26,6 @@ html {
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
   tab-size: 4;
-  // font-family:
-  //   Inter var,
-  //   ui-sans-serif,
-  //   system-ui,
-  //   sans-serif,
-  //   Apple Color Emoji,
-  //   Segoe UI Emoji,
-  //   Segoe UI Symbol,
-  //   Noto Color Emoji;
   font-family:
     system-ui,
     -apple-system,
