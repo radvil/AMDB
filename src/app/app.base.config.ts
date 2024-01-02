@@ -3,6 +3,7 @@ import {
   provideRouter,
   withDisabledInitialNavigation,
   withInMemoryScrolling,
+  withViewTransitions,
 } from '@angular/router';
 import { APP_ROUTES } from './app.routes';
 
@@ -10,6 +11,7 @@ const baseConfig: ApplicationConfig = {
   providers: [
     provideRouter(
       APP_ROUTES,
+      withViewTransitions(),
       // withDebugTracing(),
       /**
        * **🚀 Perf Tip for TBT:**

@@ -5,6 +5,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
+import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { type Swiper } from 'swiper';
 
 type SwiperElement = HTMLElement & { swiper: Swiper };
@@ -85,6 +86,7 @@ const SWIPER_DATA: SwiperItem[] = [
   templateUrl: 'upcoming-slider.cmp.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FastSvgComponent],
 })
 export class UpcomingSliderCmp {
   @ViewChild('swiperView')

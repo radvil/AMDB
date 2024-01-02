@@ -1,50 +1,50 @@
-<swiper-container
-  #swiperView
-  id="amdb-swiper-main"
-  effect="fade"
-  autoplay="true"
-  pagination="true"
-  navigation="true"
-  pagination-clickable="true"
-  navigation-prev-el=".amdb-swiper-nav-prev"
-  navigation-next-el=".amdb-swiper-nav-next"
-  thumbs-swiper="#amdb-swiper-thumbs"
->
-  @for(item of items; track item.url) {
-  <swiper-slide>
-    <div class="slide-item">
-      <img [src]="item.url" />
-    </div>
-  </swiper-slide>
-  }
+<div id="amdb-swiper-main">
+  <swiper-container
+    #swiperView
+    autoplay="true"
+    pagination="false"
+    navigation="true"
+    effect="fade"
+    navigation-prev-el=".amdb-swiper-nav-prev"
+    navigation-next-el=".amdb-swiper-nav-next"
+    thumbs-swiper="#amdb-swiper-thumbs"
+  >
+    @for(item of items; track item.url) {
+    <swiper-slide>
+      <figure class="slide-item">
+        <img [src]="item.url" />
+        <div class="info-wrapper">
+          <img [alt]="item.title" class="caption-poster" [src]="item.url" />
+          <!-- [src]="https://m.media-amazon.com/images/M/MV5BNDYwOWUyMDItZTlkZi00YzYxLThlMmMtMzM5Yzk2NjVkZDliXkEyXkFqcGdeQXVyNjMwMzc3MjE@._V1_QL75_UX140_CR0,0,140,207_.jpg" -->
+          <figcaption>
+            <div class="caption-wrapper">
+              <fast-svg name="play" size="4rem" class="hidden md:block" />
+              <div>
+                <p class="text-3xl leading-10 font-bold">{{ item.title }}</p>
+                <p class="text-xl text-gray-500 dark:text-gray-400">
+                  {{ item.desc }}
+                </p>
+              </div>
+              <p
+                class="my-auto ml-auto text-2xl text-gray-500 dark:text-gray-400"
+              >
+                0:59
+              </p>
+            </div>
+          </figcaption>
+        </div>
+      </figure>
+    </swiper-slide>
+    }
+  </swiper-container>
 
   <div (click)="swiper.slidePrev()" class="amdb-swiper-nav-prev">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      height="24"
-      width="24"
-    >
-      <path
-        d="M18.378 23.369c.398-.402.622-.947.622-1.516 0-.568-.224-1.113-.622-1.515l-8.249-8.34 8.25-8.34a2.16 2.16 0 0 0 .548-2.07A2.132 2.132 0 0 0 17.428.073a2.104 2.104 0 0 0-2.048.555l-9.758 9.866A2.153 2.153 0 0 0 5 12.009c0 .568.224 1.114.622 1.515l9.758 9.866c.808.817 2.17.817 2.998-.021z"
-      ></path>
-    </svg>
+    <fast-svg name="nav-prev" size="24" />
   </div>
   <div (click)="swiper.slideNext()" class="amdb-swiper-nav-next">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      height="24"
-      width="24"
-    >
-      <path
-        d="M5.622.631A2.153 2.153 0 0 0 5 2.147c0 .568.224 1.113.622 1.515l8.249 8.34-8.25 8.34a2.16 2.16 0 0 0-.548 2.07c.196.74.768 1.317 1.499 1.515a2.104 2.104 0 0 0 2.048-.555l9.758-9.866a2.153 2.153 0 0 0 0-3.03L8.62.61C7.812-.207 6.45-.207 5.622.63z"
-      ></path>
-    </svg>
+    <fast-svg name="nav-next" size="24" />
   </div>
-</swiper-container>
+</div>
 
 <swiper-container
   id="amdb-swiper-thumbs"
@@ -60,20 +60,7 @@
     <div class="thumb-slide-info">
       <div class="flex gap-2 items-center">
         <span class="dark:text-white dark:hover:text-sky-500 cursor-pointer">
-          <svg
-            width="24"
-            height="24"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <path
-              d="M10.803 15.932l4.688-3.513a.498.498 0 0 0 0-.803l-4.688-3.514a.502.502 0 0 0-.803.402v7.026c0 .412.472.653.803.402z"
-            ></path>
-            <path
-              d="M12 24C5.373 24 0 18.627 0 12S5.373 0 12 0s12 5.373 12 12-5.373 12-12 12zm0-1c6.075 0 11-4.925 11-11S18.075 1 12 1 1 5.925 1 12s4.925 11 11 11z"
-            ></path>
-          </svg>
+          <fast-svg name="play" size="24" />
         </span>
         <span class="dark:text-gray-300">{{ thumb.duration }}</span>
       </div>
