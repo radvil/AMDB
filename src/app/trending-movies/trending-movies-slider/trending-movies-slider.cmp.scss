@@ -11,9 +11,9 @@
   width: var(--nav-icon-width);
   height: var(--nav-icon-height);
   top: calc((var(--slider-height) - var(--nav-icon-height)) / 2);
-  @apply flex items-center justify-center
+  @apply hidden md:flex items-center justify-center
   absolute
-  text-slate-50/90
+  text-slate-50/90 hover:text-sky-500
   bg-slate-900/20
   rounded-md
   border border-slate-50/60
@@ -46,6 +46,12 @@
     background-size: cover;
   }
 
+  @mixin gradientbackdrop {
+    @apply bg-gradient-to-t
+      from-white from-10% via-white/60 via-35% to-transparent to-70%
+      dark:from-slate-900 dark:from-10% dark:via-slate-900/70 dark:via-40% dark:to-transparent dark:to-70%;
+  }
+
   .slide-item {
     max-height: var(--slider-height);
     @apply rounded overflow-clip relative;
@@ -56,43 +62,20 @@
       border-radius: inherit;
     }
 
-    .info-wrapper {
+    .backdrop-active {
+      @include gradientbackdrop();
       @apply h-full
       w-full
       absolute
       bottom-0
-      left-0
-
-      bg-gradient-to-t
-      from-white from-10% via-white/60 via-35% to-transparent to-70%
-      dark:from-slate-900 dark:from-10% dark:via-slate-900/70 dark:via-40% dark:to-transparent dark:to-70%;
+      left-0;
     }
 
-    figcaption {
-      @apply absolute bottom-0 right-0 w-full flex;
-    }
-
-    .caption-poster {
-      width: 150px;
-      height: 180px;
-      @apply absolute left-4 bottom-4 rounded object-cover;
-    }
-
-    .caption-wrapper {
-      width: calc(100% - 150px - 1rem);
-
-      @apply text-gray-700 dark:text-white
-      cursor-pointer
-      h-full
-      p-4
-      ml-auto
-      relative
-      flex
-      items-start
-      gap-4;
-
-      &:hover fast-svg {
-        @apply text-sky-500;
+    .thumb-active {
+      @include gradientbackdrop();
+      @apply absolute bottom-0 w-full;
+      app-movie-thumb-preview {
+        @apply md:p-4;
       }
     }
   }
@@ -119,24 +102,14 @@
   }
 
   .thumb-slide {
-    @apply flex gap-4 cursor-pointer p-4;
-
-    img {
-      @apply ease-in-out duration-300 will-change-transform;
-      flex: 1;
-    }
-
-    .thumb-slide-info {
-      flex: 3;
-      @apply overflow-clip flex flex-col justify-center;
-    }
-
-    &:hover img {
-      @apply scale-105;
+    app-movie-thumb-preview {
+      @apply p-4;
     }
 
     &:nth-child(odd) {
-      @apply bg-slate-200/50 dark:bg-slate-600/10;
+      app-movie-thumb-preview {
+        @apply bg-slate-200/50 dark:bg-slate-600/10;
+      }
     }
   }
 }

@@ -1,0 +1,61 @@
+<div id="amdb-swiper-main">
+  <swiper-container
+    #swiperView
+    autoplay="true"
+    pagination="false"
+    navigation="true"
+    effect="fade"
+    navigation-prev-el=".amdb-swiper-nav-prev"
+    navigation-next-el=".amdb-swiper-nav-next"
+    thumbs-swiper="#amdb-swiper-thumbs"
+  >
+    @for(item of items; track item.url) {
+    <swiper-slide>
+      <figure class="slide-item">
+        <img [src]="item.url" />
+        <div class="backdrop-active"></div>
+        <div class="thumb-active">
+          <app-movie-thumb-preview [data]="item" width="14rem">
+            <ng-template #thumbTitle>
+              <p class="text-2xl md:text-4xl my-2 dark:text-white">
+                {{ item.title }}
+              </p>
+            </ng-template>
+            <ng-template #thumbDescription>
+              <p class="text-sm md:text-xl dark:text-gray-300">
+                {{ item.desc }}
+              </p>
+            </ng-template>
+          </app-movie-thumb-preview>
+        </div>
+      </figure>
+    </swiper-slide>
+    }
+  </swiper-container>
+
+  <div (click)="swiper.slidePrev()" class="amdb-swiper-nav-prev">
+    <fast-svg name="nav-prev" size="24" />
+  </div>
+  <div (click)="swiper.slideNext()" class="amdb-swiper-nav-next">
+    <fast-svg name="nav-next" size="24" />
+  </div>
+</div>
+
+<swiper-container
+  id="amdb-swiper-thumbs"
+  watch-slides-progress="true"
+  direction="vertical"
+  slides-per-view="3"
+  space-between="10"
+  free-mode="true"
+>
+  @for(thumb of items; track thumb.url) {
+  <swiper-slide class="thumb-slide">
+    <app-movie-thumb-preview [data]="thumb" [width]="180">
+      <ng-template #thumbTitle>
+        <p class="text-xl my-2 dark:text-white font-bold">{{ thumb.title }}</p>
+      </ng-template>
+    </app-movie-thumb-preview>
+  </swiper-slide>
+  }
+</swiper-container>

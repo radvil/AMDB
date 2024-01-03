@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { type Swiper } from 'swiper';
+import { MovieThumbPreviewCmp } from '../../+ui/movie-thumb-preview/movie-thumb-preview.cmp';
 
 type SwiperElement = HTMLElement & { swiper: Swiper };
 type SwiperItem = {
@@ -81,14 +82,14 @@ const SWIPER_DATA: SwiperItem[] = [
 
 @Component({
   standalone: true,
-  selector: 'app-upcoming-slider',
-  styleUrl: 'upcoming-slider.cmp.scss',
-  templateUrl: 'upcoming-slider.cmp.html',
+  selector: 'app-trending-movies-slider',
+  styleUrl: 'trending-movies-slider.cmp.scss',
+  templateUrl: 'trending-movies-slider.cmp.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FastSvgComponent],
+  imports: [FastSvgComponent, MovieThumbPreviewCmp],
 })
-export class UpcomingSliderCmp {
+export class TrendingMoviesSliderCmp {
   @ViewChild('swiperView')
   protected swiperView!: ElementRef<SwiperElement>;
 

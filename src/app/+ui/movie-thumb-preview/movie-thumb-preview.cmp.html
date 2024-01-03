@@ -1,0 +1,36 @@
+@if(data; as thumb) {
+<div class="movie-thumb-preview">
+  <div class="thumb-img-wrapper">
+    <img
+      class="thumb-img"
+      [src]="thumb.url"
+      [alt]="thumb.title"
+      [style.width]="width"
+    />
+    <div class="thumb-img-backdrop">
+      <fast-svg name="play" [size]="iconSize" />
+    </div>
+  </div>
+  <div class="thumb-info">
+    <span [style.font-size]="durationLabelSize" class="duration-label">
+      {{ thumb.duration }}
+    </span>
+    <ng-container [ngTemplateOutlet]="thumbTitle || thumbTitleDefault" />
+    <ng-container
+      [ngTemplateOutlet]="thumbDescription || thumbDescriptionDefault"
+    />
+  </div>
+
+  <ng-template #thumbTitleDefault>
+    <p [style.font-size]="titleSize" class="my-2 dark:text-white">
+      {{ thumb.title }}
+    </p>
+  </ng-template>
+
+  <ng-template #thumbDescriptionDefault>
+    <p [style.font-size]="descSize" class="dark:text-gray-300">
+      {{ thumb.desc }}
+    </p>
+  </ng-template>
+</div>
+}

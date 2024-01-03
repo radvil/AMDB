@@ -1,0 +1,62 @@
+:host {
+  @apply block h-full w-full;
+}
+
+.movie-thumb-preview {
+  @apply flex gap-4 cursor-pointer
+  w-full h-full;
+
+  &:hover {
+    .thumb-img {
+      @apply scale-105;
+    }
+
+    .thumb-img-backdrop {
+      @apply bg-slate-900/40 dark:bg-slate-900/70;
+    }
+
+    fast-svg {
+      @apply text-sky-500;
+    }
+  }
+}
+
+.thumb-img-wrapper {
+  @apply rounded overflow-clip
+  border md:border-none border-sky-300 dark:border-sky-500
+  relative;
+}
+
+.thumb-img-backdrop {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @apply bg-slate-900/10 dark:bg-slate-900/50
+  text-white
+  ease-in-out duration-300;
+}
+
+.thumb-img {
+  @apply will-change-transform
+  ease-in-out duration-300
+  w-full h-full
+  object-cover;
+}
+
+.thumb-info {
+  @apply overflow-clip flex flex-col justify-center
+  w-full
+  relative;
+
+  .duration-label {
+    @apply hidden md:block
+    absolute top-2 right-2
+    dark:text-gray-300;
+  }
+}
