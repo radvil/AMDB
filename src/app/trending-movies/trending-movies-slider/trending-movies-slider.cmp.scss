@@ -67,8 +67,7 @@
 
     .backdrop-active {
       @include gradientbackdrop();
-      @apply h-full
-      w-full
+      @apply size-full
       absolute
       bottom-0
       left-0;

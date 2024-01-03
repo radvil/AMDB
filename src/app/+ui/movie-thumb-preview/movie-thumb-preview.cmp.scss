@@ -1,12 +1,12 @@
 @use "../../../styles/mixins" as *;
 
 :host {
-  @apply block h-full w-full;
+  @apply block size-full;
 }
 
 .movie-thumb-preview {
   @apply flex gap-4 cursor-pointer
-  w-full h-full;
+  size-full;
 
   &:hover {
     .thumb-img {
@@ -33,7 +33,7 @@
   @include fade-sm();
 
   @apply bg-slate-900/10 dark:bg-slate-900/50
-  w-full h-full
+  size-full
   absolute top-0 left-0
   flex items-center justify-center
   text-white;
@@ -46,7 +46,7 @@
 .thumb-img {
   @include fade-sm();
   @apply will-change-transform
-  w-full h-full
+  size-full
   object-cover;
 }
 
