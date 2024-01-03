@@ -1,3 +1,5 @@
+@use "../../../styles/mixins" as *;
+
 :host {
   @apply block h-full w-full;
 }
@@ -23,28 +25,27 @@
 
 .thumb-img-wrapper {
   @apply rounded overflow-clip
-  border md:border-none border-sky-300 dark:border-sky-500
+  border md:border-none border-white dark:border-sky-500
   relative;
 }
 
 .thumb-img-backdrop {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include fade-sm();
 
   @apply bg-slate-900/10 dark:bg-slate-900/50
-  text-white
-  ease-in-out duration-300;
+  w-full h-full
+  absolute top-0 left-0
+  flex items-center justify-center
+  text-white;
+
+  fast-svg {
+    @include fade-sm();
+  }
 }
 
 .thumb-img {
+  @include fade-sm();
   @apply will-change-transform
-  ease-in-out duration-300
   w-full h-full
   object-cover;
 }

@@ -1,3 +1,5 @@
+@use "../../../styles/mixins" as *;
+
 :host {
   --nav-icon-height: 66px;
   --nav-icon-width: 50px;
@@ -18,6 +20,7 @@
   rounded-md
   border border-slate-50/60
   cursor-pointer;
+  @include fade-sm();
 }
 
 .amdb-swiper-nav-prev {

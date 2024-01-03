@@ -37,8 +37,9 @@
 
 .search-bar {
   @apply text-xs
-  py-1
-  px-3
+  p-2
+  md:py-1
+  md:px-3
   flex
   items-center
   font-semibold
