@@ -4,6 +4,12 @@ export interface AmdbEnv {
   id: string;
   name: string;
   production: boolean;
+  tmdbConfig: {
+    apiKey: string;
+    apiBaseUrlV3: string;
+    apiBaseUrlV4: string;
+    apiReadAccessToken: string;
+  };
 }
 
 export const AMDB_ENV = new InjectionToken<AmdbEnv>('AMDB_ENV');
