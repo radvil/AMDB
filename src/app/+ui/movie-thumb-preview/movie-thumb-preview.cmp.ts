@@ -2,15 +2,14 @@ import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
-  Input,
   TemplateRef,
+  computed,
+  contentChild,
+  inject,
+  input,
 } from '@angular/core';
+import { TMDB_ENV_CONFIG, Tmdb } from '@libs/tmdb';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
-
-function transformSize(value: number | string) {
-  return typeof value === 'number' ? `${value}px` : value;
-}
 
 @Component({
   standalone: true,
@@ -21,31 +20,23 @@ function transformSize(value: number | string) {
   imports: [NgStyle, NgTemplateOutlet, FastSvgComponent],
 })
 export class MovieThumbPreviewCmp {
-  @Input({ transform: transformSize })
-  width: number | string = 150;
+  readonly title = contentChild('thumbTitle', { read: TemplateRef });
+  readonly desc = contentChild('thumbDescription', { read: TemplateRef });
+  protected config = inject(TMDB_ENV_CONFIG);
+  readonly data = input.required<Tmdb.Movie>();
+  readonly width = input(154);
+  readonly height = input(205);
+  readonly iconSize = computed(() => `calc(${this.width()} / 4)`);
 
-  @ContentChild('thumbTitle', { static: true })
-  thumbTitle?: TemplateRef<any>;
-
-  @ContentChild('thumbDescription', { static: true })
-  thumbDescription?: TemplateRef<any>;
-
-  get durationLabelSize() {
-    return `calc(${this.width} / 10)`;
+  get imageBaseUrl(): string {
+    return this.config.imageBaseUrl;
   }
 
-  get titleSize() {
-    return `calc(${this.width} / 9)`;
+  formatNumber(v: number): string {
+    return Intl.NumberFormat().format(v);
   }
 
-  get descSize() {
-    return `calc(${this.width} / 12)`;
+  getVote(item: Tmdb.Movie): string {
+    return `${Math.floor(item.vote_average)}/10 (${this.formatNumber(item.vote_count)})`;
   }
-
-  get iconSize() {
-    return `calc(${this.width} / 4)`;
-  }
-
-  @Input({ required: true })
-  data: any;
 }

@@ -1,0 +1,29 @@
+.sidebar-wrapper {
+  height: 100svh;
+  width: 100svw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  @apply bg-gray-900/50;
+}
+
+.container {
+  z-index: 80;
+  padding: 1rem;
+  width: 20rem;
+  max-width: 50svw;
+  height: 100%;
+  @apply shadow bg-white dark:bg-gray-900;
+}
+
+.active {
+  @apply text-red-500;
+}
+
+.parent-active {
+  .parent-label {
+    @apply text-red-500;
+  }
+}
+

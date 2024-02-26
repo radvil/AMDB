@@ -1,11 +1,11 @@
 import { ApplicationConfig, mergeApplicationConfig } from '@angular/core';
 import {
   provideRouter,
-  withDisabledInitialNavigation,
   withInMemoryScrolling,
   withViewTransitions,
 } from '@angular/router';
 import { APP_ROUTES } from './app.routes';
+import { IMAGE_LOADER } from '@angular/common';
 
 const baseConfig: ApplicationConfig = {
   providers: [
@@ -13,12 +13,6 @@ const baseConfig: ApplicationConfig = {
       APP_ROUTES,
       withViewTransitions(),
       // withDebugTracing(),
-      /**
-       * **🚀 Perf Tip for TBT:**
-       *
-       * Disable initial sync navigation in router config and schedule it in router-outlet container component
-       */
-      withDisabledInitialNavigation(),
       withInMemoryScrolling({
         /**
          * **💡 UX Tip for InfiniteScroll:**
@@ -31,7 +25,13 @@ const baseConfig: ApplicationConfig = {
         scrollPositionRestoration: 'top',
       }),
     ),
-    // TODO: provideAppStateInitializer()
+    {
+      provide: IMAGE_LOADER,
+      useValue: {
+        disableImageSizeWarning: true,
+        disableImageLazyLoadWarning: true,
+      },
+    },
   ],
 };
 

@@ -1,0 +1,28 @@
+<div #wrapperView class="flex flex-nowrap transition-transform duration-300">
+  <ng-content></ng-content>
+</div>
+
+@if(showNavigation()) {
+<div
+  class="z-50 absolute left-8 size-10 top-[calc(50%-1.5rem)] cursor-pointer flex"
+>
+  <a
+    uiRipple
+    (click)="prev()"
+    class="bg-transparent hover:bg-black/50 w-full flex items-center justify-center rounded-full ring-0 hover:ring-1 ring-gray-100/50 text-white transition-colors"
+  >
+    <fast-svg name="nav-prev" />
+  </a>
+</div>
+<div
+  class="z-50 absolute right-8 size-10 top-[calc(50%-1.5rem)] cursor-pointer flex"
+>
+  <a
+    uiRipple
+    (click)="next()"
+    class="bg-red hover:bg-black/50 w-full flex items-center justify-center rounded-full ring-0 hover:ring-1 ring-gray-100/50 text-white transition-colors"
+  >
+    <fast-svg name="nav-next" />
+  </a>
+</div>
+}

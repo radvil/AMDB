@@ -1,0 +1,96 @@
+<ng-template #noChildren let-menu>
+  @if (menu.url) {
+  <a [href]="menu.url" [attr.aria-label]="menu.title" class="cursor-pointer">
+    <div class="text-nowrap flex items-center w-full justify-between p-4">
+      <span class="font-semibold">{{ menu.title }}</span>
+    </div>
+  </a>
+  } @else if(menu.link) {
+  <a
+    (click)="close()"
+    [routerLink]="menu.link"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    [attr.aria-label]="menu.title"
+    class="cursor-pointer"
+  >
+    <div class="text-nowrap flex items-center w-full justify-between p-4">
+      <span class="font-semibold">{{ menu.title }}</span>
+    </div>
+  </a>
+
+  }
+</ng-template>
+
+<ng-template #withChildren let-menu>
+  <a
+    class="cursor-pointer"
+    [attr.aria-label]="menu.title"
+    routerLinkActive="parent-active"
+  >
+    <div
+      (click)="toggleExpand(childrenView)"
+      class="text-nowrap flex items-center w-full justify-between p-4"
+    >
+      <span class="parent-label font-semibold">{{ menu.title }}</span>
+      <span aria-label="menu-expander">
+        <fast-svg name="chevron-down" size="13" />
+      </span>
+    </div>
+    <div #childrenView class="hidden">
+      <ul class="ml-4 border-l-2 border-red-500 text-gray-500/90">
+        @for(child of menu.children; track $index) {
+        <li>
+          @if(child.link) {
+          <a
+            (click)="close()"
+            [routerLink]="child.link"
+            routerLinkActive="active"
+            class="block w-full py-2 px-4 dark:text-gray-300"
+          >
+            <span class="text-nowrap">{{ child.title }}</span>
+          </a>
+          } @else if(child.url) {
+          <a
+            [href]="child.url"
+            class="block w-full py-2 px-4 dark:text-gray-300"
+          >
+            <span class="text-nowrap">{{ child.title }}</span>
+          </a>
+          }
+        </li>
+        }
+      </ul>
+    </div>
+  </a>
+</ng-template>
+
+@if(opened()) {
+<div class="sidebar-wrapper" (click)="closeBackdrop($event)">
+  <div #container class="container">
+    <div class="px-4 mb-4 flex">
+      <img
+        alt="Angular Movie Data Bunker"
+        src="assets/logo.png"
+        height="20"
+        width="80"
+      />
+      <button type="button" (click)="open()" class="ml-auto">
+        <span class="dark:hidden">
+          <fast-svg size="20" name="xmark" class="text-red-500" />
+        </span>
+      </button>
+    </div>
+    <ul class="flex flex-col select-none">
+      @for(item of menuItems(); track $index) {
+      <li>
+        <ng-template
+          [ngTemplateOutlet]="item.children?.length ? withChildren : noChildren"
+          [ngTemplateOutletContext]="{ $implicit: item }"
+        />
+      </li>
+      }
+    </ul>
+  </div>
+</div>
+}

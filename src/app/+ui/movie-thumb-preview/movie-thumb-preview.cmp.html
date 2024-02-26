@@ -1,36 +1,36 @@
-@if(data; as thumb) {
+@if(data(); as thumb) {
 <div class="movie-thumb-preview">
   <div class="thumb-img-wrapper">
     <img
-      class="thumb-img"
-      [src]="thumb.url"
+      [src]="imageBaseUrl + width() + thumb.poster_path"
       [alt]="thumb.title"
-      [style.width]="width"
+      [height]="height()"
+      [width]="width()"
+      class="thumb-img"
     />
     <div class="thumb-img-backdrop">
-      <fast-svg name="play" [size]="iconSize" />
+      <fast-svg name="play" [size]="iconSize()" />
     </div>
   </div>
   <div class="thumb-info">
-    <span [style.font-size]="durationLabelSize" class="duration-label">
-      {{ thumb.duration }}
+    <span class="text-sm duration-label uppercase font-bold">
+      {{ thumb.original_language }}
     </span>
-    <ng-container [ngTemplateOutlet]="thumbTitle || thumbTitleDefault" />
-    <ng-container
-      [ngTemplateOutlet]="thumbDescription || thumbDescriptionDefault"
-    />
+    <ng-container [ngTemplateOutlet]="title() || thumbTitleDefault" />
+    <ng-container [ngTemplateOutlet]="desc() || thumbDescriptionDefault" />
   </div>
-
-  <ng-template #thumbTitleDefault>
-    <p [style.font-size]="titleSize" class="my-2 text-gray-800 dark:text-white">
-      {{ thumb.title }}
-    </p>
-  </ng-template>
-
-  <ng-template #thumbDescriptionDefault>
-    <p [style.font-size]="descSize" class="dark:text-gray-300">
-      {{ thumb.desc }}
-    </p>
-  </ng-template>
 </div>
+
+<ng-template #thumbTitleDefault>
+  <p class="mb-2 text-gray-800 font-semibold dark:text-white">
+    {{ thumb.title }}
+  </p>
+</ng-template>
+
+<ng-template #thumbDescriptionDefault>
+  <p class="text-xs dark:text-gray-300 mb-2 font-semibold">
+    {{ getVote(thumb) }} ⭐⭐⭐⭐⭐
+  </p>
+  <p class="text-sm dark:text-gray-300 line-clamp-3">{{ thumb.overview }}</p>
+</ng-template>
 }
