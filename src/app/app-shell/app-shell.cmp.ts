@@ -1,4 +1,4 @@
-import { NgClass, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,7 +18,7 @@ import { SidebarCmp } from './sidebar/sidebar.cmp';
   selector: 'app-shell',
   styleUrl: 'app-shell.cmp.scss',
   templateUrl: 'app-shell.cmp.html',
-  host: { class: 'block min-[100svh]' },
+  host: { class: 'block min-h-[100svh]' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgClass,
@@ -27,7 +27,6 @@ import { SidebarCmp } from './sidebar/sidebar.cmp';
     NgTemplateOutlet,
     RouterLinkWithHref,
     RouterLinkActive,
-    NgOptimizedImage,
     SidebarCmp,
     SearchDialogCmp,
   ],
