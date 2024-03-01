@@ -4,8 +4,6 @@
 
 export * as Tmdb from './+models';
 
-export * from './+core/core.config';
-export * from './+core/image-loader.provider';
 export * from './+core/tmdb-env.provider';
 
 export * from './+api/access-token.service';
