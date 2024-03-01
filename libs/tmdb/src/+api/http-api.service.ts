@@ -13,6 +13,15 @@ export interface RespNowPlayingMovies {
   };
 }
 
+export interface RespTopRatedMovies {
+  page: 1;
+  results: Movie[];
+  dates: {
+    maximum: '2023-05-03';
+    minimum: '2023-03-16';
+  };
+}
+
 @Injectable({ providedIn: 'root' })
 export class TmdbHttpApiService {
   readonly #config = inject(TMDB_ENV_CONFIG);
@@ -20,11 +29,20 @@ export class TmdbHttpApiService {
   readonly url = {
     movie: () => `${this.#config.apiBaseUrlV3}/movie`,
     nowPlaying: () => `${this.url.movie()}/now_playing`,
+    topRated: () => `${this.url.movie()}/top_rated`,
   } as const;
 
   /**
+   * @see https://developer.themoviedb.org/reference/movie-top-rated-list
+   */
+  getTopRatedMovies(params?: RequestParams.GetTopRatedMovieList) {
+    return this.#http.get<RespTopRatedMovies>(this.url.topRated(), {
+      params,
+    });
+  }
+
+  /**
    * @see https://developer.themoviedb.org/reference/movie-now-playing-list
-   * @param params TMDB `get-movie-now-playing-list`
    */
   getNowPlayingMovies(params?: RequestParams.GetMovieNowPlayingList) {
     return this.#http.get<RespNowPlayingMovies>(this.url.nowPlaying(), {

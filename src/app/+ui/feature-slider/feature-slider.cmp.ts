@@ -47,7 +47,7 @@ export class UiSliderItemDirective {}
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'overflow-hidden relative h-fit',
+    class: 'overflow-hidden relative h-fit block',
   },
 })
 export class UiSliderContainerCmp {
@@ -131,9 +131,9 @@ export class UiSliderContainerCmp {
     });
   }
 
-  SETUP_MAX_HEIGHT = false;
-  #setupVerticalWrapper(): void {
-    if (this.SETUP_MAX_HEIGHT || this.direction() !== 'vertical') return;
+  SETUP_WRAPPER_INIT = false;
+  #setupWrapper(): void {
+    if (this.SETUP_WRAPPER_INIT || this.direction() !== 'vertical') return;
     const activeSlide = this.activeSlide();
     const wrapper = this.wrapper();
     untracked(() => {
@@ -143,14 +143,14 @@ export class UiSliderContainerCmp {
         this.#appendStyles(wrapper.nativeElement, {
           'max-height': `${unitH * this.slidePerView()}px`,
         });
-        this.SETUP_MAX_HEIGHT = true;
+        this.SETUP_WRAPPER_INIT = true;
       }
     });
   }
 
-  SETUP_SLIDERS_STYLES = false;
+  SETUP_SLIDERS_INIT = false;
   #setupSliders(): void {
-    if (this.SETUP_SLIDERS_STYLES) return;
+    if (this.SETUP_SLIDERS_INIT) return;
     const sliders = this.sliders();
     const sliderStyles = this.sliderStyles();
     untracked(() => {
@@ -161,13 +161,13 @@ export class UiSliderContainerCmp {
             this.#appendStyles(item.nativeElement, sliderStyles);
           }
         });
-        this.SETUP_SLIDERS_STYLES = true;
+        this.SETUP_SLIDERS_INIT = true;
       }
     });
   }
 
   protected onSlidersInit = effect(() => {
-    this.#setupVerticalWrapper();
+    this.#setupWrapper();
     this.#setTransformation();
     this.#setupSliders();
   });

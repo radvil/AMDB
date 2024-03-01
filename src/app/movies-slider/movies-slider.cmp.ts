@@ -29,6 +29,11 @@ export class MoviesSliderCmp {
     },
   });
   readonly thumbPosition = input<'right' | 'bottom'>('right');
+  readonly mainImageSize = computed(() =>
+    this.thumbPosition() === 'right'
+      ? { width: 500, height: 250 }
+      : { width: 1280, height: 720 },
+  );
   readonly thumbSize = input<'sm' | 'lg'>('sm');
   protected playInterval = computed(() => (this.autoPlay() ? 3_000 : 0));
 
@@ -36,6 +41,7 @@ export class MoviesSliderCmp {
     return this.thumbPosition() === 'right' ? 'flex-row' : 'flex-col';
   });
 
+  // TODO: adjust for mobile layout
   protected mainClassName = computed(() => {
     return this.thumbPosition() === 'right' ? 'w-2/3' : 'w-full';
   });

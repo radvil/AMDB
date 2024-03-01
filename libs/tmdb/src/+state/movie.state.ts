@@ -15,10 +15,15 @@ import { W500H282 } from '../+constants/image-size';
 import { MY_LIST_FALLBACK } from '../+constants/tmdb';
 
 type State = {
+  topRated: WithContext<Record<string, RespNowPlayingMovies>>;
   nowPlayingMovies: WithContext<Record<string, RespNowPlayingMovies>>;
 };
 
 const initialState: State = {
+  topRated: {
+    loading: false,
+    value: {},
+  },
   nowPlayingMovies: {
     loading: false,
     value: {},
@@ -29,6 +34,15 @@ const initialState: State = {
 export class MovieState implements AppInitializer {
   protected tmdbApi = inject(TmdbHttpApiService);
   readonly state = signalState(initialState);
+  readonly topRated = (lang = this.defaultLang) =>
+    computed(() => {
+      const { value, loading } = this.state().topRated;
+      return {
+        values: value[lang]?.results || [],
+        loading,
+      };
+    });
+
   readonly nowPlayingMovies = (lang = this.defaultLang) =>
     computed(() => {
       const { value, loading } = this.state().nowPlayingMovies;
@@ -99,11 +113,62 @@ export class MovieState implements AppInitializer {
     ),
   );
 
+  readonly fetchTopRatedMovies = rxMethod<string>(
+    pipe(
+      tap(() =>
+        patchState(this.state, (s) => {
+          return {
+            topRated: {
+              ...s.topRated,
+              loading: true,
+            },
+          };
+        }),
+      ),
+      optimizedFetch(
+        (requestKey) => requestKey,
+        (language) => {
+          return this.tmdbApi.getTopRatedMovies({ language, page: 1 }).pipe(
+            tapResponse({
+              error: (e: Error) =>
+                patchState(this.state, (s) => ({
+                  topRated: {
+                    ...s.topRated,
+                    error: e,
+                  },
+                })),
+              finalize: () => {
+                patchState(this.state, (s) => ({
+                  topRated: {
+                    ...s.topRated,
+                    complete: true,
+                    loading: false,
+                  },
+                }));
+              },
+              next: (resp) => {
+                const value = { [language]: resp };
+                patchState(this.state, (s) => {
+                  s.topRated = {
+                    ...s.topRated,
+                    value,
+                  };
+                  return s;
+                });
+              },
+            }),
+          );
+        },
+      ),
+    ),
+  );
+
   /**
    * state actions trigger (initializer)
    * going to prefetch this data on APP_INIT for better result
    */
   initialize(lang: unknown = this.defaultLang): void {
+    this.fetchTopRatedMovies(lang as string);
     this.fetchNowPlayingMovies(lang as string);
   }
 }

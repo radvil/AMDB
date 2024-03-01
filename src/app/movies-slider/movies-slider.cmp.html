@@ -12,10 +12,11 @@
       <figure class="rounded overflow-clip relative">
         <img
           [src]="imageBaseUrl + '1280' + item.backdrop_path"
-          class="rounded-[inherit]"
+          [loading]="$index <= 1 ? 'eager' : 'lazy'"
+          [height]="mainImageSize().height"
+          [width]="mainImageSize().width"
+          class="rounded-[inherit] w-full"
           [alt]="item.title"
-          [width]="1280"
-          [height]="720"
         />
         <div class="size-full absolute top-0 left-0 with-backdrop"></div>
         <div class="absolute bottom-0 w-full with-backdrop">
@@ -58,7 +59,7 @@
     <div
       uiSliderItem
       (click)="mainSlider.updateIndex($index)"
-      class="p-4 select-none bg-slate-800/50 odd:bg-slate-800/70"
+      class="p-4 select-none bg-gray-100/70 odd:bg-white dark:bg-slate-800/50 dark:odd:bg-slate-800/70"
     >
       <app-movie-thumb-preview [data]="item" [width]="200" [height]="300" />
     </div>
