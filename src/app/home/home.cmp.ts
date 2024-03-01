@@ -1,18 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TrendingMoviesSliderCmp } from '../trending-movies-slider/trending-movies-slider.cmp';
-import { UiSliderModule } from '../+ui/feature-slider/feature-slider.cmp';
-import { MovieState, TMDB_ENV_CONFIG } from '@libs/tmdb';
+import { MovieState } from '@libs/tmdb';
+import { MoviesSliderCmp } from '../movies-slider/movies-slider.cmp';
 
 @Component({
   standalone: true,
   selector: 'app-home',
   templateUrl: 'home.cmp.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TrendingMoviesSliderCmp, UiSliderModule],
+  imports: [MoviesSliderCmp],
 })
 export class HomeCmp {
-  readonly imageBaseUrl = inject(TMDB_ENV_CONFIG).imageBaseUrl;
   readonly state = inject(MovieState);
-  readonly items = this.state.nowPlayingMovies();
-  playInterval = 3000;
+  readonly nowPlayingMovies = this.state.nowPlayingMovies();
 }

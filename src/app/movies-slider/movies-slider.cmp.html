@@ -1,0 +1,68 @@
+<div class="flex gap-4 {{ layoutClassName() }}">
+  @if(movies(); as movies) {
+  <ui-slider-container
+    #mainSlider
+    [slidePerView]="1"
+    [autoPlayInterval]="playInterval()"
+    (startIndexChange)="thumbSlider.updateIndex($event + 1)"
+    [class]="mainClassName()"
+  >
+    @for(item of movies; track item.id) {
+    <div ui-slider-item class="select-none">
+      <figure class="rounded overflow-clip relative">
+        <img
+          [src]="imageBaseUrl + '1280' + item.backdrop_path"
+          class="rounded-[inherit]"
+          [alt]="item.title"
+          [width]="1280"
+          [height]="720"
+        />
+        <div class="size-full absolute top-0 left-0 with-backdrop"></div>
+        <div class="absolute bottom-0 w-full with-backdrop">
+          <app-movie-thumb-preview
+            [width]="thumbSize() === 'lg' ? 400 : 200"
+            [height]="thumbSize() === 'lg' ? 600 : 300"
+            class="md:p-4 max-h-72"
+            [data]="item"
+          >
+            <ng-template #thumbTitle>
+              <p
+                class="font-semibold text-xl md:text-4xl my-2 text-gray-800 dark:text-white"
+              >
+                {{ item.title }}
+              </p>
+            </ng-template>
+            <ng-template #thumbDescription>
+              <p class="text-sm font-bold my-2">
+                {{ getVote(item) }} ⭐⭐⭐⭐⭐
+              </p>
+              <p class="text-sm md:text-lg dark:text-gray-300 line-clamp-3">
+                {{ item.overview }}
+              </p>
+            </ng-template>
+          </app-movie-thumb-preview>
+        </div>
+      </figure>
+    </div>
+    }
+  </ui-slider-container>
+  <ui-slider-container
+    #thumbSlider
+    [startIndex]="1"
+    [showNavigation]="false"
+    [direction]="thumbsDirection()"
+    [slidePerView]="thumbsPerView()"
+    [class]="thumbsClassName()"
+  >
+    @for(item of movies; track item.id) {
+    <div
+      uiSliderItem
+      (click)="mainSlider.updateIndex($index)"
+      class="p-4 select-none bg-slate-800/50 odd:bg-slate-800/70"
+    >
+      <app-movie-thumb-preview [data]="item" [width]="200" [height]="300" />
+    </div>
+    }
+  </ui-slider-container>
+  }
+</div>

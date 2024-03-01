@@ -1,0 +1,5 @@
+.with-backdrop {
+  @apply bg-gradient-to-t
+  from-white from-10% via-white/60 via-35% to-transparent
+  to-70% dark:from-gray-900 dark:from-10% dark:via-gray-900/70 dark:via-40% dark:to-transparent dark:to-70%;
+}

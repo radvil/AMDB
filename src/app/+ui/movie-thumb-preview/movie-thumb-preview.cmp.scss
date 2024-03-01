@@ -5,8 +5,12 @@
 }
 
 .movie-thumb-preview {
-  @apply flex gap-4 cursor-pointer
-  size-full;
+  @apply flex gap-4 size-full;
+}
+
+.thumb-img-wrapper {
+  @apply rounded overflow-clip cursor-pointer
+  border md:border-none border-white dark:border-sky-500 relative;
 
   &:hover {
     .thumb-img {
@@ -21,12 +25,6 @@
       @apply text-red-500;
     }
   }
-}
-
-.thumb-img-wrapper {
-  @apply rounded overflow-clip
-  border md:border-none border-white dark:border-sky-500
-  relative;
 }
 
 .thumb-img-backdrop {

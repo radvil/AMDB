@@ -14,17 +14,29 @@ import {
   inject,
   input,
   model,
+  signal,
   untracked,
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
-import { filter, fromEvent, map, switchMap } from 'rxjs';
+import {
+  filter,
+  fromEvent,
+  interval,
+  merge,
+  of,
+  switchMap,
+  map,
+  tap,
+} from 'rxjs';
 import { UiRippleDirective } from '../ripple/ripple.directive';
 
 @Directive({
   selector: '[uiSliderItem],[ui-slider-item]',
-  host: { class: 'flex-grow flex-shrink-0' },
+  host: {
+    class: 'flex-grow flex-shrink-0 w-full',
+  },
 })
 export class UiSliderItemDirective {}
 
@@ -34,30 +46,35 @@ export class UiSliderItemDirective {}
   templateUrl: 'feature-slider.cmp.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'overflow-hidden relative' },
+  host: {
+    class: 'overflow-hidden relative h-fit',
+  },
 })
 export class UiSliderContainerCmp {
   protected destroyRef = inject(DestroyRef);
   protected renderer = inject(Renderer2);
   readonly ref = inject(ElementRef);
-  readonly slideWrapper = viewChild.required('wrapperView', {
-    read: ElementRef,
-  });
-
-  readonly sliders = contentChildren(UiSliderItemDirective, {
-    read: ElementRef,
-  });
   readonly showNavigation = input(true);
   readonly activeIndex = model(0, { alias: 'startIndex' });
-  readonly playInterval = model(0, { alias: 'autoPlayInterval' });
+  readonly playInterval = input(0, { alias: 'autoPlayInterval' });
   readonly totalItems = computed(() => this.sliders().length || 0);
-  readonly activeSlide = computed(() => this.sliders()[this.activeIndex()]);
+  readonly activeSlide = computed(() => {
+    if (!this.sliders()?.length) return undefined;
+    return this.sliders()[this.activeIndex()];
+  });
 
-  intervalId: number | null = null;
+  readonly prevButton = viewChild<ElementRef<HTMLAnchorElement>>('prevButton');
+  readonly nextButton = viewChild<ElementRef<HTMLAnchorElement>>('nextButton');
+  readonly wrapper = viewChild.required<HTMLElement, ElementRef<HTMLElement>>(
+    'wrapperView',
+    { read: ElementRef },
+  );
+  readonly sliders = contentChildren<
+    UiSliderItemDirective,
+    ElementRef<HTMLElement>
+  >(UiSliderItemDirective, { read: ElementRef });
 
-  get currentSlideElement(): HTMLElement | undefined {
-    return this.activeSlide()?.nativeElement;
-  }
+  intervalId: any = null;
 
   readonly slidePerView = input(1);
   readonly direction = input<'vertical' | 'horizontal'>('horizontal');
@@ -96,104 +113,112 @@ export class UiSliderContainerCmp {
     });
   }
 
-  protected onWrapperInit = effect(() => {
-    const el = this.slideWrapper().nativeElement;
-    untracked(() => {
-      const horizontal = this.direction() === 'horizontal';
-      if (horizontal) {
-        this.#appendStyles(el, { 'flex-direction': 'row' });
-      } else {
-        this.#appendStyles(el, { 'flex-direction': 'column' });
-        const unitH = this.currentSlideElement?.clientHeight || 0;
-        this.#appendStyles(this.ref.nativeElement, {
-          'max-height': `${unitH * this.slidePerView()}px`,
-        });
-      }
-    });
-  });
-
-  protected onSlidersInit = effect(() => {
-    const sliders = this.sliders();
-    untracked(() => {
-      const styles = this.sliderStyles();
-      sliders.forEach((item) => {
-        if (item.nativeElement) {
-          this.#appendStyles(item.nativeElement, styles);
-        }
-      });
-    });
-  });
-
-  protected onIndexChange = effect(() => {
+  #setTransformation(): void {
     const activeIndex = this.activeIndex();
+    const activeSlide = this.activeSlide();
+    const dir = this.direction();
+    if (!activeSlide) return;
     untracked(() => {
       // TODO: change style on prev | next function call! NOT HERE...
-      const wrapper = this.slideWrapper().nativeElement;
-      if (!wrapper || !this.currentSlideElement) return;
-      const dir = this.direction();
-      const w = wrapper.offsetWidth;
-      const unitH = this.currentSlideElement.clientHeight;
+      const wrapper = this.wrapper().nativeElement;
+      if (!wrapper || !activeSlide.nativeElement) return;
+      const unitW = activeSlide.nativeElement.clientWidth;
+      const unitH = activeSlide.nativeElement.clientHeight;
       const offset =
-        dir === 'horizontal' ? -(w * activeIndex) : -(unitH * activeIndex);
+        dir === 'horizontal' ? -(unitW * activeIndex) : -(unitH * activeIndex);
       const translate = dir === 'horizontal' ? 'translateX' : 'translateY';
-      this.#appendStyles(wrapper, {
-        transform: `${translate}(${offset}px)`,
-      });
-      const playInterval = this.playInterval();
-      if (playInterval > 0) {
-        if (this.intervalId) clearInterval(this.intervalId);
-        this.intervalId = setInterval(() => {
-          this.next();
-        }, playInterval);
+      this.#appendStyles(wrapper, { transform: `${translate}(${offset}px)` });
+    });
+  }
+
+  SETUP_MAX_HEIGHT = false;
+  #setupVerticalWrapper(): void {
+    if (this.SETUP_MAX_HEIGHT || this.direction() !== 'vertical') return;
+    const activeSlide = this.activeSlide();
+    const wrapper = this.wrapper();
+    untracked(() => {
+      if (wrapper && activeSlide) {
+        // console.log('SETUP_VERT_WRAPPER_INIT');
+        const unitH = activeSlide.nativeElement.clientHeight;
+        this.#appendStyles(wrapper.nativeElement, {
+          'max-height': `${unitH * this.slidePerView()}px`,
+        });
+        this.SETUP_MAX_HEIGHT = true;
       }
     });
+  }
+
+  SETUP_SLIDERS_STYLES = false;
+  #setupSliders(): void {
+    if (this.SETUP_SLIDERS_STYLES) return;
+    const sliders = this.sliders();
+    const sliderStyles = this.sliderStyles();
+    untracked(() => {
+      if (sliders.length && sliderStyles) {
+        // console.warn('SETUP_SLIDERS_INIT » ', this.direction());
+        sliders.forEach((item) => {
+          if (item.nativeElement) {
+            this.#appendStyles(item.nativeElement, sliderStyles);
+          }
+        });
+        this.SETUP_SLIDERS_STYLES = true;
+      }
+    });
+  }
+
+  protected onSlidersInit = effect(() => {
+    this.#setupVerticalWrapper();
+    this.#setTransformation();
+    this.#setupSliders();
   });
 
   ngAfterViewInit(): void {
-    type Direction = 'left' | 'right' | 'up' | 'down';
-    const actionMap = {
-      left: () => this.prev(),
-      right: () => this.next(),
-      up: () => this.prev(),
-      down: () => this.next(),
-    };
-    fromEvent<TouchEvent>(this.ref.nativeElement, 'touchstart')
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        switchMap((vStart) => {
-          const tsY = vStart.touches[0].clientY;
-          const tsX = vStart.touches[0].clientY;
-          return fromEvent<TouchEvent>(this.ref.nativeElement, 'touchend').pipe(
-            map((vEnd) => {
-              const teY = vEnd.changedTouches[0].clientY;
-              const teX = vEnd.changedTouches[0].clientX;
-              if (tsY > teY + 5) {
-                return 'down';
-              } else if (tsY < teY - 5) {
-                return 'up';
-              } else if (tsX > teX + 5) {
-                return 'right';
-              } else if (tsX < teX - 5) {
-                return 'left';
-              } else {
-                return null;
-              }
-            }),
-            filter(Boolean),
-          );
+    const prevEl = this.prevButton()?.nativeElement;
+    const nextEl = this.nextButton()?.nativeElement;
+    if (!prevEl || !nextEl) return;
+    merge(
+      of(prevEl).pipe(
+        filter(Boolean),
+        switchMap((el) => {
+          return fromEvent(el, 'click').pipe(map(() => 'prev' as const));
         }),
-      )
-      .subscribe((direction: Direction) => {
-        console.warn(direction.toUpperCase());
-        // TODO: should respond for autoplay
-        actionMap[direction]();
+      ),
+      of(nextEl).pipe(
+        filter(Boolean),
+        switchMap((el) => {
+          return fromEvent(el, 'click').pipe(map(() => 'next' as const));
+        }),
+      ),
+    )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((direction) => {
+        this[direction]();
       });
+
+    const playInterval = this.playInterval();
+    if (playInterval > 0) {
+      const paused = signal(false);
+      merge(
+        fromEvent(this.ref.nativeElement, 'mouseenter').pipe(
+          tap(() => paused.set(true)),
+        ),
+        fromEvent(this.ref.nativeElement, 'mouseleave').pipe(
+          tap(() => paused.set(false)),
+        ),
+        interval(this.playInterval()).pipe(
+          filter(() => !paused()),
+          tap(() => this.next()),
+        ),
+      )
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe();
+    }
   }
 }
 
 @NgModule({
   declarations: [UiSliderContainerCmp, UiSliderItemDirective],
-  imports: [FastSvgComponent, UiRippleDirective, NgTemplateOutlet],
   exports: [UiSliderContainerCmp, UiSliderItemDirective],
+  imports: [FastSvgComponent, UiRippleDirective, NgTemplateOutlet],
 })
 export class UiSliderModule {}

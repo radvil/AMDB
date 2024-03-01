@@ -1,4 +1,8 @@
-<div #wrapperView class="flex flex-nowrap transition-transform duration-300">
+<div
+  #wrapperView
+  class="flex flex-nowrap transition-transform duration-300"
+  [style.flex-direction]="direction() === 'horizontal' ? 'row' : 'column'"
+>
   <ng-content></ng-content>
 </div>
 
@@ -8,8 +12,8 @@
 >
   <a
     uiRipple
-    (click)="prev()"
-    class="bg-transparent hover:bg-black/50 w-full flex items-center justify-center rounded-full ring-0 hover:ring-1 ring-gray-100/50 text-white transition-colors"
+    #prevButton
+    class="select-none bg-transparent hover:bg-black/50 w-full flex items-center justify-center rounded-full ring-0 hover:ring-1 ring-gray-100/50 text-white transition-colors"
   >
     <fast-svg name="nav-prev" />
   </a>
@@ -19,8 +23,8 @@
 >
   <a
     uiRipple
-    (click)="next()"
-    class="bg-red hover:bg-black/50 w-full flex items-center justify-center rounded-full ring-0 hover:ring-1 ring-gray-100/50 text-white transition-colors"
+    #nextButton
+    class="select-none bg-red hover:bg-black/50 w-full flex items-center justify-center rounded-full ring-0 hover:ring-1 ring-gray-100/50 text-white transition-colors"
   >
     <fast-svg name="nav-next" />
   </a>
