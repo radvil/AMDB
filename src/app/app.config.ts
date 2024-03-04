@@ -7,27 +7,31 @@ import {
 import { ApplicationConfig } from '@angular/core';
 import {
   provideRouter,
+  withComponentInputBinding,
   withInMemoryScrolling,
   withViewTransitions,
 } from '@angular/router';
 import {
   MovieState,
+  TvShowState,
+  PeopleState,
+  provideAmdbStateInitializer,
   provideTmdbEnvConfig,
   tmdbHttpContentTypeInterceptor,
   tmdbHttpReadAccessInterceptor,
 } from '@libs/tmdb';
 import { provideFastSVG } from '@push-based/ngx-fast-svg';
-import { provideAmdbStateInitializer } from '../../libs/tmdb/src/+state/state-initializer';
 import { environment } from '../environments/environment';
+import { provideIoScroll } from './+ui/io-scroll/io-scroll.config';
 import { APP_ROUTES } from './app.routes';
 import { provideClientTheme } from './theme/theme.config';
-import { provideIoScroll } from './+ui/io-scroll/io-scroll.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(
       APP_ROUTES,
       withViewTransitions(),
+      withComponentInputBinding(),
       // withDebugTracing(),
       withInMemoryScrolling({
         /**
@@ -43,7 +47,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideClientTheme(),
     provideTmdbEnvConfig(environment.tmdbConfig),
-    provideAmdbStateInitializer([MovieState]),
+    provideAmdbStateInitializer([MovieState, TvShowState, PeopleState]),
     provideHttpClient(
       withFetch(),
       withInterceptors([

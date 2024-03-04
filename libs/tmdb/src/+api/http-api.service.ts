@@ -1,26 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Movie } from '../+models';
 import { TMDB_ENV_CONFIG } from '../+core/tmdb-env.provider';
-import { RequestParams } from '../+models/request-params';
-
-export interface RespNowPlayingMovies {
-  page: 1;
-  results: Movie[];
-  dates: {
-    maximum: '2023-05-03';
-    minimum: '2023-03-16';
-  };
-}
-
-export interface RespTopRatedMovies {
-  page: 1;
-  results: Movie[];
-  dates: {
-    maximum: '2023-05-03';
-    minimum: '2023-03-16';
-  };
-}
+import { ExternalIds, TvSeriesDetails } from '../+models';
+import { TmdbReqParams } from '../+models/request-params';
+import { TmdbRespBody } from '../+models/response-body';
 
 @Injectable({ providedIn: 'root' })
 export class TmdbHttpApiService {
@@ -28,25 +11,130 @@ export class TmdbHttpApiService {
   readonly #http = inject(HttpClient);
   readonly url = {
     movie: () => `${this.#config.apiBaseUrlV3}/movie`,
-    nowPlaying: () => `${this.url.movie()}/now_playing`,
-    topRated: () => `${this.url.movie()}/top_rated`,
+    tvShows: () => `${this.#config.apiBaseUrlV3}/tv`,
+    company: () => `${this.#config.apiBaseUrlV3}/company`,
+    nowPlayingMovies: () => `${this.url.movie()}/now_playing`,
+    topRatedMovies: () => `${this.url.movie()}/top_rated`,
+    popularMovies: () => `${this.url.movie()}/popular`,
+    movieExternalIds: (id: number) => `${this.url.movie()}/${id}/external_ids`,
+    airingTvShows: () => `${this.url.tvShows()}/airing_today`,
+    trendingPeople: () => `${this.#config.apiBaseUrlV3}/trending/person/day`,
+    tvSeriesDetail: (id: number) => `${this.url.tvShows()}/${id}`,
+    tvSeriesKeywords: (id: number) => `${this.url.tvShows()}/${id}/keywords`,
+    tvSeriesExternalIds: (id: number) => {
+      return `${this.url.tvShows()}/${id}/external_ids`;
+    },
+    tvSeriesCredits: (id: number) => {
+      return `${this.url.tvShows()}/${id}/aggregate_credits`;
+    },
+    tvSeriesReviews: (id: number) => {
+      return `${this.url.tvShows()}/${id}/reviews`;
+    },
   } as const;
 
   /**
-   * @see https://developer.themoviedb.org/reference/movie-top-rated-list
+   * @see https://developer.themoviedb.org/reference/movie-popular-list
    */
-  getTopRatedMovies(params?: RequestParams.GetTopRatedMovieList) {
-    return this.#http.get<RespTopRatedMovies>(this.url.topRated(), {
+  getPopularMovies(params?: TmdbReqParams.GetMovieList) {
+    return this.#http.get<TmdbRespBody.GetMovieList>(this.url.popularMovies(), {
       params,
     });
   }
 
   /**
+   * @see https://developer.themoviedb.org/reference/movie-top-rated-list
+   */
+  getTopRatedMovies(params?: TmdbReqParams.GetMovieList) {
+    return this.#http.get<TmdbRespBody.GetMovieList>(
+      this.url.topRatedMovies(),
+      { params },
+    );
+  }
+
+  /**
    * @see https://developer.themoviedb.org/reference/movie-now-playing-list
    */
-  getNowPlayingMovies(params?: RequestParams.GetMovieNowPlayingList) {
-    return this.#http.get<RespNowPlayingMovies>(this.url.nowPlaying(), {
-      params,
+  getNowPlayingMovies(params?: TmdbReqParams.GetMovieList) {
+    return this.#http.get<TmdbRespBody.GetMovieList>(
+      this.url.nowPlayingMovies(),
+      { params },
+    );
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/reference/tv-series-airing-today-list
+   */
+  getAiringTvShows(params?: TmdbReqParams.GetTvShowList) {
+    return this.#http.get<TmdbRespBody.GetTvShowList>(
+      this.url.airingTvShows(),
+      { params },
+    );
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/reference/trending-people
+   */
+  getTrendingPeople(language: string) {
+    return this.#http.get<TmdbRespBody.GetPeopleList>(
+      this.url.trendingPeople(),
+      {
+        params: { language },
+      },
+    );
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/reference/tv-series-details
+   */
+  getTvSeriesDetails(seriesId: number, language: string) {
+    return this.#http.get<TvSeriesDetails>(this.url.tvSeriesDetail(seriesId), {
+      params: { language },
     });
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/reference/tv-series-keywords
+   */
+  getTvSeriesKeywords(seriesId: number) {
+    return this.#http.get<TmdbRespBody.GetKeywordList>(
+      this.url.tvSeriesKeywords(seriesId),
+    );
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/reference/movie-external-ids
+   */
+  getMovieExternalIds(id: number) {
+    return this.#http.get<ExternalIds>(this.url.movieExternalIds(id));
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/reference/tv-series-external-ids
+   */
+  getTvSeriesExternalIds(id: number) {
+    return this.#http.get<ExternalIds>(this.url.tvSeriesExternalIds(id));
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/reference/tv-series-aggregate-credits
+   */
+  getTvSeriesCredits(id: number, language: string) {
+    return this.#http.get<TmdbRespBody.GetMovieCredits>(
+      this.url.tvSeriesCredits(id),
+      {
+        params: { language },
+      },
+    );
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/reference/tv-series-reviews
+   */
+  getTvSeriesReviews(id: number, language: string) {
+    const params = { language };
+    return this.#http.get<TmdbRespBody.GetReviews>(
+      this.url.tvSeriesReviews(id),
+      { params },
+    );
   }
 }

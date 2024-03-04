@@ -1,10 +1,14 @@
-@if(movies(); as mv) {
-<ui-slider-container [slidePerView]="slidesPerView()" [showNavigation]="true">
-  @for(item of mv.values; track item.id) {
+@if(movies().length) {
+<ui-slider-container
+  [class.overflow-x-auto]="!screen.md()"
+  [showNavigation]="screen.md()"
+  [slidePerView]="slidesPerView()"
+>
+  @for(item of movies(); track item.id) {
   <div uiSliderItem class="pr-4 h-fit">
     <div class="select-none size-full rounded-sm">
       <img
-        class="w-full rounded-t transition-opacity duration-200 hover:opacity-90 cursor-pointer"
+        class="w-full min-h-[280px] object-cover rounded-t transition-opacity duration-200 hover:opacity-90 cursor-pointer"
         [src]="imageBaseUrl + 200 + item.poster_path"
         [alt]="item.title"
         [height]="300"
@@ -27,8 +31,8 @@
           type="button"
           name="add-to-watchlist"
           aria-label="add to watchlist"
-          title="add-to-watchlist-button"
-          class="app-button h-10 mt-4 block bg-gray-100 dark:bg-gray-700/50 w-full !rounded-md text-pink-500 dark:text-pink-400 hover:text-pink-600 dark:hover:text-pink-500"
+          title="Login to add this movie to your watch list"
+          class="app-button h-10 mt-4 block bg-gray-100 dark:bg-gray-700/50 w-full !rounded-md text-pink-500 hover:text-pink-600"
         >
           <div
             class="flex size-full items-center justify-center font-semibold text-sm"
@@ -37,24 +41,17 @@
             <span class="ml-2">Watchlist</span>
           </div>
         </button>
-        <div class="mt-4 flex items-center justify-between font-bold">
-          <button
-            uiRipple
-            name="trailer-button"
-            aria-label="trailer button"
-            class="inline-flex p-2 rounded-md transition-colors duration-300 hover:bg-gray-100/70 dark:hover:bg-gray-700/50"
+        <div
+          class="mt-4 flex items-center justify-between gap-4 font-bold text-xs"
+        >
+          <p class="opacity-60">
+            {{ item.release_date | date: "dd MMM yyyy" }}
+          </p>
+          <p
+            class="uppercase p-2 flex justify-center items-center rounded-[100%] transition-colors duration-300 hover:bg-gray-100/60 dark:hover:bg-gray-700/50"
           >
-            <fast-svg name="playback" size="16" />
-            <span class="ml-2">Trailer</span>
-          </button>
-          <button
-            uiRipple
-            name="info-button"
-            aria-label="info button"
-            class="p-2 flex justify-center items-center rounded-[100%] transition-colors duration-300 hover:bg-gray-100/60 dark:hover:bg-gray-700/50"
-          >
-            <fast-svg name="circle-info" size="16" />
-          </button>
+            {{ item.original_language }}
+          </p>
         </div>
       </div>
     </div>

@@ -1,10 +1,7 @@
-export namespace RequestParams {
-  export type GetMovieNowPlayingList = {
+export namespace TmdbReqParams {
+  export type GetMovieList = {
     language: string;
     page: number;
   };
-  export type GetTopRatedMovieList = {
-    language: string;
-    page: number;
-  };
+  export type GetTvShowList = GetMovieList;
 }

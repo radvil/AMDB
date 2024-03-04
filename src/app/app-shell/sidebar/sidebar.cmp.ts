@@ -8,7 +8,7 @@ import {
   model,
   viewChild,
 } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLinkActive, RouterLinkWithHref } from '@angular/router';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { ThemeService } from '../../theme/theme.service';
 import { MenuItem } from '../menu-items';
@@ -19,7 +19,12 @@ import { MenuItem } from '../menu-items';
   styleUrl: 'sidebar.cmp.scss',
   templateUrl: 'sidebar.cmp.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FastSvgComponent, RouterLink, RouterLinkActive, NgTemplateOutlet],
+  imports: [
+    FastSvgComponent,
+    RouterLinkWithHref,
+    RouterLinkActive,
+    NgTemplateOutlet,
+  ],
 })
 export class SidebarCmp {
   readonly container = viewChild<ElementRef<HTMLElement>>('container');

@@ -1,0 +1,26 @@
+@if(people().length) {
+<ui-slider-container
+  [class.overflow-x-auto]="!screen.md()"
+  [showNavigation]="screen.md()"
+  [slidePerView]="slidesPerView()"
+>
+  @for(person of people(); track person.id) {
+  <div uiSliderItem class="pr-4 h-fit flex flex-col justify-center gap-2">
+    <img
+      class="object-cover object-top rounded-[100%] transition-opacity duration-200 hover:opacity-90 cursor-pointer h-40 w-40"
+      [src]="imageBaseUrl + 200 + person.profile_path"
+      [alt]="person.name"
+      [height]="200"
+      [width]="200"
+      loading="lazy"
+    />
+    <div class="flex flex-col justify-center items-center gap-2">
+      <a class="my-2 w-fit line-clamp-1 hover:underline cursor-pointer text-center">
+        {{ person.name }}
+      </a>
+      <p>{{ person.known_for_department }}</p>
+    </div>
+  </div>
+  }
+</ui-slider-container>
+}

@@ -1,12 +1,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   computed,
   inject,
   input,
+  viewChild,
 } from '@angular/core';
 import { TMDB_ENV_CONFIG, Tmdb } from '@libs/tmdb';
-import { UiSliderModule } from '../+ui/feature-slider/feature-slider.cmp';
+import {
+  UiSliderContainerCmp,
+  UiSliderModule,
+} from '../+ui/feature-slider/feature-slider.cmp';
+import { ScreenService } from '../+ui/layout/screen.service';
 import { MovieThumbPreviewCmp } from '../+ui/movie-thumb-preview/movie-thumb-preview.cmp';
 
 @Component({
@@ -19,6 +25,8 @@ import { MovieThumbPreviewCmp } from '../+ui/movie-thumb-preview/movie-thumb-pre
 })
 export class MoviesSliderCmp {
   readonly imageBaseUrl = inject(TMDB_ENV_CONFIG).imageBaseUrl;
+  readonly thumbSlider = viewChild<UiSliderContainerCmp>('thumbSlider');
+  readonly md = inject(ScreenService).md;
   readonly movies = input<Tmdb.Movie[]>([]);
   readonly autoPlay = input<boolean, string | boolean>(true, {
     transform: (v: string | boolean) => {
@@ -41,9 +49,12 @@ export class MoviesSliderCmp {
     return this.thumbPosition() === 'right' ? 'flex-row' : 'flex-col';
   });
 
-  // TODO: adjust for mobile layout
   protected mainClassName = computed(() => {
-    return this.thumbPosition() === 'right' ? 'w-2/3' : 'w-full';
+    return !this.md()
+      ? 'w-full'
+      : this.thumbPosition() === 'right'
+        ? 'w-2/3'
+        : 'w-full';
   });
 
   protected thumbsClassName = computed(() => {

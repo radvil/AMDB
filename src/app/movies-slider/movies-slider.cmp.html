@@ -4,7 +4,7 @@
     #mainSlider
     [slidePerView]="1"
     [autoPlayInterval]="playInterval()"
-    (startIndexChange)="thumbSlider.updateIndex($event + 1)"
+    (startIndexChange)="thumbSlider()?.updateIndex($event + 1)"
     [class]="mainClassName()"
   >
     @for(item of movies; track item.id) {
@@ -47,6 +47,8 @@
     </div>
     }
   </ui-slider-container>
+
+  @if(md()) {
   <ui-slider-container
     #thumbSlider
     [startIndex]="1"
@@ -65,5 +67,5 @@
     </div>
     }
   </ui-slider-container>
-  }
+  } }
 </div>
