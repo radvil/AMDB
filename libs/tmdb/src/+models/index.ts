@@ -12,4 +12,5 @@ export * from './response-body';
 export * from './review';
 export * from './search-item';
 export * from './tv-show';
-
+export * from "./video";
+export * from "./image";

@@ -1,0 +1,33 @@
+@if(videos().loading) {
+<div class="w-full h-[260px] flex items-center justify-center">
+  <h1 class="text-3xl font-bold">Loading trailers...</h1>
+</div>
+} @else {
+<ui-slider-container
+  [navigationOffset]="screen.md() ? '1.5rem' : '0.5rem'"
+  [slidePerView]="screen.md() ? 2 : 1"
+  class="rounded-lg rounded-tl-none"
+>
+  @for(v of videos().value; track v.id) {
+  <div
+    uiSliderItem
+    ioChild="opacity-100"
+    [style.background-image]="'url(' + (v.key | ytThumb) + ')'"
+    class="h-[190px] md:h-[260px] relative bg-cover bg-center opacity-0 transition-opacity duration-[2s] delay-200"
+  >
+    <div class="size-full flex items-center justify-center">
+      <a
+        uiRipple
+        type="button"
+        title="Playback"
+        name="playback-button"
+        aria-label="play trailer"
+        class="app-button !rounded-full !p-4 bg-black/50 text-white"
+      >
+        <fast-svg name="playback" size="18" />
+      </a>
+    </div>
+  </div>
+  }
+</ui-slider-container>
+}

@@ -1,9 +1,11 @@
+import { Image } from './image';
 import { Movie } from './movie';
 import { MovieCast } from './movie-cast';
 import { MovieCrew } from './movie-crew';
 import { Person } from './person';
 import { Review } from './review';
 import { TvSeriesKeyword, TvShow } from './tv-show';
+import { Video } from './video';
 
 export namespace TmdbRespBody {
   export interface GetMovieList {
@@ -48,5 +50,17 @@ export namespace TmdbRespBody {
     id: number;
     page: number;
     results: Review[];
+  }
+
+  export interface GetVideos {
+    id: number;
+    results: Video[];
+  }
+
+  export interface GetImages {
+    id: number;
+    logos: Image[];
+    posters: Image[];
+    backdrops: Image[];
   }
 }

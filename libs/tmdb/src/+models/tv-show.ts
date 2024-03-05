@@ -1,4 +1,5 @@
-type MediaUrl = `/${string}`;
+import { MediaUrl } from "./media-type";
+
 type DateString = `${number}-${number}-${number}`;
 
 export interface TvShow {

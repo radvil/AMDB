@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,9 +22,12 @@ import { patchState, signalState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { pipe, tap } from 'rxjs';
+import { MarkdownPipe, YouTubeThumbPipe } from '../+cdk';
 import { UiSliderModule } from '../+ui/feature-slider/feature-slider.cmp';
+import { UiIoChildDirective } from '../+ui/io-scroll/io-child.directive';
 import { ScreenService } from '../+ui/layout/screen.service';
 import { UiRippleDirective } from '../+ui/ripple/ripple.directive';
+import { TvShowTrailersCmp } from './trailer-slider/trailer-slider.cmp';
 
 interface State {
   details: WithContext<Record<string, Tmdb.TvSeriesDetails>>;
@@ -64,8 +67,18 @@ const initialState: State = {
   selector: 'app-tv-show-detail',
   templateUrl: 'tv-show-detail.cmp.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe, UiRippleDirective, FastSvgComponent, UiSliderModule],
   providers: [DatePipe],
+  imports: [
+    JsonPipe,
+    DatePipe,
+    MarkdownPipe,
+    YouTubeThumbPipe,
+    UiRippleDirective,
+    FastSvgComponent,
+    UiSliderModule,
+    UiIoChildDirective,
+    TvShowTrailersCmp,
+  ],
 })
 export class TvShowDetailCmp {
   #title = inject(Title);
@@ -100,7 +113,7 @@ export class TvShowDetailCmp {
   });
   readonly lastReview = computed(() => {
     const reviews = this.reviews().value;
-    return reviews?.length ? reviews[reviews.length - 1]: undefined;
+    return reviews?.length ? reviews[reviews.length - 1] : undefined;
   });
   readonly keywords = computed(() => {
     const stateSlice = this.state().keywords;

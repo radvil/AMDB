@@ -1,6 +1,7 @@
 @if (details().value; as data) {
 <section
-  class="bg-cover bg-no-repeat"
+  ioChild="opacity-100"
+  class="bg-cover bg-no-repeat opacity-0 transition-opacity duration-[2s]"
   [style.background-image]="'url(' + backdropPath() + ')'"
 >
   <div class="size-full bg-gray-50/30 dark:bg-gray-900/60">
@@ -154,8 +155,8 @@
 <div class="max-w-screen-xl mx-auto md:flex md:gap-4 px-8 md:p-0">
   <div class="w-full md:w-3/4">
     <section
-      class="mb-10 md:my-10 opacity-0 transition-opacity duration-500"
-      data-io-class="opacity-100"
+      class="mb-10 md:my-10 opacity-0 transition-opacity duration-[1s]"
+      ioChild="opacity-100"
     >
       <h1 class="text-2xl font-bold text-hero">Current season</h1>
       <div
@@ -229,8 +230,8 @@
 
     <!-- cast list -->
     <section
-      class="mb-10 md:my-10 opacity-0 transition-opacity duration-500"
-      data-io-class="opacity-100"
+      class="mb-10 md:my-10 opacity-0 transition-opacity duration-500 delay-500"
+      ioChild="opacity-100"
     >
       @if(credits().value?.cast; as castList) {
       <h1 class="text-2xl font-bold text-hero">Series cast</h1>
@@ -252,7 +253,11 @@
         [showNavigation]="false"
       >
         @for(cast of castList; track cast.id) {
-        <div uiSliderItem class="pr-4">
+        <div
+          uiSliderItem
+          ioChild="opacity-100"
+          class="pr-4 opacity-0 transition-opacity duration-500"
+        >
           <div class="surface-card rounded overflow-hidden h-fit shadow">
             <img
               class="object-cover object-top transition-opacity duration-200 hover:opacity-90 cursor-pointer min-h-[200px] h-[200px] w-full"
@@ -290,8 +295,8 @@
 
     <!-- reviews -->
     <section
-      class="mb-10 md:my-10 transition-opacity duration-500 opacity-0"
-      data-io-class="opacity-100"
+      class="mb-10 md:my-10 transition-opacity duration-500 delay-200 opacity-0"
+      ioChild="opacity-100"
     >
       <h1 class="text-2xl font-bold text-hero">Socials</h1>
       <div
@@ -381,9 +386,11 @@
                 </div>
               </div>
             </div>
-            <p class="mt-4" [class.line-clamp-4]="reviewClamped()">
-              {{ rv.content }}
-            </p>
+            <p
+              class="mt-4"
+              [class.line-clamp-4]="reviewClamped()"
+              [innerHTML]="rv.content | markdown"
+            ></p>
             <a
               (click)="reviewClamped.set(!reviewClamped())"
               class="text-sm font-semibold opacity-40"
@@ -406,19 +413,96 @@
           </div>
         </div>
         <div uiSliderItem>
-          <div class="surface-card shadow p-4 rounded-lg rounded-tl-none">
-            <h1 class="text-4xl">TODO: Production companies</h1>
+          <div
+            class="surface-card shadow p-4 rounded-lg rounded-tl-none flex items-center justify-center gap-4 flex-wrap"
+          >
+            @if(data.production_companies; as companies) { @for(c of companies;
+            track c.id) {
+            <div class="p-4">
+              @if (c.logo_path; as logo) {
+              <img
+                class="min-w-[200px] w-[200px]"
+                [src]="'https://media.themoviedb.org/t/p/original' + logo"
+                [alt]="c.name"
+              />
+              } @else {
+              <p class="text-2xl font-semibold mt-4">{{ c.name }}</p>
+              }
+            </div>
+            } }
+          </div>
+        </div>
+      </ui-slider-container>
+    </section>
+
+    <!-- trailer -->
+    <section
+      class="mb-10 md:my-10 transition-opacity duration-500 delay-200 opacity-0"
+      ioChild="opacity-100"
+    >
+      <h1 class="text-2xl font-bold text-hero">Medis</h1>
+      <div
+        class="flex items-center gap-2 cursor-pointer w-max select-none text-gray-800 dark:text-white mt-2"
+      >
+        <button
+          uiRipple
+          type="button"
+          title="Videos"
+          aria-label="see videos"
+          name="videos-tab-button"
+          class="app-button !rounded-none !rounded-t-lg {{ mediaSlider.activeIndex() === 0 ?'bg-white dark:bg-gray-700' :'bg-gray-50 dark:bg-gray-800' }}"
+          (click)="mediaSlider.updateIndex(0)"
+        >
+          <span
+            [class.text-pink-500]="mediaSlider.activeIndex() === 0"
+            class="text-sm"
+          >
+            Videos
+          </span>
+        </button>
+        <button
+          uiRipple
+          type="button"
+          title="Posters"
+          aria-label="see posters"
+          name="posters-tab-button"
+          class="app-button !rounded-none !rounded-t-lg {{ mediaSlider.activeIndex() === 1 ?'bg-white dark:bg-gray-700' :'bg-gray-50 dark:bg-gray-800' }}"
+          (click)="mediaSlider.updateIndex(1)"
+        >
+          <span
+            [class.text-pink-500]="mediaSlider.activeIndex() === 1"
+            class="text-sm"
+          >
+            Posters
+          </span>
+        </button>
+      </div>
+      <ui-slider-container
+        #mediaSlider
+        [slidePerView]="1"
+        [showNavigation]="false"
+      >
+        <div uiSliderItem #trailerTab>
+          @defer(on viewport(trailerTab)) {
+          <app-tv-show-trailers [tvShowId]="id()" />
+          }
+        </div>
+        <div uiSliderItem>
+          <div
+            class="surface-card shadow p-4 rounded-lg rounded-tl-none flex items-center justify-center gap-4 flex-wrap"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
+            nisi eveniet perspiciatis excepturi unde saepe, quibusdam expedita,
+            reiciendis magnam quisquam cupiditate illum iste dignissimos minima
+            libero, alias aliquam. In, officia?
           </div>
         </div>
       </ui-slider-container>
     </section>
   </div>
 
-  <div
-    class="w-full md:w-1/4 mt-4 md:mt-0 p-4 md:pt-16 opacity-0 transition-opacity duration-500"
-    data-io-class="opacity-100"
-  >
-    <!-- networks -->
+  <!-- aside -->
+  <div class="w-full md:w-1/4 mt-4 md:mt-0 p-4 md:pt-16">
     @if(data.networks.length) {
     <div class="mb-4 md:mb-8">
       <h3 class="text-sm font-semibold text-gray-800 dark:text-white">

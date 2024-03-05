@@ -30,6 +30,12 @@ export class TmdbHttpApiService {
     tvSeriesReviews: (id: number) => {
       return `${this.url.tvShows()}/${id}/reviews`;
     },
+    tvSeriesVideos: (id: number) => {
+      return `${this.url.tvShows()}/${id}/videos`;
+    },
+    tvSeriesImages: (id: number) => {
+      return `${this.url.tvShows()}/${id}/images`;
+    },
   } as const;
 
   /**
@@ -131,10 +137,27 @@ export class TmdbHttpApiService {
    * @see https://developer.themoviedb.org/reference/tv-series-reviews
    */
   getTvSeriesReviews(id: number, language: string) {
-    const params = { language };
     return this.#http.get<TmdbRespBody.GetReviews>(
       this.url.tvSeriesReviews(id),
-      { params },
+      { params: { language } },
     );
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/reference/tv-series-videos
+   */
+  getTvSeriesVideos(id: number, language: string) {
+    return this.#http.get<TmdbRespBody.GetVideos>(this.url.tvSeriesVideos(id), {
+      params: { language },
+    });
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/reference/tv-series-images
+   */
+  getTvSeriesImages(id: number, language: string) {
+    return this.#http.get<TmdbRespBody.GetImages>(this.url.tvSeriesImages(id), {
+      params: { language },
+    });
   }
 }

@@ -6,6 +6,7 @@ import { UiPeopleCardsSliderCmp } from '../+ui/people-cards-slider/people-cards-
 import { UiRippleDirective } from '../+ui/ripple/ripple.directive';
 import { UiTvShowCardsSliderCmp } from '../+ui/tv-show-cards-slider/tv-show-cards-slider.cmp';
 import { MoviesSliderCmp } from '../movies-slider/movies-slider.cmp';
+import { UiIoChildDirective } from '../+ui/io-scroll/io-child.directive';
 
 @Component({
   standalone: true,
@@ -19,6 +20,7 @@ import { MoviesSliderCmp } from '../movies-slider/movies-slider.cmp';
     UiPeopleCardsSliderCmp,
     UiRippleDirective,
     FastSvgComponent,
+    UiIoChildDirective,
   ],
 })
 export class HomeCmp {

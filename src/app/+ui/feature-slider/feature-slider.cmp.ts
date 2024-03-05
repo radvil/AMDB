@@ -55,6 +55,7 @@ export class UiSliderContainerCmp {
   protected renderer = inject(Renderer2);
   readonly ref = inject(ElementRef);
   readonly showNavigation = input(true);
+  readonly navigationOffset = input("3rem");
   readonly activeIndex = model(0, { alias: 'startIndex' });
   readonly playInterval = input(0, { alias: 'autoPlayInterval' });
   readonly totalItems = computed(() => this.sliders().length || 0);
