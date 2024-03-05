@@ -3,26 +3,24 @@ import {
   DestroyRef,
   Directive,
   ElementRef,
-  Input,
   Renderer2,
   inject,
+  input,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, fromEvent, map, switchMap, tap } from 'rxjs';
 
 @Directive({
   standalone: true,
-  selector: '[uiRipple]',
+  selector: '[uiRipple],[ui-ripple]',
 })
-export class UiRippleDirective implements AfterViewInit {
+export class UiRipple implements AfterViewInit {
   readonly #destroyRef = inject(DestroyRef);
   protected renderer = inject(Renderer2);
   readonly elRef: ElementRef<HTMLElement> = inject(ElementRef);
+  readonly rippleColor = input<string | undefined>(undefined);
 
-  @Input()
-  rippleColor?: string;
-
-  get host() {
+  get host(): HTMLElement {
     return this.elRef.nativeElement;
   }
 

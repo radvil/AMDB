@@ -21,7 +21,10 @@
     "useDefineForClassFields": false,
     "paths": {
       // "tmdb": ["./dist/tmdb"]
-      "@libs/tmdb": ["./libs/tmdb/src/index.ts"]
+      "@libs/tmdb": ["./libs/tmdb/src/index.ts"],
+      "@ui": ["./src/app/+ui/index.ts"],
+      "@cdk": ["./src/app/+cdk/index.ts"],
+      "@page": ["./src/app/+page/index.ts"]
     },
     "lib": ["ES2022", "dom"]
   },

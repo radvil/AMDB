@@ -10,9 +10,9 @@ import { UiIoRootService } from './io-root.service';
 
 @Directive({
   standalone: true,
-  selector: '[ioChild]',
+  selector: '[ioChild],[io-child]',
 })
-export class UiIoChildDirective implements OnInit, OnDestroy {
+export class UiIoChild implements OnInit, OnDestroy {
   protected observer = inject(UiIoRootService);
   protected host = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly classNames = input.required<string>({ alias: 'ioChild' });

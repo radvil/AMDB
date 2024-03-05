@@ -10,6 +10,7 @@ import {
   signal,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { MarkdownPipe, YouTubeThumbPipe } from '@cdk';
 import {
   TMDB_ENV_CONFIG,
   Tmdb,
@@ -21,13 +22,15 @@ import { tapResponse } from '@ngrx/operators';
 import { patchState, signalState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
+import {
+  ScreenService,
+  UiIoChild,
+  UiRipple,
+  UiSliderContainer,
+  UiSliderContent,
+} from '@ui';
 import { pipe, tap } from 'rxjs';
-import { MarkdownPipe, YouTubeThumbPipe } from '../+cdk';
-import { UiSliderModule } from '../+ui/feature-slider/feature-slider.cmp';
-import { UiIoChildDirective } from '../+ui/io-scroll/io-child.directive';
-import { ScreenService } from '../+ui/layout/screen.service';
-import { UiRippleDirective } from '../+ui/ripple/ripple.directive';
-import { TvShowTrailersCmp } from './trailer-slider/trailer-slider.cmp';
+import { TvShowTrailersSliderCmp } from '../../tv-show-trailer-slider/tv-show-trailers-slider.cmp';
 
 interface State {
   details: WithContext<Record<string, Tmdb.TvSeriesDetails>>;
@@ -72,12 +75,13 @@ const initialState: State = {
     JsonPipe,
     DatePipe,
     MarkdownPipe,
-    YouTubeThumbPipe,
-    UiRippleDirective,
     FastSvgComponent,
-    UiSliderModule,
-    UiIoChildDirective,
-    TvShowTrailersCmp,
+    YouTubeThumbPipe,
+    TvShowTrailersSliderCmp,
+    UiRipple,
+    UiSliderContent,
+    UiSliderContainer,
+    UiIoChild,
   ],
 })
 export class TvShowDetailCmp {

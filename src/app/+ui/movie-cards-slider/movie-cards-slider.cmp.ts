@@ -7,9 +7,10 @@ import {
 } from '@angular/core';
 import { TMDB_ENV_CONFIG, Tmdb } from '@libs/tmdb';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
-import { UiSliderModule } from '../feature-slider/feature-slider.cmp';
 import { ScreenService } from '../layout/screen.service';
-import { UiRippleDirective } from '../ripple/ripple.directive';
+import { UiRipple } from '../ripple/ripple.directive';
+import { UiSliderContainer } from '../slider/slider-container.cmp';
+import { UiSliderContent } from '../slider/slider-content.directive';
 
 @Component({
   standalone: true,
@@ -17,14 +18,15 @@ import { UiRippleDirective } from '../ripple/ripple.directive';
   templateUrl: 'movie-cards-slider.cmp.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    UiSliderModule,
-    UiRippleDirective,
+    UiSliderContent,
+    UiSliderContainer,
+    UiRipple,
     FastSvgComponent,
     DecimalPipe,
     DatePipe,
   ],
 })
-export class UiMovieCardsSliderCmp {
+export class UiMovieCardsSlider {
   readonly screen = inject(ScreenService);
   readonly imageBaseUrl = inject(TMDB_ENV_CONFIG).imageBaseUrl;
   readonly movies = input<Tmdb.Movie[]>([]);

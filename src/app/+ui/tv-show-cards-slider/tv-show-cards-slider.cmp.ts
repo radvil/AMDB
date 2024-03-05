@@ -7,9 +7,10 @@ import {
 } from '@angular/core';
 import { TMDB_ENV_CONFIG, Tmdb } from '@libs/tmdb';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
-import { UiSliderModule } from '../feature-slider/feature-slider.cmp';
 import { ScreenService } from '../layout/screen.service';
-import { UiRippleDirective } from '../ripple/ripple.directive';
+import { UiRipple } from '../ripple/ripple.directive';
+import { UiSliderContainer } from '../slider/slider-container.cmp';
+import { UiSliderContent } from '../slider/slider-content.directive';
 
 @Component({
   standalone: true,
@@ -17,14 +18,15 @@ import { UiRippleDirective } from '../ripple/ripple.directive';
   templateUrl: 'tv-show-cards-slider.cmp.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    UiSliderModule,
-    UiRippleDirective,
-    FastSvgComponent,
-    DecimalPipe,
     DatePipe,
+    DecimalPipe,
+    FastSvgComponent,
+    UiRipple,
+    UiSliderContent,
+    UiSliderContainer,
   ],
 })
-export class UiTvShowCardsSliderCmp {
+export class UiTvShowCardsSlider {
   readonly screen = inject(ScreenService);
   readonly imageBaseUrl = inject(TMDB_ENV_CONFIG).imageBaseUrl;
   readonly tvShows = input<Tmdb.TvShow[]>([]);

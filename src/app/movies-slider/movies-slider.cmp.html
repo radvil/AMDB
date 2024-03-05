@@ -8,7 +8,7 @@
     [class]="mainClassName()"
   >
     @for(item of movies; track item.id) {
-    <div ui-slider-item class="select-none">
+    <div ui-slider-content class="select-none">
       <figure class="rounded overflow-clip relative min-h">
         <img
           [src]="imageBaseUrl + '1280' + item.backdrop_path"
@@ -59,7 +59,7 @@
   >
     @for(item of movies; track item.id) {
     <div
-      uiSliderItem
+      uiSliderContent
       (click)="mainSlider.updateIndex($index)"
       class="p-4 select-none bg-gray-50 odd:bg-white dark:bg-slate-800/50 dark:odd:bg-slate-800/70"
     >

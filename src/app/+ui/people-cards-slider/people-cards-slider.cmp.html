@@ -5,7 +5,7 @@
   [slidePerView]="slidesPerView()"
 >
   @for(person of people(); track person.id) {
-  <div uiSliderItem class="pr-4 h-fit flex flex-col justify-center gap-2">
+  <div uiSliderContent class="pr-4 h-fit flex flex-col justify-center gap-2">
     <img
       class="object-cover object-top rounded-[100%] transition-opacity duration-200 hover:opacity-90 cursor-pointer h-40 w-40"
       [src]="imageBaseUrl + 200 + person.profile_path"

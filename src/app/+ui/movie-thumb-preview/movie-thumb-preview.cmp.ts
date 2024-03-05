@@ -19,7 +19,7 @@ import { FastSvgComponent } from '@push-based/ngx-fast-svg';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgStyle, NgTemplateOutlet, FastSvgComponent],
 })
-export class MovieThumbPreviewCmp {
+export class MovieThumbPreview {
   readonly title = contentChild('thumbTitle', { read: TemplateRef });
   readonly desc = contentChild('thumbDescription', { read: TemplateRef });
   protected config = inject(TMDB_ENV_CONFIG);

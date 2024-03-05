@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { RouterLinkActive, RouterLinkWithHref } from '@angular/router';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
-import { ThemeService } from '../../theme/theme.service';
+import { ThemeService } from '@ui';
 import { MenuItem } from '../menu-items';
 
 @Component({

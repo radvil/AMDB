@@ -14,15 +14,13 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Tmdb } from '@libs/tmdb';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { debounceTime, filter, fromEvent, of, switchMap } from 'rxjs';
-import { SearchItem } from '../../../../libs/tmdb/src/+models';
-// import { DataService } from "../../+core/apis";
-// import { SearchItem } from "../../+core/models";
 
 @Component({
   standalone: true,
-  selector: 'am-search-dialog',
+  selector: 'ui-search-dialog',
   templateUrl: 'search-dialog.cmp.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, FastSvgComponent],
@@ -31,9 +29,8 @@ import { SearchItem } from '../../../../libs/tmdb/src/+models';
 export class SearchDialogCmp implements AfterViewInit {
   protected destroy$ = inject(DestroyRef);
   protected router = inject(Router);
-  // protected dataApi = inject(DataService);
   readonly opened = model(false);
-  readonly results = signal<SearchItem[]>([]);
+  readonly results = signal<Tmdb.SearchItem[]>([]);
   readonly searchForm = new FormControl();
   readonly dialog = viewChild.required<ElementRef<HTMLElement>>('dialog');
   readonly input = viewChild<ElementRef<HTMLInputElement>>('inputView');
@@ -48,7 +45,7 @@ export class SearchDialogCmp implements AfterViewInit {
     }
   }
 
-  openResult(item: SearchItem): void {
+  openResult(item: Tmdb.SearchItem): void {
     this.opened.set(false);
     this.router.navigateByUrl(item.link);
   }

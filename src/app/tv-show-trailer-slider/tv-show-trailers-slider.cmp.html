@@ -10,12 +10,12 @@
 >
   @for(v of videos().value; track v.id) {
   <div
-    uiSliderItem
+    uiSliderContent
     ioChild="opacity-100"
     [style.background-image]="'url(' + (v.key | ytThumb) + ')'"
     class="h-[190px] md:h-[260px] relative bg-cover bg-center opacity-0 transition-opacity duration-[2s] delay-200"
   >
-    <div class="size-full flex items-center justify-center">
+    <div class="size-full flex items-center justify-center hover:bg-black/30 transition-colors duration-200">
       <a
         uiRipple
         type="button"

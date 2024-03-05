@@ -1,11 +1,8 @@
-import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  Directive,
   ElementRef,
-  NgModule,
   Renderer2,
   ViewEncapsulation,
   computed,
@@ -24,38 +21,32 @@ import {
   filter,
   fromEvent,
   interval,
+  map,
   merge,
   of,
   switchMap,
-  map,
   tap,
 } from 'rxjs';
-import { UiRippleDirective } from '../ripple/ripple.directive';
-
-@Directive({
-  selector: '[uiSliderItem],[ui-slider-item]',
-  host: {
-    class: 'flex-grow flex-shrink-0 w-full',
-  },
-})
-export class UiSliderItemDirective {}
+import { UiRipple } from '../ripple/ripple.directive';
+import { UiSliderContent } from './slider-content.directive';
 
 @Component({
+  standalone: true,
   selector: 'ui-slider-container',
-  styleUrl: 'feature-slider.cmp.scss',
-  templateUrl: 'feature-slider.cmp.html',
-  encapsulation: ViewEncapsulation.None,
+  templateUrl: 'slider-container.cmp.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  imports: [UiSliderContent, FastSvgComponent, UiRipple],
   host: {
     class: 'overflow-hidden relative h-fit block',
   },
 })
-export class UiSliderContainerCmp {
+export class UiSliderContainer {
   protected destroyRef = inject(DestroyRef);
   protected renderer = inject(Renderer2);
   readonly ref = inject(ElementRef);
   readonly showNavigation = input(true);
-  readonly navigationOffset = input("3rem");
+  readonly navigationOffset = input('3rem');
   readonly activeIndex = model(0, { alias: 'startIndex' });
   readonly playInterval = input(0, { alias: 'autoPlayInterval' });
   readonly totalItems = computed(() => this.sliders().length || 0);
@@ -70,10 +61,10 @@ export class UiSliderContainerCmp {
     'wrapperView',
     { read: ElementRef },
   );
-  readonly sliders = contentChildren<
-    UiSliderItemDirective,
-    ElementRef<HTMLElement>
-  >(UiSliderItemDirective, { read: ElementRef });
+  readonly sliders = contentChildren<UiSliderContent, ElementRef<HTMLElement>>(
+    UiSliderContent,
+    { read: ElementRef },
+  );
 
   intervalId: any = null;
 
@@ -216,10 +207,3 @@ export class UiSliderContainerCmp {
     }
   }
 }
-
-@NgModule({
-  declarations: [UiSliderContainerCmp, UiSliderItemDirective],
-  exports: [UiSliderContainerCmp, UiSliderItemDirective],
-  imports: [FastSvgComponent, UiRippleDirective, NgTemplateOutlet],
-})
-export class UiSliderModule {}

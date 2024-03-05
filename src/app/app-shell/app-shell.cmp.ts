@@ -7,8 +7,7 @@ import {
 } from '@angular/core';
 import { RouterLinkActive, RouterLinkWithHref } from '@angular/router';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
-import { UiRippleDirective } from '../+ui/ripple/ripple.directive';
-import { ThemeService } from '../theme/theme.service';
+import { ThemeService, UiRipple } from '@ui';
 import { MenuItem, menuItems } from './menu-items';
 import { SearchDialogCmp } from './search-dialog/search-dialog.cmp';
 import { SidebarCmp } from './sidebar/sidebar.cmp';
@@ -23,7 +22,7 @@ import { SidebarCmp } from './sidebar/sidebar.cmp';
   imports: [
     NgClass,
     FastSvgComponent,
-    UiRippleDirective,
+    UiRipple,
     NgTemplateOutlet,
     RouterLinkWithHref,
     RouterLinkActive,

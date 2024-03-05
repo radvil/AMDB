@@ -8,11 +8,11 @@ import {
 } from '@angular/core';
 import { TMDB_ENV_CONFIG, Tmdb } from '@libs/tmdb';
 import {
-  UiSliderContainerCmp,
-  UiSliderModule,
-} from '../+ui/feature-slider/feature-slider.cmp';
-import { ScreenService } from '../+ui/layout/screen.service';
-import { MovieThumbPreviewCmp } from '../+ui/movie-thumb-preview/movie-thumb-preview.cmp';
+  MovieThumbPreview,
+  ScreenService,
+  UiSliderContainer,
+  UiSliderContent,
+} from '@ui';
 
 @Component({
   standalone: true,
@@ -20,11 +20,11 @@ import { MovieThumbPreviewCmp } from '../+ui/movie-thumb-preview/movie-thumb-pre
   styleUrl: 'movies-slider.cmp.scss',
   templateUrl: 'movies-slider.cmp.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [UiSliderModule, MovieThumbPreviewCmp],
+  imports: [MovieThumbPreview, UiSliderContainer, UiSliderContent],
 })
 export class MoviesSliderCmp {
   readonly imageBaseUrl = inject(TMDB_ENV_CONFIG).imageBaseUrl;
-  readonly thumbSlider = viewChild<UiSliderContainerCmp>('thumbSlider');
+  readonly thumbSlider = viewChild<UiSliderContainer>('thumbSlider');
   readonly md = inject(ScreenService).md;
   readonly movies = input<Tmdb.Movie[]>([]);
   readonly autoPlay = input<boolean, string | boolean>(true, {

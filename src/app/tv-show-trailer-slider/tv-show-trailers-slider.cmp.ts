@@ -7,6 +7,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { YouTubeThumbPipe } from '@cdk';
 import {
   Tmdb,
   TmdbHttpApiService,
@@ -17,29 +18,32 @@ import { tapResponse } from '@ngrx/operators';
 import { patchState, signalState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
+import {
+  ScreenService,
+  UiIoChild,
+  UiRipple,
+  UiSliderContainer,
+  UiSliderContent,
+} from '@ui';
 import { pipe, tap } from 'rxjs';
-import { YouTubeThumbPipe } from '../../+cdk';
-import { UiSliderModule } from '../../+ui/feature-slider/feature-slider.cmp';
-import { UiIoChildDirective } from '../../+ui/io-scroll/io-child.directive';
-import { ScreenService } from '../../+ui/layout/screen.service';
-import { UiRippleDirective } from '../../+ui/ripple/ripple.directive';
 
 type State = WithContext<Record<string, Tmdb.Video[]>>;
 
 @Component({
   standalone: true,
-  selector: 'app-tv-show-trailers',
-  templateUrl: 'trailer-slider.cmp.html',
+  selector: 'app-tv-show-trailers-slider',
+  templateUrl: 'tv-show-trailers-slider.cmp.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     YouTubeThumbPipe,
-    UiRippleDirective,
-    UiIoChildDirective,
-    UiSliderModule,
+    UiRipple,
+    UiIoChild,
+    UiSliderContainer,
+    UiSliderContent,
     FastSvgComponent,
   ],
 })
-export class TvShowTrailersCmp implements OnInit {
+export class TvShowTrailersSliderCmp implements OnInit {
   protected locale = inject(LOCALE_ID);
   protected screen = inject(ScreenService);
   protected api = inject(TmdbHttpApiService);

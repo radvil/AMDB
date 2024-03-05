@@ -254,7 +254,7 @@
       >
         @for(cast of castList; track cast.id) {
         <div
-          uiSliderItem
+          uiSliderContent
           ioChild="opacity-100"
           class="pr-4 opacity-0 transition-opacity duration-500"
         >
@@ -341,7 +341,7 @@
         [showNavigation]="false"
         class="text-gray-800 dark:text-white"
       >
-        <div uiSliderItem>
+        <div uiSliderContent>
           <div class="surface-card shadow p-4 rounded-lg rounded-tl-none">
             @if(lastReview(); as rv) {
             <div class="flex items-center gap-2">
@@ -412,7 +412,7 @@
             }
           </div>
         </div>
-        <div uiSliderItem>
+        <div uiSliderContent>
           <div
             class="surface-card shadow p-4 rounded-lg rounded-tl-none flex items-center justify-center gap-4 flex-wrap"
           >
@@ -435,7 +435,7 @@
       </ui-slider-container>
     </section>
 
-    <!-- trailer -->
+    <!-- media -->
     <section
       class="mb-10 md:my-10 transition-opacity duration-500 delay-200 opacity-0"
       ioChild="opacity-100"
@@ -482,12 +482,12 @@
         [slidePerView]="1"
         [showNavigation]="false"
       >
-        <div uiSliderItem #trailerTab>
+        <div uiSliderContent #trailerTab>
           @defer(on viewport(trailerTab)) {
-          <app-tv-show-trailers [tvShowId]="id()" />
+          <app-tv-show-trailers-slider [tvShowId]="id()" />
           }
         </div>
-        <div uiSliderItem>
+        <div uiSliderContent>
           <div
             class="surface-card shadow p-4 rounded-lg rounded-tl-none flex items-center justify-center gap-4 flex-wrap"
           >

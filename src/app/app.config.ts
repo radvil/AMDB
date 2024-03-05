@@ -1,4 +1,3 @@
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { IMAGE_LOADER } from '@angular/common';
 import {
   provideHttpClient,
@@ -6,6 +5,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   provideRouter,
   withComponentInputBinding,
@@ -15,18 +15,17 @@ import {
 } from '@angular/router';
 import {
   MovieState,
-  TvShowState,
   PeopleState,
+  TvShowState,
   provideAmdbStateInitializer,
   provideTmdbEnvConfig,
   tmdbHttpContentTypeInterceptor,
   tmdbHttpReadAccessInterceptor,
 } from '@libs/tmdb';
 import { provideFastSVG } from '@push-based/ngx-fast-svg';
+import { provideClientTheme, provideIoScroll } from '@ui';
 import { environment } from '../environments/environment';
-import { provideIoScroll } from './+ui/io-scroll/io-scroll.config';
 import { APP_ROUTES } from './app.routes';
-import { provideClientTheme } from './theme/theme.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
