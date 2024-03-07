@@ -27,7 +27,6 @@
     "@rx-angular/state": "^17.0.0",
     "marked": "^12.0.0",
     "rxjs": "~7.8.1",
-    "tailwind-merge": "^2.2.1",
     "tslib": "^2.6.2",
     "zone.js": "~0.14.4"
   },

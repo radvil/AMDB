@@ -8,7 +8,7 @@ import {
   input,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, fromEvent, map, switchMap, tap } from 'rxjs';
+import { debounceTime, filter, fromEvent, map, switchMap, tap } from 'rxjs';
 
 @Directive({
   standalone: true,
@@ -26,6 +26,7 @@ export class UiRipple implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const mousedown$ = fromEvent<MouseEvent>(this.host, 'mousedown').pipe(
+      filter(() => !(this.host as any)?.disabled),
       map((e) => this.createRippler(this.host, e)),
       tap((rippleItem) => {
         this.host.appendChild(rippleItem);

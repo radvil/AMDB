@@ -6,7 +6,6 @@
 <ui-slider-container
   [navigationOffset]="screen.md() ? '1.5rem' : '0.5rem'"
   [slidePerView]="screen.md() ? 2 : 1"
-  class="rounded-lg rounded-tl-none"
 >
   @for(v of videos(); track v.id) {
   <div

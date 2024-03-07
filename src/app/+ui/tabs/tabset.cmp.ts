@@ -1,66 +1,54 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  TemplateRef,
+  EventEmitter,
   ViewEncapsulation,
+  computed,
   contentChildren,
-  signal,
-  viewChild,
 } from '@angular/core';
-import { UiSliderContainer } from '../slider/slider-container.cmp';
-import { UiSliderContent } from '../slider/slider-content.directive';
-import { UiTabContent } from './tab-content.directive';
+import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { UiButton } from '../button/button.directive';
 import { UiRipple } from '../ripple/ripple.directive';
+import { UiTab } from './tab.directive';
 
-interface TabMenuItem {
-  id: string;
-  name: string;
-}
+type ChangeTabEvent = {
+  previousSelected: UiTab;
+  selectedTab: UiTab;
+};
 
 @Component({
   standalone: true,
   selector: 'ui-tabset',
+  styleUrl: 'tabset.cmp.scss',
   templateUrl: 'tabset.cmp.html',
-  host: { class: 'block' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [
-    NgClass,
-    UiSliderContainer,
-    UiSliderContent,
-    UiTabContent,
-    UiButton,
-    UiRipple,
-    NgTemplateOutlet,
-  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [UiTab, UiRipple, UiButton, FastSvgComponent],
 })
-export class UiTabset implements AfterContentInit {
-  readonly tabContents = contentChildren(UiTabContent, { read: TemplateRef });
-  protected _container = viewChild.required(UiSliderContainer);
-  protected tabItems = signal<TabMenuItem[]>([]);
+export class UiTabset {
+  readonly tabs = contentChildren(UiTab);
+  readonly tabsLen = computed(() => this.tabs().length);
+  protected selectedTab = computed(() => this.tabs().find((t) => t.active));
 
-  get container() {
-    return this._container();
-  }
+  readonly changeTab = new EventEmitter<ChangeTabEvent>();
 
-  pushMenu(item: TabMenuItem): void {
-    this.tabItems.update((items) => {
-      items.push(item);
-      return items;
-    });
-  }
-
-  popMenu(): void {
-    this.tabItems.update((items) => {
-      items.pop();
-      return items;
+  selectTab(selectedTab: UiTab): void {
+    const previousSelected = this.selectedTab();
+    if (selectedTab.disabled() || !previousSelected) return;
+    previousSelected.active = false;
+    selectedTab.active = true;
+    this.changeTab.emit({
+      previousSelected,
+      selectedTab,
     });
   }
 
   ngAfterContentInit(): void {
-    // console.warn(this.tabContents());
+    if (!this.selectedTab()) {
+      const firstTab = this.tabs().at(0);
+      if (firstTab) {
+        firstTab.active = true;
+      }
+    }
   }
 }

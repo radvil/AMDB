@@ -1,0 +1,39 @@
+.ui-tab-menu {
+  user-select: none;
+  cursor: pointer;
+  @apply font-semibold
+  transition-colors
+  duration-200
+  text-sm
+  py-2 px-4
+  text-gray-400
+  dark:text-gray-600
+  bg-gray-50
+  dark:bg-gray-800;
+}
+
+.ui-tab-menu-active {
+  color: theme("colors.pink.500") !important;
+  @apply bg-white dark:bg-gray-700 #{!important};
+}
+
+.ui-tab-menu-first {
+  @apply rounded-tl-lg #{!important};
+}
+
+.ui-tab-menu-last {
+  @apply rounded-tr-lg #{!important};
+}
+
+[uiTab] {
+  @apply p-4 hidden;
+}
+
+[uiTab].tab-active {
+  @apply block;
+}
+
+[uiTab][appearance="default"] {
+  @apply
+  bg-gradient-to-br from-white to-gray-200 dark:from-gray-700 dark:to-gray-800;
+}

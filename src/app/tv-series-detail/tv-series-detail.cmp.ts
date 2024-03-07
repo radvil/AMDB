@@ -29,7 +29,7 @@ import {
   UiRipple,
   UiSliderContainer,
   UiSliderContent,
-  UiTabContent,
+  UiTab,
   UiTabset,
   UiTrailersSlider,
 } from '@ui';
@@ -100,7 +100,7 @@ const initialState: State = {
     UiSliderContainer,
     UiIoChild,
     UiTabset,
-    UiTabContent,
+    UiTab,
     UiLatestReviewCard,
   ],
 })

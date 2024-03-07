@@ -17,7 +17,7 @@ export * from './slider/slider-container.cmp';
 export * from './slider/slider-content.directive';
 
 export * from './tabs/tabset.cmp';
-export * from './tabs/tab-content.directive';
+export * from './tabs/tab.directive';
 
 export * from './theme/theme.config';
 export * from './theme/theme.service';

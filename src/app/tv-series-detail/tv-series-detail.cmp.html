@@ -299,21 +299,27 @@
     >
       <h1 class="text-2xl font-bold text-hero">Socials</h1>
       <ui-tabset>
-        <ng-template uiTabContent tabTitle="Reviews">
+        <div
+          uiTab
+          #x="uiTab"
+          tabTitle="Reviews"
+          class="border border-white dark:border-gray-700"
+        >
+          @defer(when x.active) {
+          <ui-latest-review-card
+            [loading]="reviews().loading"
+            [review]="lastReview()"
+          />
+          }
+        </div>
+        <div
+          uiTab
+          tabTitle="Companies"
+          class="border border-white dark:border-gray-700"
+        >
           <div
-            #reviewTrigger
-            class="surface-card shadow p-4 rounded-lg rounded-tl-none text-gray-800 dark:text-gray-100"
+            class="w-full flex gap-4 flex-col items-center justify-center md:flex-row"
           >
-            @defer(on viewport(reviewTrigger)) {
-            <ui-latest-review-card
-              [loading]="reviews().loading"
-              [review]="lastReview()"
-            />
-            }
-          </div>
-        </ng-template>
-        <ng-template uiTabContent tabTitle="Companies">
-          <div class="surface-card flex flex-col md:flex-row gap-4 items-center justify-center">
             @for(c of (data.production_companies || []); track c.id) {
             <div class="p-4">
               @if (c.logo_path; as logo) {
@@ -328,7 +334,7 @@
             </div>
             }
           </div>
-        </ng-template>
+        </div>
       </ui-tabset>
     </section>
 
@@ -339,26 +345,43 @@
     >
       <h1 class="text-2xl font-bold text-hero">Media</h1>
       <ui-tabset>
-        <ng-template uiTabContent tabTitle="Videos">
-          <div #deferTrigger>
-            @defer(on viewport(deferTrigger)) {
-            <ui-trailers-slider
-              [videos]="videos().value"
-              [loading]="videos().loading"
-            />
+        <div
+          uiTab
+          #x="uiTab"
+          tabTitle="Videos"
+          class="!p-0 border border-white dark:border-gray-700"
+        >
+          @defer(when x.active) {
+          <ui-trailers-slider
+            [videos]="videos().value"
+            [loading]="videos().loading"
+          />
+          }
+        </div>
+        <div
+          uiTab
+          #x="uiTab"
+          tabTitle="Backdrops"
+          class="!p-0 border border-white dark:border-gray-700"
+        >
+          @if(images().value?.backdrops; as backdrops) {
+            @defer(when x.active) {
+              <ui-posters-slider [loading]="images().loading" [posters]="backdrops" />
             }
-          </div>
-        </ng-template>
-        <ng-template uiTabContent tabTitle="Posters">
-          <div #posterTrigger>
-            @if(images().value?.posters; as posters) {
-            <ui-posters-slider
-              [loading]="images().loading"
-              [posters]="posters"
-            />
+          }
+        </div>
+        <div
+          uiTab
+          #x="uiTab"
+          tabTitle="Posters"
+          class="!p-0 border border-white dark:border-gray-700"
+        >
+          @if(images().value?.posters; as posters) {
+            @defer(when x.active) {
+              <ui-posters-slider [loading]="images().loading" [posters]="posters" />
             }
-          </div>
-        </ng-template>
+          }
+        </div>
       </ui-tabset>
     </section>
   </div>

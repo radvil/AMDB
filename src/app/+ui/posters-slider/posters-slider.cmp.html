@@ -1,21 +1,20 @@
 @if(loading()) {
-<div class="w-full h-[260px] flex items-center justify-center">
+<div class="w-full flex items-center justify-center">
   <h1 class="text-3xl font-bold">Loading posters...</h1>
 </div>
 } @else {
 <ui-slider-container
   [navigationOffset]="screen.md() ? '1.5rem' : '0.5rem'"
   [slidePerView]="screen.md() ? 4 : 2"
-  class="rounded-lg rounded-tl-none"
 >
   @for(v of posters(); track $index) {
   <div
     uiSliderContent
     ioChild="opacity-100"
-    class="opacity-0 transition-opacity duration-[2s] delay-200 h-[200px] md:h-[250px] bg-black flex items-center justify-center"
+    class="opacity-0 transition-opacity duration-[2s] delay-200 bg-black flex items-center justify-center"
   >
     <img
-      class="h-full w-fit"
+      class="size-full"
       [src]="baseMediaUrl + 300 + v.file_path"
       alt="poster"
     />

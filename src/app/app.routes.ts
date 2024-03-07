@@ -9,6 +9,13 @@ export const APP_ROUTES: Routes = [
     },
   },
   {
+    path: 'test-ui-page',
+    title: "Page UI Test",
+    loadComponent: async () => {
+      return (await import('./_test-ui-page/test-ui-page.cmp')).TestUiPageCmp;
+    },
+  },
+  {
     path: 'tv/:tvSeriesId',
     loadComponent: async () => {
       return (await import('./tv-series-detail/tv-series-detail.cmp'))
