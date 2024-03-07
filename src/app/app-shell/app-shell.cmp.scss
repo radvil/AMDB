@@ -21,6 +21,10 @@ app-shell {
   #topNavbar {
     @apply -translate-y-[66px];
   }
+
+  #scrollToTop {
+    @apply -translate-y-12;
+  }
 }
 
 [data-scroll="up"] {

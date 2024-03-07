@@ -1,5 +1,4 @@
 import { Directive, ElementRef, computed, inject, input } from '@angular/core';
-import { twMerge } from 'tailwind-merge';
 
 type Size = 'sm' | 'md' | 'lg' | 'xl' | '';
 
@@ -31,11 +30,7 @@ export class UiButton {
         ? 'rounded-none'
         : `${size ? 'rounded-' + size : 'rounded'}`;
     const dynamicClasses = [paddings[size], rounded].join(' ');
-    return twMerge(
-      'block relative w-fit font-semibold select-none cursor-pointer transition-colors duration-200',
-      dynamicClasses,
-      this.bgClasses(),
-    );
+    return `block relative w-fit font-semibold select-none cursor-pointer transition-colors duration-200 ${dynamicClasses} ${this.bgClasses()}`;
   });
 
   bgClasses(): string {

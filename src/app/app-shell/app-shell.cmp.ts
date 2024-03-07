@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  ElementRef,
   PLATFORM_ID,
   ViewEncapsulation,
   inject,
@@ -15,7 +16,7 @@ import {
 } from '@angular/core';
 import { RouterLinkActive, RouterLinkWithHref } from '@angular/router';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
-import { ThemeService, UiRipple } from '@ui';
+import { ThemeService, UiButton, UiRipple } from '@ui';
 import { MenuItem, menuItems } from './menu-items';
 import { SearchDialogCmp } from './search-dialog/search-dialog.cmp';
 import { SidebarCmp } from './sidebar/sidebar.cmp';
@@ -37,6 +38,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     NgClass,
     FastSvgComponent,
     UiRipple,
+    UiButton,
     NgTemplateOutlet,
     RouterLinkWithHref,
     RouterLinkActive,
@@ -60,6 +62,10 @@ export class AppShellCmp {
     return !(
       this.#doc.body.scrollTop > 20 || this.#doc.documentElement.scrollTop > 20
     );
+  }
+
+  scrollToTop(): void {
+    this.#doc.body.scrollIntoView({ behavior: 'smooth' });
   }
 
   ngAfterViewInit(): void {
