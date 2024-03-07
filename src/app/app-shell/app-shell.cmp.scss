@@ -1,9 +1,36 @@
-.active {
-  @apply text-pink-500 font-semibold hover:text-pink-600;
+app-shell {
+  .active {
+    @apply text-pink-500 font-semibold hover:text-pink-600;
+  }
+
+  .parent-active {
+    .parent-label {
+      @apply text-red-500;
+    }
+  }
 }
 
-.parent-active {
-  .parent-label {
-    @apply text-red-500;
+#topNavbar {
+  @apply transition-all duration-500
+    backdrop-blur
+    border-b border-gray-900/10 dark:border-gray-50/[0.06]
+    bg-white/90 dark:bg-gray-900/90;
+}
+
+[data-scroll="down"] {
+  #topNavbar {
+    @apply -translate-y-[66px];
+  }
+}
+
+[data-scroll="up"] {
+  #topNavbar {
+    @apply shadow-lg;
+  }
+}
+
+[data-scroll=""] {
+  #topNavbar {
+    @apply bg-transparent border-b-transparent #{!important};
   }
 }
