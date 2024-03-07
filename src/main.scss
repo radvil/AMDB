@@ -160,3 +160,31 @@ a {
 .tooltip-top {
   @apply absolute z-50 left-1/2 -translate-x-1/2 -top-1/2 -translate-y-2/3 opacity-0 group-hover/tooltip:opacity-100 transition-opacity bg-gray-800 text-sm text-gray-100 rounded-md py-2 px-4 text-nowrap shadow;
 }
+
+.ui-tab {
+  user-select: none;
+  cursor: pointer;
+
+  @apply font-semibold
+  transition-colors
+  duration-200
+  text-sm
+  py-2 px-4
+  text-gray-400
+  dark:text-gray-600
+  bg-gray-50
+  dark:bg-gray-800;
+}
+
+.ui-tab-active {
+  color: theme("colors.pink.500") !important;
+  @apply bg-white dark:bg-gray-700 #{!important};
+}
+
+.ui-tab-first {
+  @apply rounded-tl-lg #{!important};
+}
+
+.ui-tab-last {
+  @apply rounded-tr-lg #{!important};
+}

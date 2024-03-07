@@ -233,7 +233,7 @@
       class="mb-10 md:my-10 opacity-0 transition-opacity duration-500 delay-500"
       ioChild="opacity-100"
     >
-      @if(credits().value?.cast; as castList) {
+      @if(castList) {
       <h1 class="text-2xl font-bold text-hero">Series cast</h1>
       <div
         class="group/title flex items-center gap-1 cursor-pointer w-max select-none text-gray-800 dark:text-white mt-2 mb-4"
@@ -260,10 +260,9 @@
         >
           <div class="surface-card rounded overflow-hidden h-fit shadow">
             <img
-              class="object-cover object-top transition-opacity duration-200 hover:opacity-90 cursor-pointer min-h-[200px] h-[200px] w-full"
+              class="object-cover object-top transition-opacity duration-200 hover:opacity-90 cursor-pointer min-h-[200px] w-full h-auto max-h-[300px]"
               [src]="config.imageBaseUrl + 200 + cast.profile_path"
               [alt]="cast.name"
-              [height]="200"
               loading="lazy"
             />
             <div class="p-2">
@@ -293,131 +292,29 @@
       }
     </section>
 
-    <!-- reviews -->
+    <!-- socials -->
     <section
       class="mb-10 md:my-10 transition-opacity duration-500 delay-200 opacity-0"
       ioChild="opacity-100"
     >
       <h1 class="text-2xl font-bold text-hero">Socials</h1>
-      <div
-        class="flex items-center gap-2 cursor-pointer w-max select-none text-gray-800 dark:text-white mt-2"
-      >
-        <button
-          uiRipple
-          type="button"
-          title="Reviews"
-          aria-label="see reviews"
-          name="reviews-tab-button"
-          class="app-button !rounded-none !rounded-t-lg {{ tabSlider.activeIndex() === 0 ?'bg-white dark:bg-gray-700' :'bg-gray-50 dark:bg-gray-800' }}"
-          (click)="tabSlider.updateIndex(0)"
-        >
-          <span
-            [class.text-pink-500]="tabSlider.activeIndex() === 0"
-            class="text-sm"
+      <ui-tabset>
+        <ng-template uiTabContent tabTitle="Reviews">
+          <div
+            #reviewTrigger
+            class="surface-card shadow p-4 rounded-lg rounded-tl-none text-gray-800 dark:text-gray-100"
           >
-            Reviews
-          </span>
-        </button>
-        <button
-          uiRipple
-          type="button"
-          title="Companies"
-          aria-label="see companies"
-          name="companies-tab-button"
-          class="app-button !rounded-none !rounded-t-lg {{ tabSlider.activeIndex() === 1 ?'bg-white dark:bg-gray-700' :'bg-gray-50 dark:bg-gray-800' }}"
-          (click)="tabSlider.updateIndex(1)"
-        >
-          <span
-            [class.text-pink-500]="tabSlider.activeIndex() === 1"
-            class="text-sm"
-          >
-            Companies
-          </span>
-        </button>
-      </div>
-      <ui-slider-container
-        #tabSlider
-        [slidePerView]="1"
-        [showNavigation]="false"
-        class="text-gray-800 dark:text-white"
-      >
-        <div uiSliderContent>
-          <div class="surface-card shadow p-4 rounded-lg rounded-tl-none">
-            @if(lastReview(); as rv) {
-            <div class="flex items-center gap-2">
-              @if(rv.author_details.avatar_path;as avatarUrl) {
-              <img
-                width="45"
-                height="45"
-                [alt]="reviews().value[0].author"
-                [src]="baseMediaUrl + '45_and_h45_face' + avatarUrl"
-                class="rounded-full"
-              />
-              } @else {
-              <div
-                class="h-[45px] w-[45px] rounded-full flex items-center justify-center border"
-              >
-                <span class="text-hero font-bold text-2xl uppercase">
-                  {{ rv.author[1] }}
-                </span>
-              </div>
-              }
-              <div class="w-fit">
-                <p>
-                  <span>Latest review by&nbsp;</span>
-                  <a
-                    aria-label="view-user-profile"
-                    title="View this user's profile"
-                    class="mb-1 font-semibold text-hero"
-                    >{{ rv.author }}</a
-                  >
-                </p>
-                <div class="flex gap-1">
-                  <p
-                    class="text-xs bg-black dark:bg-white text-gray-100 dark:text-black rounded-lg px-2 inline-flex items-center font-medium"
-                  >
-                    <fast-svg name="star" size="12" />
-                    <span>{{ rv.author_details.rating }}</span>
-                  </p>
-                  <p class="text-xs">
-                    Written by <a class="underline">{{ rv.author }}</a> on {{
-                    rv.created_at | date: "MMMM dd, YYYY" }}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <p
-              class="mt-4"
-              [class.line-clamp-4]="reviewClamped()"
-              [innerHTML]="rv.content | markdown"
-            ></p>
-            <a
-              (click)="reviewClamped.set(!reviewClamped())"
-              class="text-sm font-semibold opacity-40"
-            >
-              {{ reviewClamped() ? 'Read more' : 'Read less' }}
-            </a>
-            <br />
-            <a
-              uiRipple
-              [href]="rv.url"
-              target="_blank"
-              title="See all reviews"
-              aria-label="see all reviews"
-              name="see-all-reviews-button"
-              class="app-button relative bg-white dark:bg-gray-700 block w-fit ml-auto shadow"
-            >
-              <span class="text-xs">See all reviews</span>
-            </a>
+            @defer(on viewport(reviewTrigger)) {
+            <ui-latest-review-card
+              [loading]="reviews().loading"
+              [review]="lastReview()"
+            />
             }
           </div>
-        </div>
-        <div uiSliderContent>
-          <div
-            class="surface-card shadow p-4 rounded-lg rounded-tl-none flex items-center justify-center gap-4 flex-wrap"
-          >
-            @if(data.production_companies; as companies) { @for(c of companies;
-            track c.id) {
+        </ng-template>
+        <ng-template uiTabContent tabTitle="Companies">
+          <div class="surface-card flex flex-col md:flex-row gap-4 items-center justify-center">
+            @for(c of (data.production_companies || []); track c.id) {
             <div class="p-4">
               @if (c.logo_path; as logo) {
               <img
@@ -429,10 +326,10 @@
               <p class="text-2xl font-semibold mt-4">{{ c.name }}</p>
               }
             </div>
-            } }
+            }
           </div>
-        </div>
-      </ui-slider-container>
+        </ng-template>
+      </ui-tabset>
     </section>
 
     <!-- media -->
@@ -440,64 +337,29 @@
       class="mb-10 md:my-10 transition-opacity duration-500 delay-200 opacity-0"
       ioChild="opacity-100"
     >
-      <h1 class="text-2xl font-bold text-hero">Medis</h1>
-      <div
-        class="flex items-center gap-2 cursor-pointer w-max select-none text-gray-800 dark:text-white mt-2"
-      >
-        <button
-          uiRipple
-          type="button"
-          title="Videos"
-          aria-label="see videos"
-          name="videos-tab-button"
-          class="app-button !rounded-none !rounded-t-lg {{ mediaSlider.activeIndex() === 0 ?'bg-white dark:bg-gray-700' :'bg-gray-50 dark:bg-gray-800' }}"
-          (click)="mediaSlider.updateIndex(0)"
-        >
-          <span
-            [class.text-pink-500]="mediaSlider.activeIndex() === 0"
-            class="text-sm"
-          >
-            Videos
-          </span>
-        </button>
-        <button
-          uiRipple
-          type="button"
-          title="Posters"
-          aria-label="see posters"
-          name="posters-tab-button"
-          class="app-button !rounded-none !rounded-t-lg {{ mediaSlider.activeIndex() === 1 ?'bg-white dark:bg-gray-700' :'bg-gray-50 dark:bg-gray-800' }}"
-          (click)="mediaSlider.updateIndex(1)"
-        >
-          <span
-            [class.text-pink-500]="mediaSlider.activeIndex() === 1"
-            class="text-sm"
-          >
-            Posters
-          </span>
-        </button>
-      </div>
-      <ui-slider-container
-        #mediaSlider
-        [slidePerView]="1"
-        [showNavigation]="false"
-      >
-        <div uiSliderContent #trailerTab>
-          @defer(on viewport(trailerTab)) {
-          <app-tv-show-trailers-slider [tvShowId]="id()" />
-          }
-        </div>
-        <div uiSliderContent>
-          <div
-            class="surface-card shadow p-4 rounded-lg rounded-tl-none flex items-center justify-center gap-4 flex-wrap"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-            nisi eveniet perspiciatis excepturi unde saepe, quibusdam expedita,
-            reiciendis magnam quisquam cupiditate illum iste dignissimos minima
-            libero, alias aliquam. In, officia?
+      <h1 class="text-2xl font-bold text-hero">Media</h1>
+      <ui-tabset>
+        <ng-template uiTabContent tabTitle="Videos">
+          <div #deferTrigger>
+            @defer(on viewport(deferTrigger)) {
+            <ui-trailers-slider
+              [videos]="videos().value"
+              [loading]="videos().loading"
+            />
+            }
           </div>
-        </div>
-      </ui-slider-container>
+        </ng-template>
+        <ng-template uiTabContent tabTitle="Posters">
+          <div #posterTrigger>
+            @if(images().value?.posters; as posters) {
+            <ui-posters-slider
+              [loading]="images().loading"
+              [posters]="posters"
+            />
+            }
+          </div>
+        </ng-template>
+      </ui-tabset>
     </section>
   </div>
 

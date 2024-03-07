@@ -1,0 +1,78 @@
+@if(review(); as rv) {
+<div class="flex items-center gap-2">
+  @if(rv.author_details.avatar_path;as avatarUrl) {
+  <img
+    width="45"
+    height="45"
+    [alt]="rv.author"
+    [src]="baseMediaUrl + '45_and_h45_face' + avatarUrl"
+    class="rounded-full"
+  />
+  } @else {
+  <div
+    class="h-[45px] w-[45px] rounded-full flex items-center justify-center border"
+  >
+    <span class="text-hero font-bold text-2xl uppercase">
+      {{ rv.author[1] }}
+    </span>
+  </div>
+  }
+
+  <div class="w-fit">
+    <p>
+      <span>Latest review by&nbsp;</span>
+      <a
+        aria-label="view-user-profile"
+        title="View this user's profile"
+        class="mb-1 font-semibold text-hero"
+        >{{ rv.author }}</a
+      >
+    </p>
+    <div class="flex gap-1">
+      <p
+        class="text-xs bg-black dark:bg-white text-gray-100 dark:text-black rounded-lg px-2 inline-flex items-center font-medium"
+      >
+        <fast-svg name="star" size="12" />
+        <span>{{ rv.author_details.rating }}</span>
+      </p>
+      <p class="text-xs">
+        Written by <a class="underline">{{ rv.author }}</a> on {{ rv.created_at
+        | date: "MMMM dd, YYYY" }}
+      </p>
+    </div>
+  </div>
+</div>
+
+<p
+  class="mt-4"
+  [class.line-clamp-4]="reviewClamped()"
+  [innerHTML]="rv.content | markdown"
+></p>
+
+<a
+  (click)="reviewClamped.set(!reviewClamped())"
+  class="text-sm font-semibold opacity-40"
+>
+  {{ reviewClamped() ? 'Read more' : 'Read less' }}
+</a>
+
+<br />
+
+<a
+  uiButton
+  uiRipple
+  rounded="md"
+  [href]="rv.url"
+  target="_blank"
+  title="See all reviews"
+  aria-label="see all reviews"
+  name="see-all-reviews-button"
+  class="ml-auto shadow"
+>
+  <span class="text-xs">See all reviews</span>
+</a>
+} @else if (!!loading()) {
+<div class="w-full h-full flex items-center justify-center">
+  <h1 class="text-xl md:text-3xl">Loading latest review...</h1>
+</div>
+}

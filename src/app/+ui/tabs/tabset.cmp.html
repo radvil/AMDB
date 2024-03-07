@@ -1,0 +1,27 @@
+<div
+  class="flex items-center cursor-pointer w-max select-none text-gray-800 dark:text-gray-200 mt-2"
+>
+  @for(menu of tabItems(); track menu.id) {
+  <a
+    uiRipple
+    [attr.title]="menu.name"
+    name="{{ menu.name }}-tab-button"
+    [attr.aria-label]="'see' + menu.name"
+    (click)="container.updateIndex($index)"
+    [class.ui-tab-active]="container.activeIndex() === $index"
+    [class.ui-tab-first]="$index === 0"
+    [class.ui-tab-last]="$index === tabItems().length - 1"
+    class="ui-tab"
+  >
+    {{ menu.name }}
+  </a>
+  }
+</div>
+
+<ui-slider-container showNavigation="false">
+  @for(temp of tabContents(); track $index) {
+  <div uiSliderContent class="rounded-lg rounded-tl-none">
+    <ng-template [ngTemplateOutlet]="temp" />
+  </div>
+  }
+</ui-slider-container>

@@ -23,8 +23,7 @@
       // "tmdb": ["./dist/tmdb"]
       "@libs/tmdb": ["./libs/tmdb/src/index.ts"],
       "@ui": ["./src/app/+ui/index.ts"],
-      "@cdk": ["./src/app/+cdk/index.ts"],
-      "@page": ["./src/app/+page/index.ts"]
+      "@cdk": ["./src/app/+cdk/index.ts"]
     },
     "lib": ["ES2022", "dom"]
   },

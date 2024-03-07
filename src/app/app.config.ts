@@ -1,4 +1,4 @@
-import { IMAGE_LOADER } from '@angular/common';
+import { IMAGE_CONFIG, IMAGE_LOADER } from '@angular/common';
 import {
   provideHttpClient,
   withFetch,
@@ -60,12 +60,19 @@ export const appConfig: ApplicationConfig = {
       ]),
     ),
     {
-      provide: IMAGE_LOADER,
+      provide: IMAGE_CONFIG,
       useValue: {
         disableImageSizeWarning: true,
         disableImageLazyLoadWarning: true,
       },
     },
+    // {
+    //   provide: IMAGE_LOADER,
+    //   useValue: {
+    //     disableImageSizeWarning: true,
+    //     disableImageLazyLoadWarning: true,
+    //   },
+    // },
     provideFastSVG({
       url: (name: string) => `assets/icons/svg/${name}.svg`,
       defaultSize: '18',

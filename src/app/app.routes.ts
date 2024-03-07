@@ -5,13 +5,14 @@ export const APP_ROUTES: Routes = [
     path: 'home',
     title: 'AMDB - Home',
     loadComponent: async () => {
-      return (await import('@page')).HomeCmp;
+      return (await import('./home/home.cmp')).HomeCmp;
     },
   },
   {
-    path: 'tv/:seriesId',
+    path: 'tv/:tvSeriesId',
     loadComponent: async () => {
-      return (await import('@page')).TvShowDetailCmp;
+      return (await import('./tv-series-detail/tv-series-detail.cmp'))
+        .TvSeriesDetailCmp;
     },
   },
   {

@@ -8,7 +8,7 @@ import {
   UiRipple,
   UiTvShowCardsSlider,
 } from '@ui';
-import { MoviesSliderCmp } from '../../movies-slider/movies-slider.cmp';
+import { MoviesSliderCmp } from '../movies-slider/movies-slider.cmp';
 
 @Component({
   standalone: true,

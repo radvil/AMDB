@@ -5,6 +5,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { RouterLinkWithHref } from '@angular/router';
 import { TMDB_ENV_CONFIG, Tmdb } from '@libs/tmdb';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { ScreenService } from '../layout/screen.service';
@@ -20,6 +21,7 @@ import { UiSliderContent } from '../slider/slider-content.directive';
   imports: [
     DatePipe,
     DecimalPipe,
+    RouterLinkWithHref,
     FastSvgComponent,
     UiRipple,
     UiSliderContent,

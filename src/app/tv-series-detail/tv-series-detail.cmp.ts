@@ -7,7 +7,6 @@ import {
   effect,
   inject,
   input,
-  signal,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { MarkdownPipe, YouTubeThumbPipe } from '@cdk';
@@ -25,24 +24,41 @@ import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import {
   ScreenService,
   UiIoChild,
+  UiLatestReviewCard,
+  UiPostersSlider,
   UiRipple,
   UiSliderContainer,
   UiSliderContent,
+  UiTabContent,
+  UiTabset,
+  UiTrailersSlider,
 } from '@ui';
 import { pipe, tap } from 'rxjs';
-import { TvShowTrailersSliderCmp } from '../../tv-show-trailer-slider/tv-show-trailers-slider.cmp';
+
+type SubState<T> = WithContext<Record<string, T>>;
 
 interface State {
-  details: WithContext<Record<string, Tmdb.TvSeriesDetails>>;
-  keywords: WithContext<Record<string, Tmdb.TvSeriesKeyword[]>>;
-  reviews: WithContext<Record<string, Tmdb.Review[]>>;
-  externalIds: WithContext<Record<string, Tmdb.ExternalIds | null>>;
-  credits: WithContext<
-    Record<string, Tmdb.TmdbRespBody.GetMovieCredits | null>
-  >;
+  details: SubState<Tmdb.TvSeriesDetails>;
+  keywords: SubState<Tmdb.TvSeriesKeyword[]>;
+  reviews: SubState<Tmdb.Review[]>;
+  externalIds: SubState<Tmdb.ExternalIds | null>;
+  videos: SubState<Tmdb.Video[]>;
+  images: SubState<Tmdb.TmdbRespBody.GetImages | null>;
+  credits: SubState<Tmdb.TmdbRespBody.GetMovieCredits | null>;
 }
 
+type Data<K extends keyof State> =
+  State[K] extends WithContext<Record<string, infer V>> ? V : never;
+
 const initialState: State = {
+  videos: {
+    loading: false,
+    value: {},
+  },
+  images: {
+    loading: false,
+    value: {},
+  },
   credits: {
     loading: false,
     value: {},
@@ -67,8 +83,8 @@ const initialState: State = {
 
 @Component({
   standalone: true,
-  selector: 'app-tv-show-detail',
-  templateUrl: 'tv-show-detail.cmp.html',
+  selector: 'app-tv-series-detail',
+  templateUrl: 'tv-series-detail.cmp.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],
   imports: [
@@ -77,67 +93,53 @@ const initialState: State = {
     MarkdownPipe,
     FastSvgComponent,
     YouTubeThumbPipe,
-    TvShowTrailersSliderCmp,
+    UiTrailersSlider,
     UiRipple,
+    UiPostersSlider,
     UiSliderContent,
     UiSliderContainer,
     UiIoChild,
+    UiTabset,
+    UiTabContent,
+    UiLatestReviewCard,
   ],
 })
-export class TvShowDetailCmp {
+export class TvSeriesDetailCmp {
   #title = inject(Title);
   #date = inject(DatePipe);
   protected locale = inject(LOCALE_ID);
   protected config = inject(TMDB_ENV_CONFIG);
   protected api = inject(TmdbHttpApiService);
   protected screen = inject(ScreenService);
-  readonly id = input.required<number>({ alias: 'seriesId' });
-  readonly requestKey = computed(() => this.getRequestKey(this.id()));
+
+  readonly select = <K extends keyof State>(key: K) => {
+    return () => {
+      const { value, ...extracts } = this.state()[key];
+      return {
+        ...extracts,
+        value: value[this.requestKey()] as Data<K>,
+      };
+    };
+  };
+
   readonly state = signalState(initialState);
-  readonly details = computed(() => {
-    const stateSlice = this.state().details;
-    return {
-      ...stateSlice,
-      value: stateSlice.value[this.requestKey()],
-    };
-  });
-  readonly credits = computed(() => {
-    const stateSlice = this.state().credits;
-    return {
-      ...stateSlice,
-      value: stateSlice.value[this.requestKey()],
-    };
-  });
-  readonly reviews = computed(() => {
-    const stateSlice = this.state().reviews;
-    return {
-      ...stateSlice,
-      value: stateSlice.value[this.requestKey()],
-    };
-  });
+  readonly id = input.required<number>({ alias: 'tvSeriesId' });
+  readonly requestKey = computed(() => this.getRequestKey(this.id()));
+  readonly images = computed(this.select('images'));
+  readonly videos = computed(this.select('videos'));
+  readonly details = computed(this.select('details'));
+  readonly reviews = computed(this.select('reviews'));
+  readonly keywords = computed(this.select('keywords'));
+  readonly externalIds = computed(this.select('externalIds'));
+  readonly credits = computed(this.select('credits'));
   readonly lastReview = computed(() => {
     const reviews = this.reviews().value;
     return reviews?.length ? reviews[reviews.length - 1] : undefined;
   });
-  readonly keywords = computed(() => {
-    const stateSlice = this.state().keywords;
-    return {
-      ...stateSlice,
-      value: stateSlice.value[this.requestKey()],
-    };
-  });
-  readonly externalIds = computed(() => {
-    const stateSlice = this.state().externalIds;
-    return {
-      ...stateSlice,
-      value: stateSlice.value[this.requestKey()],
-    };
-  });
-  readonly backdropPath = computed(() => {
-    return `${this.config.imageBaseUrl}1920_and_h800_multi_faces${this.details().value.backdrop_path}`;
-  });
 
-  readonly reviewClamped = signal(true);
+  get castList() {
+    return this.credits().value?.cast || [];
+  }
 
   get baseMediaUrl() {
     return 'https://media.themoviedb.org/t/p/w';
@@ -397,6 +399,80 @@ export class TvShowDetailCmp {
     ),
   );
 
+  readonly fetchVideos = rxMethod<number>(
+    pipe(
+      tap(() =>
+        patchState(this.state, (s) => {
+          s.videos.loading = true;
+          return s;
+        }),
+      ),
+      optimizedFetch(this.getRequestKey, (id) => {
+        return this.api.getTvSeriesVideos(id, this.locale).pipe(
+          tapResponse({
+            error: (e: Error) =>
+              patchState(this.state, (s) => {
+                s.videos.error = e.message;
+                return s;
+              }),
+            finalize: () => {
+              patchState(this.state, (s) => {
+                s.videos.complete = true;
+                s.videos.loading = false;
+                return s;
+              });
+            },
+            next: (resp) => {
+              patchState(this.state, (s) => {
+                s.videos.value[this.getRequestKey(id)] = resp.results || [];
+                return s;
+              });
+            },
+          }),
+        );
+      }),
+    ),
+  );
+
+  readonly fetchImages = rxMethod<number>(
+    pipe(
+      tap(() =>
+        patchState(this.state, (s) => {
+          s.images.loading = true;
+          return s;
+        }),
+      ),
+      optimizedFetch(this.getRequestKey, (id) => {
+        return this.api.getTvSeriesImages(id, this.locale.split('-')[0]).pipe(
+          tapResponse({
+            error: (e: Error) =>
+              patchState(this.state, (s) => {
+                s.images.error = e.message;
+                return s;
+              }),
+            finalize: () => {
+              patchState(this.state, (s) => {
+                s.images.complete = true;
+                s.images.loading = false;
+                return s;
+              });
+            },
+            next: (resp) => {
+              patchState(this.state, (s) => {
+                s.images.value[this.getRequestKey(id)] = resp;
+                return s;
+              });
+            },
+          }),
+        );
+      }),
+    ),
+  );
+
+  readonly backdropPath = computed(() => {
+    return `${this.config.imageBaseUrl}1920_and_h800_multi_faces${this.details().value.backdrop_path}`;
+  });
+
   protected setTitle = effect(() => {
     const details = this.details().value;
     if (details?.name) {
@@ -408,6 +484,8 @@ export class TvShowDetailCmp {
 
   ngOnInit(): void {
     const id = this.id();
+    this.fetchVideos(id);
+    this.fetchImages(id);
     this.fetchDetails(id);
     this.fetchCredits(id);
     this.fetchReviews(id);

@@ -5,6 +5,7 @@ import {
   ElementRef,
   Renderer2,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   contentChildren,
   effect,
@@ -45,7 +46,7 @@ export class UiSliderContainer {
   protected destroyRef = inject(DestroyRef);
   protected renderer = inject(Renderer2);
   readonly ref = inject(ElementRef);
-  readonly showNavigation = input(true);
+  readonly showNavigation = input(true, { transform: booleanAttribute });
   readonly navigationOffset = input('3rem');
   readonly activeIndex = model(0, { alias: 'startIndex' });
   readonly playInterval = input(0, { alias: 'autoPlayInterval' });
@@ -71,7 +72,8 @@ export class UiSliderContainer {
   readonly slidePerView = input(1);
   readonly direction = input<'vertical' | 'horizontal'>('horizontal');
   readonly sliderStyles = computed(() => {
-    const basisValue = 100 / this.slidePerView();
+    const basisValue =
+      this.totalItems() < this.slidePerView() ? 0 : 100 / this.slidePerView();
     return {
       'flex-basis': `${basisValue}%`,
     };

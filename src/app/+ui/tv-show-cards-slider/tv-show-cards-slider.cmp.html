@@ -23,7 +23,11 @@
           <span>{{ item.vote_average | number: "1.0-1" }}</span>
           <span class="ml-2">({{ item.vote_count | number }})</span>
         </p>
-        <a class="my-2 w-fit line-clamp-1 hover:underline cursor-pointer">
+        <a
+          [routerLink]="['..', 'tv', item.id]"
+          [attr.title]="'See' + item.name + ' full detail'"
+          class="my-2 w-fit line-clamp-1 hover:underline cursor-pointer"
+        >
           {{ item.name }}
         </a>
         <button
@@ -41,8 +45,12 @@
             <span class="ml-2">Watchlist</span>
           </div>
         </button>
-        <div class="mt-4 flex items-center justify-between gap-4 font-bold text-xs">
-          <p class="opacity-60">{{ item.first_air_date | date: "dd MMM yyyy" }}</p>
+        <div
+          class="mt-4 flex items-center justify-between gap-4 font-bold text-xs"
+        >
+          <p class="opacity-60">
+            {{ item.first_air_date | date: "dd MMM yyyy" }}
+          </p>
           <p
             class="uppercase p-2 flex justify-center items-center rounded-[100%] transition-colors duration-300 hover:bg-gray-100/60 dark:hover:bg-gray-700/50"
           >
