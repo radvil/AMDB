@@ -239,7 +239,7 @@
         class="group/title flex items-center gap-1 cursor-pointer w-max select-none text-gray-800 dark:text-white mt-2 mb-4"
       >
         <span class="bg-red-600 block h-4 w-[0.35rem] rounded-md"></span>
-        <h1 class="text-base font-semibold">Full cast & crew</h1>
+        <h1 class="text-base font-semibold">full cast & crew</h1>
         <fast-svg
           class="transition-colors duration-100 group-hover/title:text-purple-600"
           name="nav-next"
@@ -303,7 +303,7 @@
           uiTab
           #x="uiTab"
           tabTitle="Reviews"
-          class="border border-white dark:border-gray-700"
+          class="border border-white dark:border-gray-800"
         >
           @defer(when x.active) {
           <ui-latest-review-card
@@ -315,7 +315,7 @@
         <div
           uiTab
           tabTitle="Companies"
-          class="border border-white dark:border-gray-700"
+          class="border border-white dark:border-gray-800"
         >
           <div
             class="w-full flex gap-4 flex-col items-center justify-center md:flex-row"
@@ -344,12 +344,23 @@
       ioChild="opacity-100"
     >
       <h1 class="text-2xl font-bold text-hero">Media</h1>
+      <div
+        class="group/title flex items-center gap-1 cursor-pointer w-max select-none text-gray-800 dark:text-white mt-2 mb-4"
+      >
+        <span class="bg-red-600 block h-4 w-[0.35rem] rounded-md"></span>
+        <h1 class="text-base font-semibold">View all media</h1>
+        <fast-svg
+          class="transition-colors duration-100 group-hover/title:text-purple-600"
+          name="nav-next"
+          size="10"
+        />
+      </div>
       <ui-tabset>
         <div
           uiTab
           #x="uiTab"
           tabTitle="Videos"
-          class="!p-0 border border-white dark:border-gray-700"
+          class="!p-0 border border-white dark:border-gray-800"
         >
           @defer(when x.active) {
           <ui-trailers-slider
@@ -362,28 +373,54 @@
           uiTab
           #x="uiTab"
           tabTitle="Backdrops"
-          class="!p-0 border border-white dark:border-gray-700"
+          class="!p-0 border border-white dark:border-gray-800"
         >
-          @if(images().value?.backdrops; as backdrops) {
-            @defer(when x.active) {
-              <ui-posters-slider [loading]="images().loading" [posters]="backdrops" />
-            }
-          }
+          @if(images().value?.backdrops; as backdrops) { @defer(when x.active) {
+          <ui-posters-slider
+            [loading]="images().loading"
+            [posters]="backdrops"
+          />
+          } }
         </div>
         <div
           uiTab
           #x="uiTab"
           tabTitle="Posters"
-          class="!p-0 border border-white dark:border-gray-700"
+          class="!p-0 border border-white dark:border-gray-800"
         >
-          @if(images().value?.posters; as posters) {
-            @defer(when x.active) {
-              <ui-posters-slider [loading]="images().loading" [posters]="posters" />
-            }
-          }
+          @if(images().value?.posters; as posters) { @defer(when x.active) {
+          <ui-posters-slider [loading]="images().loading" [posters]="posters" />
+          } }
         </div>
       </ui-tabset>
     </section>
+
+    <!-- recommendations -->
+    @if(recommendations(); as x) {
+    <section
+      class="mb-10 md:my-10 opacity-0 transition-opacity duration-500 delay-500"
+      ioChild="opacity-100"
+    >
+      <h1 #title class="text-2xl font-bold text-hero">Recommendations</h1>
+      <div
+        class="group/title flex items-center gap-1 cursor-pointer w-max select-none text-gray-800 dark:text-white mt-2 mb-4"
+      >
+        <span class="bg-red-600 block h-4 w-[0.35rem] rounded-md"></span>
+        <h1 class="text-base font-semibold">More recommendations</h1>
+        <fast-svg
+          class="transition-colors duration-100 group-hover/title:text-purple-600"
+          name="nav-next"
+          size="10"
+        />
+      </div>
+      @defer(on viewport(title)) {
+      <ui-tv-show-recommendations-slider
+        [data]="x.value?.results || []"
+        [loading]="x.loading"
+      />
+      }
+    </section>
+    }
   </div>
 
   <!-- aside -->

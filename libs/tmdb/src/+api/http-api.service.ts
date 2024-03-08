@@ -36,6 +36,9 @@ export class TmdbHttpApiService {
     tvSeriesImages: (id: number) => {
       return `${this.url.tvShows()}/${id}/images`;
     },
+    tvSeriesRecommendations: (id: number) => {
+      return `${this.url.tvShows()}/${id}/recommendations`;
+    },
   } as const;
 
   /**
@@ -159,5 +162,20 @@ export class TmdbHttpApiService {
     return this.#http.get<TmdbRespBody.GetImages>(this.url.tvSeriesImages(id), {
       params: { language },
     });
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/reference/tv-series-recommendations
+   */
+  getTvSeriesRecommendations(id: number, language: string, page = 1) {
+    return this.#http.get<TmdbRespBody.GetTvShowRecommendations>(
+      this.url.tvSeriesRecommendations(id),
+      {
+        params: {
+          language,
+          page,
+        },
+      },
+    );
   }
 }

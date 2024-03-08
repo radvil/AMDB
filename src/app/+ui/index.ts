@@ -24,3 +24,5 @@ export * from './theme/theme.service';
 
 export * from './tv-show-cards-slider/tv-show-cards-slider.cmp';
 export * from "./trailers-slider/trailers-slider.cmp";
+export * from "./tv-show-recommendations-slider/tv-show-recommendations-slider.cmp";
+

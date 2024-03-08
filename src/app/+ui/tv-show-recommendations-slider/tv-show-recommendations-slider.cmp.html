@@ -1,0 +1,38 @@
+@if(data()?.length && !loading()) {
+<ui-slider-container
+  class="mt-4 md:mt-8"
+  [class.overflow-x-auto]="true"
+  [slidePerView]="screen.md() ? 4 : 2"
+  [showNavigation]="false"
+>
+  @for(tv of data(); track tv.id) {
+  <div
+    uiSliderContent
+    ioChild="opacity-100"
+    class="pr-4 opacity-0 transition-opacity duration-500"
+  >
+    <div class="surface-card rounded overflow-hidden h-fit shadow">
+      <img
+        class="object-cover object-top transition-opacity duration-200 hover:opacity-90 cursor-pointer w-full h-auto max-h-[300px]"
+        [src]="config.imageBaseUrl + 200 + tv.backdrop_path"
+        [alt]="tv.name"
+        loading="lazy"
+      />
+      <div class="p-2">
+        <p class="text-base mb-2 text-gray-800 dark:text-white">
+          <a
+            class="w-fit hover:underline cursor-pointer text-center font-semibold"
+          >
+            {{ tv.name }}
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+</ui-slider-container>
+} @if(loading() && !data()?.length) {
+<div class="min-h-96 w-full flex items-center justify-center">
+  <h1 class="text-xl">Loading recommendations ...</h1>
+</div>
+}

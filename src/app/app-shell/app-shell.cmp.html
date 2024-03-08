@@ -178,14 +178,17 @@
   id="scrollToTop"
   class="fixed bottom-0 translate-y-12 right-12 transition-transform duration-500 delay-200"
 >
-  <a
+  <button
     uiButton
     uiRipple
+    type="button"
+    title="Back to top"
     (click)="scrollToTop()"
-    class="!rounded-[100%] h-12 w-12 !flex items-center justify-center !p-0"
+    aria-label="back to top button"
+    class="!rounded-[100%] !h-12 !w-12 !flex items-center justify-center !p-0"
   >
     <fast-svg name="arrow-top" size="18" />
-  </a>
+  </button>
 </div>
 
 <footer class="bg-gray-900 text-white dark:bg-gray-800 dark:text-gray-50">

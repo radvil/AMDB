@@ -26,6 +26,13 @@ export namespace TmdbRespBody {
     };
   }
 
+  export interface GetTvShowRecommendations {
+    page: number;
+    results: TvShow[];
+    total_pages: number;
+    total_results: number;
+  }
+
   export interface GetPeopleList {
     page: number;
     results: Person[];
