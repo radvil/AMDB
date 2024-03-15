@@ -6,7 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import { MarkdownPipe } from '@cdk';
-import { Tmdb } from '@libs/tmdb';
+import type { Tmdb } from '@libs/tmdb';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { UiButton } from '../button/button.directive';
 import { UiRipple } from '../ripple/ripple.directive';

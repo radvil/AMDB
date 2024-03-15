@@ -1,30 +1,30 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  ElementRef,
   effect,
   inject,
   model,
   signal,
   untracked,
   viewChild,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Tmdb } from '@libs/tmdb';
-import { FastSvgComponent } from '@push-based/ngx-fast-svg';
-import { debounceTime, filter, fromEvent, of, switchMap } from 'rxjs';
+  type AfterViewInit,
+  type ElementRef,
+} from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { Router } from "@angular/router";
+import type { Tmdb } from "@libs/tmdb";
+import { FastSvgComponent } from "@push-based/ngx-fast-svg";
+import { debounceTime, filter, fromEvent, of, switchMap } from "rxjs";
 
 @Component({
   standalone: true,
-  selector: 'ui-search-dialog',
-  templateUrl: 'search-dialog.cmp.html',
+  selector: "ui-search-dialog",
+  templateUrl: "search-dialog.cmp.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, FastSvgComponent],
-  host: { '[class.hidden]': '!opened()' },
+  host: { "[class.hidden]": "!opened()" },
 })
 export class SearchDialogCmp implements AfterViewInit {
   protected destroy$ = inject(DestroyRef);
@@ -32,15 +32,16 @@ export class SearchDialogCmp implements AfterViewInit {
   readonly opened = model(false);
   readonly results = signal<Tmdb.SearchItem[]>([]);
   readonly searchForm = new FormControl();
-  readonly dialog = viewChild.required<ElementRef<HTMLElement>>('dialog');
-  readonly input = viewChild<ElementRef<HTMLInputElement>>('inputView');
+  readonly dialog = viewChild.required<ElementRef<HTMLDivElement>>("dialog");
+  readonly input = viewChild<ElementRef<HTMLInputElement>>("inputView");
 
   get dialogElement() {
     return this.dialog().nativeElement;
   }
 
-  closeBackdrop(e: any) {
-    if (!this.dialogElement.contains(e.target)) {
+  closeBackdrop(e: MouseEvent) {
+    if (!e.target) return;
+    if (!this.dialogElement.contains(e.target as Node)) {
       this.opened.set(false);
     }
   }
@@ -51,9 +52,9 @@ export class SearchDialogCmp implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    fromEvent(document, 'keydown')
+    fromEvent<KeyboardEvent>(document, "keydown")
       .pipe(
-        filter((e: any) => e.ctrlKey && e.key === 'k'),
+        filter((e) => e.ctrlKey && e.key === "k"),
         takeUntilDestroyed(this.destroy$),
       )
       .subscribe((e: Event) => {
@@ -67,7 +68,7 @@ export class SearchDialogCmp implements AfterViewInit {
     this.searchForm.valueChanges
       .pipe(
         debounceTime(500),
-        switchMap((keyword) => {
+        switchMap(() => {
           return of([]).pipe(takeUntilDestroyed(this.destroy$));
         }),
       )
@@ -78,8 +79,8 @@ export class SearchDialogCmp implements AfterViewInit {
 
   constructor() {
     effect(() => {
-      const next = this.opened() ? 'add' : 'remove';
-      document.body.classList[next]('!overflow-hidden');
+      const next = this.opened() ? "add" : "remove";
+      document.body.classList[next]("!overflow-hidden");
       if (!this.opened()) {
         this.searchForm.reset();
       } else {

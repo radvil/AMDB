@@ -1,23 +1,23 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   inject,
   input,
   model,
   viewChild,
-} from '@angular/core';
-import { RouterLinkActive, RouterLinkWithHref } from '@angular/router';
-import { FastSvgComponent } from '@push-based/ngx-fast-svg';
-import { ThemeService } from '@ui';
-import { MenuItem } from '../menu-items';
+  type ElementRef,
+} from "@angular/core";
+import { RouterLinkActive, RouterLinkWithHref } from "@angular/router";
+import { FastSvgComponent } from "@push-based/ngx-fast-svg";
+import { ThemeService } from "@ui";
+import type { MenuItem } from "../menu-items";
 
 @Component({
   standalone: true,
-  selector: 'app-sidebar',
-  styleUrl: 'sidebar.cmp.scss',
-  templateUrl: 'sidebar.cmp.html',
+  selector: "app-sidebar",
+  styleUrl: "sidebar.cmp.scss",
+  templateUrl: "sidebar.cmp.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FastSvgComponent,
@@ -27,7 +27,7 @@ import { MenuItem } from '../menu-items';
   ],
 })
 export class SidebarCmp {
-  readonly container = viewChild<ElementRef<HTMLElement>>('container');
+  readonly container = viewChild<ElementRef<HTMLElement>>("container");
   readonly menuItems = input<MenuItem[]>([]);
   readonly themeApi = inject(ThemeService);
   readonly opened = model(false);
@@ -46,11 +46,12 @@ export class SidebarCmp {
 
   toggleExpand(childrenEl: HTMLElement, e?: Event): void {
     e?.preventDefault();
-    childrenEl?.classList.toggle('hidden');
+    childrenEl?.classList.toggle("hidden");
   }
 
-  closeBackdrop(e: any) {
-    if (!this.containerElement?.contains(e.target)) {
+  closeBackdrop(e: MouseEvent) {
+    if (!this.containerElement || !e.target) return;
+    if (!this.containerElement.contains(e.target as Node)) {
       this.opened.set(false);
     }
   }

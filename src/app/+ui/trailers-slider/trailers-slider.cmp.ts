@@ -3,22 +3,22 @@ import {
   Component,
   inject,
   input,
-} from '@angular/core';
-import { YouTubeThumbPipe } from '@cdk';
-import { Tmdb } from '@libs/tmdb';
-import { FastSvgComponent } from '@push-based/ngx-fast-svg';
+} from "@angular/core";
+import { YouTubeThumbPipe } from "@cdk";
+import type { Tmdb } from "@libs/tmdb";
+import { FastSvgComponent } from "@push-based/ngx-fast-svg";
 import {
   ScreenService,
   UiIoChild,
   UiRipple,
   UiSliderContainer,
   UiSliderContent,
-} from '@ui';
+} from "@ui";
 
 @Component({
   standalone: true,
-  selector: 'ui-trailers-slider',
-  templateUrl: 'trailers-slider.cmp.html',
+  selector: "ui-trailers-slider",
+  templateUrl: "trailers-slider.cmp.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     YouTubeThumbPipe,

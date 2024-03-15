@@ -1,11 +1,11 @@
-import { Image } from './image';
-import { Movie } from './movie';
-import { MovieCast } from './movie-cast';
-import { MovieCrew } from './movie-crew';
-import { Person } from './person';
-import { Review } from './review';
-import { TvSeriesKeyword, TvShow } from './tv-show';
-import { Video } from './video';
+import type { Image } from './image';
+import type { Movie } from './movie';
+import type { MovieCast } from './movie-cast';
+import type { MovieCrew } from './movie-crew';
+import type { Person } from './person';
+import type { Review } from './review';
+import type { TvSeriesKeyword, TvShow } from './tv-show';
+import type { Video } from './video';
 
 export namespace TmdbRespBody {
   export interface GetMovieList {

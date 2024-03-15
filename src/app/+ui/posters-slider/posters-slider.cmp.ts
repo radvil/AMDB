@@ -3,21 +3,21 @@ import {
   Component,
   inject,
   input,
-} from '@angular/core';
-import { Tmdb } from '@libs/tmdb';
-import { FastSvgComponent } from '@push-based/ngx-fast-svg';
+} from "@angular/core";
+import type { Tmdb } from "@libs/tmdb";
+import { FastSvgComponent } from "@push-based/ngx-fast-svg";
 import {
   ScreenService,
   UiIoChild,
   UiRipple,
   UiSliderContainer,
   UiSliderContent,
-} from '@ui';
+} from "@ui";
 
 @Component({
   standalone: true,
-  selector: 'ui-posters-slider',
-  templateUrl: 'posters-slider.cmp.html',
+  selector: "ui-posters-slider",
+  templateUrl: "posters-slider.cmp.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     UiRipple,
@@ -39,6 +39,6 @@ export class UiPostersSlider {
   readonly posters = input<Tmdb.Image[]>([]);
   readonly loading = input<boolean | undefined>(undefined);
   get baseMediaUrl() {
-    return 'https://image.tmdb.org/t/p/w';
+    return "https://image.tmdb.org/t/p/w";
   }
 }

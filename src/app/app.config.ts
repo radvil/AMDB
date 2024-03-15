@@ -1,18 +1,18 @@
-import { IMAGE_CONFIG, IMAGE_LOADER } from '@angular/common';
+import { IMAGE_CONFIG } from "@angular/common";
 import {
   provideHttpClient,
   withFetch,
   withInterceptors,
-} from '@angular/common/http';
-import { ApplicationConfig } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+} from "@angular/common/http";
+import type { ApplicationConfig } from "@angular/core";
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import {
   provideRouter,
   withComponentInputBinding,
   withInMemoryScrolling,
   withRouterConfig,
   withViewTransitions,
-} from '@angular/router';
+} from "@angular/router";
 import {
   MovieState,
   PeopleState,
@@ -21,22 +21,22 @@ import {
   provideTmdbEnvConfig,
   tmdbHttpContentTypeInterceptor,
   tmdbHttpReadAccessInterceptor,
-} from '@libs/tmdb';
-import { provideFastSVG } from '@push-based/ngx-fast-svg';
-import { provideClientTheme, provideIoScroll } from '@ui';
-import { environment } from '../environments/environment';
-import { APP_ROUTES } from './app.routes';
+} from "@libs/tmdb";
+import { provideFastSVG } from "@push-based/ngx-fast-svg";
+import { provideClientTheme, provideIoScroll } from "@ui";
+import { environment } from "../environments/environment";
+import { APP_ROUTES } from "./app.routes";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideIoScroll(),
-    provideAnimationsAsync('animations'),
+    provideAnimationsAsync("animations"),
     provideRouter(
       APP_ROUTES,
       // withDebugTracing(),
       withComponentInputBinding(),
       withViewTransitions({ skipInitialTransition: true }),
-      withRouterConfig({ paramsInheritanceStrategy: 'always' }),
+      withRouterConfig({ paramsInheritanceStrategy: "always" }),
       withInMemoryScrolling({
         /**
          * **💡 UX Tip for InfiniteScroll:**
@@ -46,7 +46,7 @@ export const appConfig: ApplicationConfig = {
          *
          * also: otherwise infinite scroll isn't working properly
          */
-        scrollPositionRestoration: 'top',
+        scrollPositionRestoration: "top",
       }),
     ),
     provideClientTheme(),
@@ -75,7 +75,7 @@ export const appConfig: ApplicationConfig = {
     // },
     provideFastSVG({
       url: (name: string) => `assets/icons/svg/${name}.svg`,
-      defaultSize: '18',
+      defaultSize: "18",
     }),
   ],
 };

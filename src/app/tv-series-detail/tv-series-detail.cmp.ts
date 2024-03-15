@@ -1,4 +1,4 @@
-import { DatePipe, JsonPipe } from '@angular/common';
+import { DatePipe, JsonPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,20 +7,20 @@ import {
   effect,
   inject,
   input,
-} from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { MarkdownPipe, YouTubeThumbPipe } from '@cdk';
+} from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { MarkdownPipe, YouTubeThumbPipe } from "@cdk";
 import {
   TMDB_ENV_CONFIG,
-  Tmdb,
   TmdbHttpApiService,
-  WithContext,
   optimizedFetch,
-} from '@libs/tmdb';
-import { tapResponse } from '@ngrx/operators';
-import { patchState, signalState } from '@ngrx/signals';
-import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { FastSvgComponent } from '@push-based/ngx-fast-svg';
+  type Tmdb,
+  type WithContext,
+} from "@libs/tmdb";
+import { tapResponse } from "@ngrx/operators";
+import { patchState, signalState } from "@ngrx/signals";
+import { rxMethod } from "@ngrx/signals/rxjs-interop";
+import { FastSvgComponent } from "@push-based/ngx-fast-svg";
 import {
   ScreenService,
   UiIoChild,
@@ -33,8 +33,8 @@ import {
   UiTabset,
   UiTrailersSlider,
   UiTvShowRecommendationsSliderCmp,
-} from '@ui';
-import { pipe, tap } from 'rxjs';
+} from "@ui";
+import { pipe, tap } from "rxjs";
 
 type SubState<T> = WithContext<Record<string, T>>;
 
@@ -49,8 +49,11 @@ interface State {
   recommendations: SubState<Tmdb.TmdbRespBody.GetTvShowRecommendations | null>;
 }
 
-type Data<K extends keyof State> =
-  State[K] extends WithContext<Record<string, infer V>> ? V : never;
+type Data<K extends keyof State> = State[K] extends WithContext<
+  Record<string, infer V>
+>
+  ? V
+  : never;
 
 const initialState: State = {
   videos: {
@@ -89,8 +92,8 @@ const initialState: State = {
 
 @Component({
   standalone: true,
-  selector: 'app-tv-series-detail',
-  templateUrl: 'tv-series-detail.cmp.html',
+  selector: "app-tv-series-detail",
+  templateUrl: "tv-series-detail.cmp.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],
   imports: [
@@ -130,16 +133,16 @@ export class TvSeriesDetailCmp {
   };
 
   readonly state = signalState(initialState);
-  readonly id = input.required<number>({ alias: 'tvSeriesId' });
+  readonly id = input.required<number>({ alias: "tvSeriesId" });
   readonly requestKey = computed(() => this.getRequestKey(this.id()));
-  readonly images = computed(this.select('images'));
-  readonly videos = computed(this.select('videos'));
-  readonly details = computed(this.select('details'));
-  readonly reviews = computed(this.select('reviews'));
-  readonly keywords = computed(this.select('keywords'));
-  readonly externalIds = computed(this.select('externalIds'));
-  readonly credits = computed(this.select('credits'));
-  readonly recommendations = computed(this.select('recommendations'));
+  readonly images = computed(this.select("images"));
+  readonly videos = computed(this.select("videos"));
+  readonly details = computed(this.select("details"));
+  readonly reviews = computed(this.select("reviews"));
+  readonly keywords = computed(this.select("keywords"));
+  readonly externalIds = computed(this.select("externalIds"));
+  readonly credits = computed(this.select("credits"));
+  readonly recommendations = computed(this.select("recommendations"));
   readonly lastReview = computed(() => {
     const reviews = this.reviews().value;
     return reviews?.length ? reviews[reviews.length - 1] : undefined;
@@ -150,7 +153,7 @@ export class TvSeriesDetailCmp {
   }
 
   get baseMediaUrl() {
-    return 'https://media.themoviedb.org/t/p/w';
+    return "https://media.themoviedb.org/t/p/w";
   }
 
   readonly getRequestKey = (id: number) => {
@@ -501,7 +504,7 @@ export class TvSeriesDetailCmp {
         }),
       ),
       optimizedFetch(this.getRequestKey, (id) => {
-        return this.api.getTvSeriesImages(id, this.locale.split('-')[0]).pipe(
+        return this.api.getTvSeriesImages(id, this.locale.split("-")[0]).pipe(
           tapResponse({
             error: (e: Error) =>
               patchState(this.state, (s) => {
@@ -528,14 +531,18 @@ export class TvSeriesDetailCmp {
   );
 
   readonly backdropPath = computed(() => {
-    return `${this.config.imageBaseUrl}1920_and_h800_multi_faces${this.details().value.backdrop_path}`;
+    return `${this.config.imageBaseUrl}1920_and_h800_multi_faces${this.details().value.backdrop_path
+      }`;
   });
 
   protected setTitle = effect(() => {
     const details = this.details().value;
     if (details?.name) {
       this.#title.setTitle(
-        `${details?.name} | TV Series - ${this.#date.transform(details.last_air_date, 'YYYY')} | AMDB`,
+        `${details?.name} | TV Series - ${this.#date.transform(
+          details.last_air_date,
+          "YYYY",
+        )} | AMDB`,
       );
     }
   });

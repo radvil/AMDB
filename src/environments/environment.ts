@@ -1,4 +1,4 @@
-import { TmdbEnvConfig } from '@libs/tmdb';
+import type { TmdbEnvConfig } from '@libs/tmdb';
 
 export const environment = {
   id: 'amdb',

@@ -5,7 +5,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { TMDB_ENV_CONFIG, Tmdb } from '@libs/tmdb';
+import { TMDB_ENV_CONFIG, type Tmdb } from '@libs/tmdb';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { ScreenService } from '../layout/screen.service';
 import { UiRipple } from '../ripple/ripple.directive';

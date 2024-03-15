@@ -28,7 +28,7 @@ export class UiButton {
     const rounded =
       this.rounded() === undefined
         ? 'rounded-none'
-        : `${size ? 'rounded-' + size : 'rounded'}`;
+        : `${size ? `rounded-${size}` : 'rounded'}`;
     const dynamicClasses = [paddings[size], rounded].join(' ');
     return `block relative w-fit font-semibold select-none cursor-pointer transition-colors duration-200 ${dynamicClasses} ${this.bgClasses()}`;
   });

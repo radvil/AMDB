@@ -22,7 +22,7 @@ export class ThemeService {
   #renderer = inject(RendererFactory2).createRenderer(null, null);
 
   get rootElement(): HTMLElement {
-    return this.#document.body.parentElement!;
+    return this.#document.body.parentElement as HTMLElement;
   }
 
   readonly theme = signal<'light' | 'dark'>('light');

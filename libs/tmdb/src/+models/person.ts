@@ -1,4 +1,4 @@
-import { MediaType } from './media-type';
+import type { MediaType } from './media-type';
 
 export interface PersonAlias {
   id: number;

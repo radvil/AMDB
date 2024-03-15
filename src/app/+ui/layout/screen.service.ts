@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Breakpoints, TBreakpoints } from './screen.breakpoints';
-import { map, tap } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { map, tap } from 'rxjs';
+import { Breakpoints, type TBreakpoints } from './screen.breakpoints';
 
 @Injectable({ providedIn: 'root' })
 export class ScreenService {
