@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { TMDB_ENV_CONFIG } from '../+core/tmdb-env.provider';
-import { ExternalIds, TvSeriesDetails } from '../+models';
-import { TmdbReqParams } from '../+models/request-params';
-import { TmdbRespBody } from '../+models/response-body';
+import { HttpClient } from "@angular/common/http";
+import { Injectable, inject } from "@angular/core";
+import { TMDB_ENV_CONFIG } from "../+core/tmdb-env.provider";
+import type { ExternalIds, TvSeriesDetails } from "../+models";
+import type { TmdbReqParams } from "../+models/request-params";
+import type { TmdbRespBody } from "../+models/response-body";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class TmdbHttpApiService {
   readonly #config = inject(TMDB_ENV_CONFIG);
   readonly #http = inject(HttpClient);

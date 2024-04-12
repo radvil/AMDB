@@ -5,11 +5,11 @@ import {
   ViewEncapsulation,
   computed,
   contentChildren,
-} from '@angular/core';
-import { FastSvgComponent } from '@push-based/ngx-fast-svg';
-import { UiButton } from '../button/button.directive';
-import { UiRipple } from '../ripple/ripple.directive';
-import { UiTab } from './tab.directive';
+} from "@angular/core";
+import { FastSvgComponent } from "@push-based/ngx-fast-svg";
+import { UiButton } from "../button/button.directive";
+import { UiRipple } from "../ripple/ripple.directive";
+import { UiTab } from "./tab.directive";
 
 type ChangeTabEvent = {
   previousSelected: UiTab;
@@ -18,9 +18,9 @@ type ChangeTabEvent = {
 
 @Component({
   standalone: true,
-  selector: 'ui-tabset',
-  styleUrl: 'tabset.cmp.scss',
-  templateUrl: 'tabset.cmp.html',
+  selector: "ui-tabset",
+  styleUrl: "tabset.cmp.scss",
+  templateUrl: "tabset.cmp.html",
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [UiTab, UiRipple, UiButton, FastSvgComponent],

@@ -1,4 +1,4 @@
-import {
+import type {
   HttpHandlerFn,
   HttpInterceptorFn,
   HttpRequest,
