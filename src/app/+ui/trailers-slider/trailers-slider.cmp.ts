@@ -1,20 +1,22 @@
+import { DialogModule, DialogRef } from '@angular/cdk/dialog';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    inject,
-    input,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
 } from '@angular/core';
-import { DialogModule, DialogService, YouTubeThumbPipe } from '@cdk';
+import { DialogService, YouTubeThumbPipe } from '@cdk';
 import type { Tmdb } from '@libs/tmdb';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import {
-    ScreenService,
-    UiIoChild,
-    UiRipple,
-    UiSliderContainer,
-    UiSliderContent,
+  ScreenService,
+  UiIoChild,
+  UiRipple,
+  UiSliderContainer,
+  UiSliderContent,
 } from '@ui';
 import { TrailerDialogCmp } from '../trailer-dialog/trailer-dialog.cmp';
+import { filter } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -34,21 +36,19 @@ import { TrailerDialogCmp } from '../trailer-dialog/trailer-dialog.cmp';
 })
 export class UiTrailersSlider {
   readonly screen = inject(ScreenService);
-  readonly dialog = inject(DialogService);
+  readonly dialogService = inject(DialogService);
 
   readonly videos = input<Tmdb.Video[]>([]);
   readonly loading = input<boolean | undefined>(undefined);
 
-  openTrailerDialog(data: any) {
-    this.dialog
-      .open(TrailerDialogCmp, {
-        hasBackdrop: true,
-        backdropClass: "backdrop-blur-lg",
-        panelClass: "bg-white dark:bg-gray-800", // TODO: check if this really works?
-        data
-      })
-      .afterClosed.subscribe((data) => {
-        console.log(data);
-      });
+  openTrailerDialog(data: Tmdb.Video) {
+    const ref: DialogRef<Tmdb.Video, TrailerDialogCmp> =
+      this.dialogService.open(
+        TrailerDialogCmp,
+        TrailerDialogCmp.mergeConfig({ data }),
+      );
+    ref.closed.pipe(filter(Boolean)).subscribe((x) => {
+      console.log('dialog closed with data » ', x);
+    });
   }
 }
