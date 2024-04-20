@@ -1,9 +1,9 @@
-import type { MediaType } from './media-type';
+import type { MediaType, MediaUrl } from './media-type';
 
 export interface PersonAlias {
   id: number;
   adult: boolean;
-  backdrop_path: `/${string}`;
+  backdrop_path: MediaUrl;
   title: string;
   original_language: string;
   original_title: string;
@@ -25,8 +25,19 @@ export interface Person {
   original_name: string;
   media_type: MediaType;
   popularity: number;
-  gender: number;
+  gender: 1 | 2;
   known_for_department: string;
-  profile_path: `/${string}`;
+  profile_path: MediaUrl;
   known_for: Array<PersonAlias>;
+}
+
+export interface PersonDetail extends Person {
+  also_known_as: string[];
+  biography: string;
+  birthday: string;
+  deathday: string | null;
+  homepage: string | null;
+  imdb_id: string | null;
+  place_of_birth: string;
+  profile_path: MediaUrl;
 }

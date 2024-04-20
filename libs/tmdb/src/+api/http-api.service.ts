@@ -1,11 +1,12 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable, inject } from "@angular/core";
-import { TMDB_ENV_CONFIG } from "../+core/tmdb-env.provider";
-import type { ExternalIds, TvSeriesDetails } from "../+models";
-import type { TmdbReqParams } from "../+models/request-params";
-import type { TmdbRespBody } from "../+models/response-body";
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { TMDB_ENV_CONFIG } from '../+core/tmdb-env.provider';
+import type { ExternalIds, TvSeriesDetails } from '../+models';
+import type { TmdbReqParams } from '../+models/request-params';
+import type { TmdbRespBody } from '../+models/response-body';
+import { Tmdb } from '..';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class TmdbHttpApiService {
   readonly #config = inject(TMDB_ENV_CONFIG);
   readonly #http = inject(HttpClient);
@@ -13,6 +14,7 @@ export class TmdbHttpApiService {
     movie: () => `${this.#config.apiBaseUrlV3}/movie`,
     tvShows: () => `${this.#config.apiBaseUrlV3}/tv`,
     company: () => `${this.#config.apiBaseUrlV3}/company`,
+    person: () => `${this.#config.apiBaseUrlV3}/person`,
     nowPlayingMovies: () => `${this.url.movie()}/now_playing`,
     topRatedMovies: () => `${this.url.movie()}/top_rated`,
     popularMovies: () => `${this.url.movie()}/popular`,
@@ -21,6 +23,7 @@ export class TmdbHttpApiService {
     trendingPeople: () => `${this.#config.apiBaseUrlV3}/trending/person/day`,
     tvSeriesDetail: (id: number) => `${this.url.tvShows()}/${id}`,
     tvSeriesKeywords: (id: number) => `${this.url.tvShows()}/${id}/keywords`,
+    personDetail: (id: number) => `${this.url.person()}/${id}`,
     tvSeriesExternalIds: (id: number) => {
       return `${this.url.tvShows()}/${id}/external_ids`;
     },
@@ -176,6 +179,15 @@ export class TmdbHttpApiService {
           page,
         },
       },
+    );
+  }
+
+  /**
+   * @see https://developer.themoviedb.org/person/${id}
+   */
+  getPersonDetail(id: number) {
+    return this.#http.get<Tmdb.PersonDetail>(
+      this.url.personDetail(id),
     );
   }
 }

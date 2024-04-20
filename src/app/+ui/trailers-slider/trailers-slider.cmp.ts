@@ -15,7 +15,7 @@ import {
   UiSliderContainer,
   UiSliderContent,
 } from '@ui';
-import { TrailerDialogCmp } from '../trailer-dialog/trailer-dialog.cmp';
+import { VideoPopupCmp } from '../video-popup/video-popup.cmp';
 import { filter } from 'rxjs';
 
 @Component({
@@ -31,7 +31,7 @@ import { filter } from 'rxjs';
     UiSliderContent,
     FastSvgComponent,
     DialogModule,
-    TrailerDialogCmp,
+    VideoPopupCmp,
   ],
 })
 export class UiTrailersSlider {
@@ -42,11 +42,10 @@ export class UiTrailersSlider {
   readonly loading = input<boolean | undefined>(undefined);
 
   openTrailerDialog(data: Tmdb.Video) {
-    const ref: DialogRef<Tmdb.Video, TrailerDialogCmp> =
-      this.dialogService.open(
-        TrailerDialogCmp,
-        TrailerDialogCmp.mergeConfig({ data }),
-      );
+    const ref: DialogRef<Tmdb.Video, VideoPopupCmp> = this.dialogService.open(
+      VideoPopupCmp,
+      VideoPopupCmp.mergeConfig({ data }),
+    );
     ref.closed.pipe(filter(Boolean)).subscribe((x) => {
       console.log('dialog closed with data » ', x);
     });

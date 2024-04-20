@@ -23,6 +23,13 @@ export const APP_ROUTES: Routes = [
     },
   },
   {
+    path: 'person/:personId',
+    loadComponent: async () => {
+      return (await import('./person-detail/person-detail.cmp'))
+        .PersonDetailCmp;
+    },
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
