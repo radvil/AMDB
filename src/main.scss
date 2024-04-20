@@ -4,21 +4,8 @@
 @use "tailwindcss/utilities";
 
 /* Add application styles & imports to this file! */
-@import "./app/+ui/ripple/ripple.styles";
 @import '@angular/cdk/overlay-prebuilt.css';
-
-// Overlay backdrop styling
-.overlay-backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-// Overlay panel styling
-.overlay-panel {
-  display: flex;
-  flex-direction: column;
-  background-color: #ffffff;
-  padding: 20px;
-}
+@import "./app/+ui/ripple/ripple.styles";
 
 @layer base {
   :root {
@@ -175,3 +162,4 @@ a {
 .tooltip-top {
   @apply absolute z-50 left-1/2 -translate-x-1/2 -top-1/2 -translate-y-2/3 opacity-0 group-hover/tooltip:opacity-100 transition-opacity bg-gray-800 text-sm text-gray-100 rounded-md py-2 px-4 text-nowrap shadow;
 }
+

@@ -43,8 +43,8 @@ export class UiTrailersSlider {
     this.dialog
       .open(TrailerDialogCmp, {
         hasBackdrop: true,
-        backdropClass: "blurred-backdrop",
-        panelClass: "trailer-dialog",
+        backdropClass: "backdrop-blur-lg",
+        panelClass: "bg-white dark:bg-gray-800", // TODO: check if this really works?
         data
       })
       .afterClosed.subscribe((data) => {
