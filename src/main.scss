@@ -3,7 +3,22 @@
 @use "tailwindcss/components";
 @use "tailwindcss/utilities";
 
+/* Add application styles & imports to this file! */
 @import "./app/+ui/ripple/ripple.styles";
+@import '@angular/cdk/overlay-prebuilt.css';
+
+// Overlay backdrop styling
+.overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+// Overlay panel styling
+.overlay-panel {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 20px;
+}
 
 @layer base {
   :root {
