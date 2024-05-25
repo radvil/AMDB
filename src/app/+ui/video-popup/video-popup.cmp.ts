@@ -1,20 +1,20 @@
-import { DialogConfig } from '@angular/cdk/dialog';
+import type { DialogConfig } from "@angular/cdk/dialog";
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
   inject,
-} from '@angular/core';
-import { ByPassResourceUrlPipe, injectDialogRef } from '@cdk';
-import type { Tmdb } from '@libs/tmdb';
-import { FastSvgComponent } from '@push-based/ngx-fast-svg';
-import { ScreenService } from '../layout/screen.service';
-import { UiRipple } from '../ripple/ripple.directive';
+} from "@angular/core";
+import { ByPassResourceUrlPipe, injectDialogRef } from "@cdk";
+import type { Tmdb } from "@libs/tmdb";
+import { FastSvgComponent } from "@push-based/ngx-fast-svg";
+import { ScreenService } from "../layout/screen.service";
+import { UiRipple } from "../ripple/ripple.directive";
 
 @Component({
   standalone: true,
-  selector: 'app-video-popup',
-  templateUrl: 'video-popup.cmp.html',
+  selector: "app-video-popup",
+  templateUrl: "video-popup.cmp.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [UiRipple, FastSvgComponent, ByPassResourceUrlPipe],
 })
@@ -31,12 +31,12 @@ export class VideoPopupCmp {
 
   static mergeConfig<D, R>(changes: DialogConfig) {
     return <DialogConfig<D, R>>{
-      backdropClass: ['app-trailer-dialog-backdrop', 'backdrop-blur-lg'],
+      backdropClass: ["app-trailer-dialog-backdrop", "backdrop-blur-lg"],
       panelClass: [
-        'app-trailer-dialog-panel',
-        'bg-white',
-        'dark:bg-gray-800',
-        'rounded-lg',
+        "app-trailer-dialog-panel",
+        "bg-white",
+        "dark:bg-gray-800",
+        "rounded-lg",
       ],
       hasBackdrop: true,
       ...changes,

@@ -1,0 +1,46 @@
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+body {
+  margin: 0;
+  font-family: Ubuntu;
+}
+
+// scrollbar
+::-webkit-scrollbar {
+  width: 0.5rem;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #f05033;
+}
+.noScroll {
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.noScroll::-webkit-scrollbar {
+  display: none;
+}
+
+// large device
+@media (min-width: 777px) {
+	.shell {
+		overflow: hidden;
+    height: 100vh;
+	}
+	.lg-dn {
+		display: none;
+	}
+}

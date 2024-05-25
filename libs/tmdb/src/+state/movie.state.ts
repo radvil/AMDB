@@ -5,9 +5,9 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, tap } from 'rxjs';
 import { TmdbHttpApiService } from '../+api/http-api.service';
 import { optimizedFetch } from '../+core/cdk/optimized-fetch';
-import { WithContext } from '../+core/cdk/with-context.interface';
-import { AppInitializer } from '../+models/initializer';
-import { TmdbRespBody } from '../+models/response-body';
+import type { WithContext } from '../+core/cdk/with-context.interface';
+import type { AppInitializer } from '../+models/initializer';
+import type { TmdbRespBody } from '../+models/response-body';
 
 interface MovieStateModel {
   popular: WithContext<Record<string, TmdbRespBody.GetMovieList>>;

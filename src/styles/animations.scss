@@ -1,0 +1,11 @@
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.blink {
+  animation: fade 1000ms infinite;
+}

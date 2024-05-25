@@ -1,6 +1,6 @@
-import { Injectable, RendererFactory2, inject } from '@angular/core';
+import { Injectable, RendererFactory2, inject } from "@angular/core";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class UiIoRootService {
   readonly renderer = inject(RendererFactory2).createRenderer(null, null);
   protected mapping = new Map<Element, string>();
@@ -28,17 +28,17 @@ export class UiIoRootService {
       // viewport. The intent here is give the elements a little time to react
       // to the change before the element is actually visible to the user.
       // rootMargin: '0px',
-      rootMargin: '300px 0px 300px 0px',
+      rootMargin: "300px 0px 300px 0px",
     };
     this.io = new IntersectionObserver((entries) => {
-      entries.forEach((x) => {
+      for (const x of entries) {
         const classNames = this.mapping.get(x.target);
         if (classNames && x.isIntersecting) {
-          classNames.split(' ').forEach((name) => {
+          for (const name of classNames) {
             this.renderer.addClass(x.target, name);
-          });
+          }
         }
-      });
+      }
     }, options);
   }
 }

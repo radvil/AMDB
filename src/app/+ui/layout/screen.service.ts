@@ -1,10 +1,10 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { Injectable, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map, tap } from 'rxjs';
-import { Breakpoints, type TBreakpoints } from './screen.breakpoints';
+import { BreakpointObserver } from "@angular/cdk/layout";
+import { Injectable, inject } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { map, tap } from "rxjs";
+import { Breakpoints, type TBreakpoints } from "./screen.breakpoints";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class ScreenService {
   protected observer = inject(BreakpointObserver);
 
@@ -16,7 +16,7 @@ export class ScreenService {
     this.observer
       .observe(`(min-width: ${Breakpoints.sm})`)
       .pipe(map((x) => x.matches)),
-    { initialValue: this.matched('sm') },
+    { initialValue: this.matched("sm") },
   );
 
   readonly md = toSignal(
@@ -24,27 +24,27 @@ export class ScreenService {
       map((x) => x.matches),
       tap(console.warn),
     ),
-    { initialValue: this.matched('md') },
+    { initialValue: this.matched("md") },
   );
 
   readonly lg = toSignal(
     this.observer
       .observe(`(min-width: ${Breakpoints.lg})`)
       .pipe(map((x) => x.matches)),
-    { initialValue: this.matched('lg') },
+    { initialValue: this.matched("lg") },
   );
 
   readonly xl = toSignal(
     this.observer
       .observe(`(min-width: ${Breakpoints.xl})`)
       .pipe(map((x) => x.matches)),
-    { initialValue: this.matched('xl') },
+    { initialValue: this.matched("xl") },
   );
 
   readonly xl2 = toSignal(
     this.observer
-      .observe(`(min-width: ${Breakpoints['2xl']})`)
+      .observe(`(min-width: ${Breakpoints["2xl"]})`)
       .pipe(map((x) => x.matches)),
-    { initialValue: this.matched('2xl') },
+    { initialValue: this.matched("2xl") },
   );
 }
