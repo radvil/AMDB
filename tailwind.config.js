@@ -1,15 +1,13 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{html,ts}"],
-  darkMode: "class",
-  theme: {
-    extend: {
-      colors: {
-        // base: "rgb(var(--color-base) / <alpha-value>)",
-        // content: "rgb(var(--color-content) / <alpha-value>)",
-        primary: "rgb(var(--color-primary) / <alpha-value>)",
-      },
+export const content = ["./src/**/*.{html,ts}"];
+export const darkMode = "class";
+export const theme = {
+  extend: {
+    colors: {
+      // base: "rgb(var(--color-base) / <alpha-value>)",
+      // content: "rgb(var(--color-content) / <alpha-value>)",
+      primary: "rgb(var(--color-primary) / <alpha-value>)",
     },
   },
-  plugins: [],
 };
+export const plugins = [];

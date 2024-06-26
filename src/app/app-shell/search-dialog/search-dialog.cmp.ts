@@ -31,7 +31,7 @@ export class SearchDialogCmp implements AfterViewInit {
   protected router = inject(Router);
   readonly opened = model(false);
   readonly results = signal<Tmdb.SearchItem[]>([]);
-  readonly searchForm = new FormControl();
+  readonly saerchForm = new FormControl();
   readonly dialog = viewChild.required<ElementRef<HTMLDivElement>>("dialog");
   readonly input = viewChild<ElementRef<HTMLInputElement>>("inputView");
 
@@ -65,7 +65,7 @@ export class SearchDialogCmp implements AfterViewInit {
         });
       });
 
-    this.searchForm.valueChanges
+    this.saerchForm.valueChanges
       .pipe(
         debounceTime(500),
         switchMap(() => {
@@ -82,7 +82,7 @@ export class SearchDialogCmp implements AfterViewInit {
       const next = this.opened() ? "add" : "remove";
       document.body.classList[next]("!overflow-hidden");
       if (!this.opened()) {
-        this.searchForm.reset();
+        this.saerchForm.reset();
       } else {
         setTimeout(() => {
           this.input()?.nativeElement.focus();
